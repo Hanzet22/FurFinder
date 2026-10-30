@@ -57,7 +57,7 @@ export function PrivacyControls() {
     const reducedBySystem = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const effectiveMotion = motion === 'auto' ? (reducedBySystem || lowPower ? 'reduced' : 'full') : motion
     root.dataset.motion = effectiveMotion
-    root.dataset.lod = motion === 'full' ? 'high' : lowPower || motion === 'reduced' || motion === 'off' ? 'low' : 'auto'
+    root.dataset.lod = lowPower ? 'low' : motion === 'full' ? 'high' : motion === 'reduced' || motion === 'off' ? 'low' : 'auto'
     root.dataset.accent = accent
     if (consent?.preferences) {
       writeStorage(MOTION_KEY, motion)
