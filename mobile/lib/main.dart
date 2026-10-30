@@ -214,7 +214,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   Widget _filter(String label, String value, List<String> options, ValueChanged<String> onChanged) =>
       DropdownButtonFormField<String>(
-        value: value,
+        initialValue: value,
         isExpanded: true,
         decoration: InputDecoration(
           labelText: label, filled: true,
@@ -244,7 +244,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         margin: const EdgeInsets.only(top: 14),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.amber.withOpacity(.12),
+          color: Colors.amber.withValues(alpha: .12),
           borderRadius: BorderRadius.circular(12)),
         child: Row(children: [
           const Icon(Icons.cloud_off, size: 18),
