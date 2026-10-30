@@ -84,8 +84,10 @@ export default function App() {
           <a href="#discover" onClick={() => setMobileOpen(false)}>Discover</a>
           <a href="#categories" onClick={() => setMobileOpen(false)}>Categories</a>
           <a href="#about" onClick={() => setMobileOpen(false)}>About</a>
+          <a href="/technology" onClick={() => setMobileOpen(false)}>Technology</a>
         </nav>
         <div className="header-actions">
+          <a className="text-link" href="/technology">Technology stack</a>
           <a className="text-link" href="#how-it-works">How it works</a>
           <a className="button button-small" href="#submit">Suggest a listing <ArrowRight size={15} /></a>
         </div>
