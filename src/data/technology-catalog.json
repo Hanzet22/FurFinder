@@ -1,0 +1,664 @@
+{
+  "schemaVersion": "1.0.0",
+  "project": "FurFinder",
+  "source": "docs/technology-roadmap.md",
+  "generatedFrom": "Technology matrix",
+  "count": 92,
+  "policy": "Catalog entries are candidates and status records, not proof of installed dependencies. Production adoption requires a concrete use case, isolated module where appropriate, tests, CI, security review and measured operational cost.",
+  "technologies": [
+    {
+      "name": "XML",
+      "responsibility": "Interchange format for partner/import feeds",
+      "placement": "packages/data-contracts/xml",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "JavaScript",
+      "responsibility": "Browser behavior and small integration scripts",
+      "placement": "Web client and tooling",
+      "status": "Active",
+      "category": "Web & UI"
+    },
+    {
+      "name": "Java",
+      "responsibility": "Optional Android/native integration service or SDK",
+      "placement": "apps/android-java",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "WebGPU",
+      "responsibility": "GPU-accelerated visual/compute experiments with fallback",
+      "placement": "labs/webgpu",
+      "status": "Experimental",
+      "category": "Graphics & maps"
+    },
+    {
+      "name": "WebGL",
+      "responsibility": "Broadly supported 3D rendering fallback",
+      "placement": "packages/visual-lab",
+      "status": "Planned",
+      "category": "Graphics & maps"
+    },
+    {
+      "name": "Canvas",
+      "responsibility": "Lightweight charts and interactive visualizations",
+      "placement": "packages/visual-lab",
+      "status": "Planned",
+      "category": "Graphics & maps"
+    },
+    {
+      "name": "SVG",
+      "responsibility": "Icons, diagrams, maps and scalable illustrations",
+      "placement": "Web design system",
+      "status": "Active / expand",
+      "category": "Graphics & maps"
+    },
+    {
+      "name": "WebNN",
+      "responsibility": "Browser inference experiments where supported",
+      "placement": "labs/browser-ai",
+      "status": "Experimental",
+      "category": "Graphics & maps"
+    },
+    {
+      "name": "HTML",
+      "responsibility": "Semantic accessible document structure",
+      "placement": "Web client",
+      "status": "Active",
+      "category": "Web & UI"
+    },
+    {
+      "name": "CSS",
+      "responsibility": "Tokens, layout, responsive and accessible styling",
+      "placement": "Web client",
+      "status": "Active",
+      "category": "Web & UI"
+    },
+    {
+      "name": "CSS Houdini",
+      "responsibility": "Progressive-enhancement visual effects",
+      "placement": "labs/css-houdini",
+      "status": "Experimental",
+      "category": "Web & UI"
+    },
+    {
+      "name": "Tailwind CSS",
+      "responsibility": "Utility layer for selected reusable components",
+      "placement": "Current Vite web client",
+      "status": "Active (utilities layer configured)",
+      "category": "Web & UI"
+    },
+    {
+      "name": "Astro",
+      "responsibility": "Static public knowledge hub and SEO-oriented content",
+      "placement": "apps/knowledge-astro",
+      "status": "Planned",
+      "category": "Other"
+    },
+    {
+      "name": "Vue",
+      "responsibility": "Isolated integration/demo client for framework interoperability",
+      "placement": "labs/vue-client",
+      "status": "Planned",
+      "category": "Web & UI"
+    },
+    {
+      "name": "Next.js",
+      "responsibility": "Optional server-rendered application/API evaluation",
+      "placement": "apps/next-evaluation",
+      "status": "Planned",
+      "category": "Web & UI"
+    },
+    {
+      "name": "Vite",
+      "responsibility": "Current production web build and development server",
+      "placement": "apps/web (current root app)",
+      "status": "Active",
+      "category": "Web & UI"
+    },
+    {
+      "name": "Node.js",
+      "responsibility": "Versioned server-side APIs and trusted moderation boundary",
+      "placement": "Vercel Functions in api/v1",
+      "status": "Active (health, listing intake, moderator queue and review)",
+      "category": "Other"
+    },
+    {
+      "name": "TypeScript",
+      "responsibility": "Shared types and current web application",
+      "placement": "apps/web, packages/contracts",
+      "status": "Active",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Ruby",
+      "responsibility": "Import/normalization worker experiment",
+      "placement": "services/import-ruby",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Python",
+      "responsibility": "Data quality, moderation-assist and offline analysis jobs",
+      "placement": "services/data-python",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "React",
+      "responsibility": "Current interactive web client",
+      "placement": "apps/web",
+      "status": "Active",
+      "category": "Web & UI"
+    },
+    {
+      "name": "Angular",
+      "responsibility": "Isolated admin-console architecture evaluation",
+      "placement": "labs/angular-admin",
+      "status": "Planned",
+      "category": "Web & UI"
+    },
+    {
+      "name": "Svelte",
+      "responsibility": "Lightweight embedded widget / client evaluation",
+      "placement": "labs/svelte-widget",
+      "status": "Planned",
+      "category": "Web & UI"
+    },
+    {
+      "name": "Deno",
+      "responsibility": "Edge/runtime compatibility and scheduled-task experiment",
+      "placement": "labs/deno-runtime",
+      "status": "Planned",
+      "category": "Other"
+    },
+    {
+      "name": "Bun",
+      "responsibility": "Fast local tooling and test-runner comparison",
+      "placement": "tools/bun",
+      "status": "Planned",
+      "category": "Other"
+    },
+    {
+      "name": "Electron",
+      "responsibility": "Desktop research/moderation companion, no private user data by default",
+      "placement": "apps/desktop-electron",
+      "status": "Planned",
+      "category": "Mobile & platform"
+    },
+    {
+      "name": "Dart",
+      "responsibility": "Flutter mobile client for Android/iOS",
+      "placement": "apps/mobile-flutter",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "MathML",
+      "responsibility": "Accessible mathematical/technical content in knowledge pages",
+      "placement": "Astro knowledge hub",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Three.js",
+      "responsibility": "3D exhibit and creator showcase, opt-in and lazy-loaded",
+      "placement": "packages/visual-lab",
+      "status": "Planned",
+      "category": "Graphics & maps"
+    },
+    {
+      "name": "Bash",
+      "responsibility": "Reproducible setup, validation and release scripts",
+      "placement": "scripts",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "WebAssembly",
+      "responsibility": "Portable compute modules and parser sandbox",
+      "placement": "packages/wasm",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Go",
+      "responsibility": "High-throughput indexing or API worker if load justifies it",
+      "placement": "services/search-go",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Rust",
+      "responsibility": "Safe high-performance parsing/indexing core compiled natively or to WASM",
+      "placement": "services/index-rust",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Elixir",
+      "responsibility": "Reliable event/notification processing, not an open chat system",
+      "placement": "services/events-elixir",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "TanStack",
+      "responsibility": "Server-state fetching/cache and typed table/query utilities",
+      "placement": "Current Vite web client",
+      "status": "Active (published directory query/cache)",
+      "category": "Web & UI"
+    },
+    {
+      "name": "Recoil",
+      "responsibility": "State-management comparison lab only; adopt only if still maintained and justified",
+      "placement": "labs/state-management",
+      "status": "Evaluation",
+      "category": "Web & UI"
+    },
+    {
+      "name": "PostgreSQL",
+      "responsibility": "Source of truth for directory, provenance and moderation records",
+      "placement": "Supabase",
+      "status": "Active",
+      "category": "Data & APIs"
+    },
+    {
+      "name": "Docker",
+      "responsibility": "Reproducible local services and isolated polyglot CI environments",
+      "placement": "infra/docker",
+      "status": "Planned",
+      "category": "Cloud & infrastructure"
+    },
+    {
+      "name": "C",
+      "responsibility": "Low-level native utilities and portable parser experiments",
+      "placement": "labs/native-c",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "C++",
+      "responsibility": "High-performance media, geometry and native integration experiments",
+      "placement": "labs/native-cpp",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "C#",
+      "responsibility": "Optional .NET tooling, desktop utilities and interoperability experiments",
+      "placement": "labs/dotnet",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Kotlin",
+      "responsibility": "Native Android features and platform-specific Flutter plugins",
+      "placement": "apps/android-kotlin",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Swift",
+      "responsibility": "Native iOS integrations where Flutter plugins are insufficient",
+      "placement": "apps/ios-swift",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "PHP",
+      "responsibility": "Compatibility/import adapter experiments for partner systems",
+      "placement": "services/import-php",
+      "status": "Evaluation",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Lua",
+      "responsibility": "Small embedded scripting and configurable transformation experiments",
+      "placement": "labs/lua",
+      "status": "Evaluation",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Perl",
+      "responsibility": "Legacy feed-cleanup and text-processing interoperability",
+      "placement": "labs/perl",
+      "status": "Evaluation",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "R",
+      "responsibility": "Statistical analysis of aggregate, non-identifying directory quality metrics",
+      "placement": "services/analytics-r",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Julia",
+      "responsibility": "Numerical and performance research for non-personal aggregate datasets",
+      "placement": "labs/julia",
+      "status": "Evaluation",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Scala",
+      "responsibility": "JVM data-pipeline interoperability evaluation",
+      "placement": "labs/scala",
+      "status": "Evaluation",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Haskell",
+      "responsibility": "Typed parser and data-contract correctness research",
+      "placement": "labs/haskell",
+      "status": "Evaluation",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Erlang",
+      "responsibility": "Reliability comparison for supervised background processing",
+      "placement": "labs/erlang",
+      "status": "Evaluation",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Clojure",
+      "responsibility": "Data transformation and JVM interoperability experiment",
+      "placement": "labs/clojure",
+      "status": "Evaluation",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "F#",
+      "responsibility": "Typed .NET data-processing experiment",
+      "placement": "labs/fsharp",
+      "status": "Evaluation",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Zig",
+      "responsibility": "Small native/WASM utility and C interoperability experiment",
+      "placement": "labs/zig",
+      "status": "Evaluation",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Objective-C",
+      "responsibility": "Legacy Apple SDK interoperability only",
+      "placement": "labs/apple-interop",
+      "status": "Evaluation",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "PowerShell",
+      "responsibility": "Windows developer and release automation scripts",
+      "placement": "scripts/powershell",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "SQL",
+      "responsibility": "Queries, constraints, views and reviewed database migrations",
+      "placement": "Supabase PostgreSQL",
+      "status": "Active",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "GraphQL",
+      "responsibility": "Optional typed aggregation API evaluation; not a replacement for REST v1 by default",
+      "placement": "labs/graphql",
+      "status": "Evaluation",
+      "category": "Data & APIs"
+    },
+    {
+      "name": "Protocol Buffers",
+      "responsibility": "Compact, versioned contracts for future internal service boundaries",
+      "placement": "packages/contracts/protobuf",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "JSON Schema",
+      "responsibility": "Runtime validation for public API and import payloads",
+      "placement": "packages/contracts/json-schema",
+      "status": "Planned",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "YAML",
+      "responsibility": "CI workflows and declarative configuration",
+      "placement": ".github/workflows",
+      "status": "Active",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "TOML",
+      "responsibility": "Tool and package configuration where supported",
+      "placement": "Repository tooling",
+      "status": "Active / expand",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Markdown",
+      "responsibility": "Product, contributor, API and operational documentation",
+      "placement": "docs",
+      "status": "Active",
+      "category": "Languages & formats"
+    },
+    {
+      "name": "Redis / Valkey",
+      "responsibility": "Optional ephemeral cache, queue coordination or rate-limit counters",
+      "placement": "infra/cache",
+      "status": "Evaluation",
+      "category": "Data & APIs"
+    },
+    {
+      "name": "Meilisearch",
+      "responsibility": "Typo-tolerant directory search evaluation",
+      "placement": "services/search-meilisearch",
+      "status": "Evaluation",
+      "category": "Data & APIs"
+    },
+    {
+      "name": "Typesense",
+      "responsibility": "Alternative search engine benchmark against PostgreSQL search",
+      "placement": "labs/search-typesense",
+      "status": "Evaluation",
+      "category": "Data & APIs"
+    },
+    {
+      "name": "OpenSearch",
+      "responsibility": "Large-scale search and analytics option only if dataset size warrants it",
+      "placement": "labs/search-opensearch",
+      "status": "Evaluation",
+      "category": "Data & APIs"
+    },
+    {
+      "name": "PostGIS",
+      "responsibility": "Region and public venue geospatial queries without exposing private locations",
+      "placement": "Supabase PostgreSQL extension",
+      "status": "Evaluation",
+      "category": "Data & APIs"
+    },
+    {
+      "name": "pgvector",
+      "responsibility": "Similarity search for opt-in public content discovery, never sensitive profiling",
+      "placement": "Supabase PostgreSQL extension",
+      "status": "Evaluation",
+      "category": "Data & APIs"
+    },
+    {
+      "name": "OpenAPI",
+      "responsibility": "Machine-readable REST API contract and generated client validation",
+      "placement": "packages/contracts/openapi",
+      "status": "Planned",
+      "category": "Data & APIs"
+    },
+    {
+      "name": "gRPC",
+      "responsibility": "Typed internal service communication if separate services become necessary",
+      "placement": "packages/contracts/grpc",
+      "status": "Evaluation",
+      "category": "Data & APIs"
+    },
+    {
+      "name": "Terraform / OpenTofu",
+      "responsibility": "Reviewable infrastructure-as-code for repeatable environments",
+      "placement": "infra/iac",
+      "status": "Planned",
+      "category": "Cloud & infrastructure"
+    },
+    {
+      "name": "Kubernetes",
+      "responsibility": "Container orchestration only if service scale and operations justify it",
+      "placement": "infra/kubernetes",
+      "status": "Evaluation",
+      "category": "Cloud & infrastructure"
+    },
+    {
+      "name": "Helm",
+      "responsibility": "Versioned Kubernetes deployment templates if Kubernetes is adopted",
+      "placement": "infra/helm",
+      "status": "Evaluation",
+      "category": "Cloud & infrastructure"
+    },
+    {
+      "name": "OpenTelemetry",
+      "responsibility": "Standard traces, metrics and logs across API boundaries",
+      "placement": "packages/observability",
+      "status": "Planned",
+      "category": "Other"
+    },
+    {
+      "name": "Sentry",
+      "responsibility": "Error aggregation with PII scrubbing and safe release metadata",
+      "placement": "Web/API observability",
+      "status": "Evaluation",
+      "category": "Other"
+    },
+    {
+      "name": "Playwright",
+      "responsibility": "Browser end-to-end and accessibility smoke tests",
+      "placement": "tests/e2e",
+      "status": "Planned",
+      "category": "Quality & security"
+    },
+    {
+      "name": "Vitest",
+      "responsibility": "Fast isolated web unit/component tests",
+      "placement": "Web client CI",
+      "status": "Planned",
+      "category": "Quality & security"
+    },
+    {
+      "name": "Storybook",
+      "responsibility": "Isolated component catalogue and visual review",
+      "placement": "apps/storybook",
+      "status": "Planned",
+      "category": "Quality & security"
+    },
+    {
+      "name": "axe-core",
+      "responsibility": "Automated accessibility checks for web components and routes",
+      "placement": "tests/accessibility",
+      "status": "Planned",
+      "category": "Quality & security"
+    },
+    {
+      "name": "Lighthouse",
+      "responsibility": "Performance, accessibility and best-practice regression checks",
+      "placement": "CI / release checks",
+      "status": "Planned",
+      "category": "Quality & security"
+    },
+    {
+      "name": "Renovate",
+      "responsibility": "Dependency update proposals with CI validation",
+      "placement": "Repository automation",
+      "status": "Planned",
+      "category": "Quality & security"
+    },
+    {
+      "name": "Trivy",
+      "responsibility": "Container and dependency vulnerability scanning",
+      "placement": "CI / container pipeline",
+      "status": "Planned",
+      "category": "Quality & security"
+    },
+    {
+      "name": "Semgrep",
+      "responsibility": "Static analysis for common application security mistakes",
+      "placement": "CI security checks",
+      "status": "Planned",
+      "category": "Quality & security"
+    },
+    {
+      "name": "MapLibre GL",
+      "responsibility": "Optional public map rendering with coarse region defaults",
+      "placement": "packages/maps",
+      "status": "Evaluation",
+      "category": "Graphics & maps"
+    },
+    {
+      "name": "Leaflet",
+      "responsibility": "Lightweight map alternative for public event/region maps",
+      "placement": "packages/maps",
+      "status": "Evaluation",
+      "category": "Graphics & maps"
+    },
+    {
+      "name": "PWA / Service Workers",
+      "responsibility": "Installable web experience and controlled static/offline caching",
+      "placement": "Web client",
+      "status": "Planned",
+      "category": "Web & UI"
+    },
+    {
+      "name": "WebAuthn / Passkeys",
+      "responsibility": "Phishing-resistant sign-in option for staff accounts",
+      "placement": "Auth evaluation",
+      "status": "Planned",
+      "category": "Quality & security"
+    },
+    {
+      "name": "OpenID Connect (OIDC)",
+      "responsibility": "Standardized identity-provider integration",
+      "placement": "Auth boundary",
+      "status": "Planned",
+      "category": "Quality & security"
+    },
+    {
+      "name": "ICU MessageFormat",
+      "responsibility": "Pluralization and localization-ready message formatting",
+      "placement": "packages/i18n",
+      "status": "Planned",
+      "category": "Web & UI"
+    },
+    {
+      "name": "Firebase Cloud Messaging / APNs",
+      "responsibility": "Optional opt-in operational notifications, never unsolicited contact",
+      "placement": "services/notifications",
+      "status": "Evaluation",
+      "category": "Mobile & platform"
+    },
+    {
+      "name": "S3-compatible object storage",
+      "responsibility": "Publicly approved media and import artifacts with strict access policies",
+      "placement": "infra/object-storage",
+      "status": "Evaluation",
+      "category": "Cloud & infrastructure"
+    }
+  ],
+  "categories": [
+    "Web & UI",
+    "Languages & formats",
+    "Data & APIs",
+    "Cloud & infrastructure",
+    "Quality & security",
+    "Mobile & platform",
+    "Graphics & maps",
+    "Other"
+  ]
+}
