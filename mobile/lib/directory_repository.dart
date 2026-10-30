@@ -55,10 +55,17 @@ class DirectoryRepository {
       final decoded = jsonDecode(raw);
       if (decoded is! Map<String, dynamic> || decoded['listings'] is! List ||
           decoded['saved_at'] is! String) {
-        return null;
+        throw const FormatException('Invalid cached directory envelope.');
+      }
+      final rawListings = decoded['listings'] as List;
+      if (rawListings.length > 60) {
+        throw const FormatException('Cached directory exceeds the public API limit.');
       }
       final savedAt = DateTime.tryParse(decoded['saved_at'] as String);
-      final listings = (decoded['listings'] as List).map((item) {
+      if (savedAt == null) {
+        throw const FormatException('Invalid cached directory timestamp.');
+      }
+      final listings = rawListings.map((item) {
         if (item is! Map<String, dynamic>) {
           throw const FormatException('Invalid cached listing.');
         }
