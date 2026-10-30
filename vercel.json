@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/moderation",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/moderation/",
+      "destination": "/index.html"
+    }
+  ]
+}
