@@ -15,7 +15,7 @@ The browser never receives the Supabase secret key and has no direct SELECT/INSE
 
 ## First administrator setup
 
-1. In Supabase Dashboard, open Authentication > Users and create the first staff account with an email address you control. Confirm the account can sign in with email/password.
+1. In Supabase Dashboard, open Authentication > Users and create the first staff account with an email address you control. Confirm the email address is verified and the account can sign in with email/password.
 2. In the Vercel project, add `MODERATOR_BOOTSTRAP_EMAIL` as a server-only environment variable. Its value must exactly match the email on that Supabase Auth account. Do not prefix it with `VITE_`.
 3. Confirm these server/browser variables are present in the same Vercel project:
    - `VITE_SUPABASE_URL`
@@ -26,7 +26,7 @@ The browser never receives the Supabase secret key and has no direct SELECT/INSE
 5. Open `https://furfinder-rho.vercel.app/moderation`, sign in with the first staff account, then choose **Set up first admin account**.
 6. After the API confirms the first administrator was created, remove `MODERATOR_BOOTSTRAP_EMAIL` from Vercel and redeploy. The bootstrap endpoint will then remain disabled.
 
-The bootstrap endpoint also checks that the moderator table is empty. It cannot add a second administrator once the first record exists. Do not leave the bootstrap email configured as a permanent access mechanism.
+The bootstrap endpoint also checks that the moderator table is empty and requires a confirmed email address. A partial unique database index guarantees that concurrent bootstrap requests cannot create two active administrators. Do not leave the bootstrap email configured as a permanent access mechanism.
 
 ## Adding another reviewer
 
