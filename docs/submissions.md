@@ -25,7 +25,7 @@ Configure these variables in the Vercel project. Add server values as encrypted/
 | `SUPABASE_SECRET_KEY` | Server-side insert into pending listings | Yes |
 | `SUPABASE_URL` | Server-side Supabase URL; falls back to `VITE_SUPABASE_URL` | Optional |
 
-Use a Supabase secret key (preferred) or the legacy `service_role` key under the server-only name `SUPABASE_SERVICE_ROLE_KEY`. These credentials have elevated database access: the code path must remain server-side and limited to inserting a pending row. Never put them in source control, `.env.example` with real values, browser variables, or a mobile bundle.
+Use a new Supabase secret API key (preferred) in `SUPABASE_SECRET_KEY`, or the legacy `service_role` JWT in `SUPABASE_SERVICE_ROLE_KEY`. The function sends an opaque `sb_secret_*` key only as the `apikey` header; it sends a legacy JWT in both `apikey` and `Authorization: Bearer`. These credentials have elevated database access: keep them server-side and limit the route to creating a pending row. Never put them in source control, `.env.example` with real values, browser variables, or a mobile bundle.
 
 Create a Cloudflare Turnstile widget for the production hostname `furfinder-rho.vercel.app` (and any other production hostname actually in use). The client sets the action to `listing_submission`; Siteverify must accept that action and the exact hostname. Preview deployments need their own Turnstile hostname configuration before their form can be used.
 
