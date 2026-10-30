@@ -188,7 +188,7 @@ This is a target layout, not a claim that all directories or services already ex
 - Focused Node built-in tests cover listing submission validation and pending-record invariants; CI runs them after the build.
 - Add Node.js API boundaries, XML import/export contract, TanStack Query and Tailwind design tokens. TanStack Query and the Tailwind utilities layer are now integrated in the web client.
 - Add Docker-based local development, Bash scripts and contract tests.
-- Add OpenAPI and JSON Schema contracts before expanding API consumers.
+- OpenAPI 3.1 and JSON Schema 2020-12 contracts now describe the published-only REST v1 response; a dependency-free Node validator checks the schema/fixture in the production build.
 - Build listing provenance, review records, moderation roles and reporting before public submissions.
 
 ### Phase 2 — content and mobile
