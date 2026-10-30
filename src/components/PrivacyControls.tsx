@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Settings2, ShieldCheck, Sparkles, X } from 'lucide-react'
 
 type Consent = {
@@ -42,10 +42,12 @@ function detectLowPowerDevice() {
 
 export function PrivacyControls() {
   const [consent, setConsent] = useState<Consent | null>(() => readStorage<Consent | null>(CONSENT_KEY, null))
-  const [cookieOpen, setCookieOpen] = useState(() => !readStorage<Consent | null>(CONSENT_KEY, null))
+  const [cookieOpen, setCookieOpen] = useState(() => readStorage<boolean>(TERMS_KEY, false) && !readStorage<Consent | null>(CONSENT_KEY, null))
   const [termsOpen, setTermsOpen] = useState(() => !readStorage<boolean>(TERMS_KEY, false))
   const [motion, setMotion] = useState<MotionMode>(() => readStorage<MotionMode>(MOTION_KEY, 'auto'))
   const [accent, setAccent] = useState<AccentMode>(() => readStorage<AccentMode>(ACCENT_KEY, 'blue'))
+  const termsDialogRef = useRef<HTMLElement>(null)
+  const cookieDialogRef = useRef<HTMLElement>(null)
   const [preferences, setPreferences] = useState(() => {
     const saved = readStorage<Consent | null>(CONSENT_KEY, null)
     return { preferences: saved?.preferences ?? false, analytics: saved?.analytics ?? false, marketing: saved?.marketing ?? false }
@@ -67,6 +69,50 @@ export function PrivacyControls() {
     }
   }, [motion, accent, consent?.preferences])
 
+  useEffect(() => {
+    const dialog = termsOpen ? termsDialogRef.current : cookieOpen ? cookieDialogRef.current : null
+    if (!dialog) return
+
+    const previouslyFocused = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null
+    const getFocusable = () => Array.from(dialog.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    )).filter((element) => element.getAttribute('aria-hidden') !== 'true')
+
+    getFocusable()[0]?.focus()
+
+    function handleDialogKeydown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        if (termsOpen) setTermsOpen(false)
+        else setCookieOpen(false)
+        return
+      }
+      if (event.key !== 'Tab') return
+
+      const focusable = getFocusable()
+      if (!focusable.length) {
+        event.preventDefault()
+        return
+      }
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleDialogKeydown)
+    return () => {
+      document.removeEventListener('keydown', handleDialogKeydown)
+      if (previouslyFocused?.isConnected) previouslyFocused.focus()
+    }
+  }, [termsOpen, cookieOpen])
+
   const consentSummary = useMemo(() => consent ? 'Your choices are saved on this device.' : 'Choose which optional storage categories FurFinder may use.', [consent])
 
   function saveConsent(next: Omit<Consent, 'essential' | 'savedAt'>) {
@@ -79,6 +125,7 @@ export function PrivacyControls() {
   function acceptTerms() {
     writeStorage(TERMS_KEY, true)
     setTermsOpen(false)
+    if (!consent) setCookieOpen(true)
   }
 
   return (
@@ -99,7 +146,7 @@ export function PrivacyControls() {
 
       {termsOpen && (
         <div className="consent-backdrop" role="presentation">
-          <section className="consent-dialog terms-dialog" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+          <section ref={termsDialogRef} className="consent-dialog terms-dialog" role="dialog" aria-modal="true" aria-labelledby="terms-title">
             <div className="consent-kicker"><ShieldCheck size={16} /> BEFORE YOU EXPLORE</div>
             <h2 id="terms-title">Welcome to FurFinder.</h2>
             <p>FurFinder is a public directory for discovering publicly listed furry communities, conventions, creators, organizations and resources. Listings are reviewed before publication, but FurFinder does not endorse or control external sites and events.</p>
@@ -121,7 +168,7 @@ export function PrivacyControls() {
 
       {cookieOpen && (
         <div className="consent-backdrop consent-backdrop-bottom" role="presentation">
-          <section className="consent-dialog cookie-dialog" role="dialog" aria-modal="true" aria-labelledby="cookie-title">
+          <section ref={cookieDialogRef} className="consent-dialog cookie-dialog" role="dialog" aria-modal="true" aria-labelledby="cookie-title">
             <button className="consent-close" type="button" aria-label="Close privacy settings" onClick={() => setCookieOpen(false)}><X size={18} /></button>
             <div className="consent-kicker"><ShieldCheck size={16} /> PRIVACY & STORAGE</div>
             <h2 id="cookie-title">Your privacy choices.</h2>
