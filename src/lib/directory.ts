@@ -29,7 +29,6 @@ const categories = new Set<DirectoryCategory>([
   'industry',
   'resource',
 ])
-
 const regions = new Set([
   'North America',
   'Europe',
@@ -37,69 +36,70 @@ const regions = new Set([
   'Latin America',
   'Middle East & Africa',
 ])
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const publishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+const fields = new Set([
+  'id', 'name', 'slug', 'category', 'summary', 'region', 'country_code',
+  'website_url', 'source_url', 'is_featured', 'verified_at', 'created_at',
+])
+const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const slug = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+const countryCode = /^[A-Z]{2}$/
+const dateTime = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
+function isDateTime(value: unknown): value is string {
+  if (typeof value !== 'string') return false
+  const match = dateTime.exec(value)
+  if (!match || Number.isNaN(Date.parse(value))) return false
+  const year = Number(match[1])
+  const month = Number(match[2])
+  const day = Number(match[3])
+  const hour = Number(match[4])
+  const minute = Number(match[5])
+  const second = Number(match[6])
+  const date = new Date(Date.UTC(year, month - 1, day))
+  return date.getUTCFullYear() === year
+    && date.getUTCMonth() === month - 1
+    && date.getUTCDate() === day
+    && hour <= 23 && minute <= 59 && second <= 59
+}
+
 function isHttpsUrl(value: unknown): value is string {
   if (typeof value !== 'string') return false
-
   try {
-    return new URL(value).protocol === 'https:'
+    const url = new URL(value)
+    return url.protocol === 'https:' && url.hostname.length > 0
+      && !url.username && !url.password
   } catch {
     return false
   }
 }
 
-function isNullableString(value: unknown): value is string | null {
-  return value === null || typeof value === 'string'
-}
-
 function isDirectoryListing(value: unknown): value is DirectoryListing {
-  if (!isRecord(value)) return false
-
+  if (!isRecord(value) || Object.keys(value).some((key) => !fields.has(key))) return false
   return (
-    typeof value.id === 'string' &&
-    typeof value.name === 'string' &&
-    typeof value.slug === 'string' &&
-    typeof value.category === 'string' &&
-    categories.has(value.category as DirectoryCategory) &&
-    typeof value.summary === 'string' &&
-    typeof value.region === 'string' &&
-    regions.has(value.region) &&
-    isNullableString(value.country_code) &&
+    Object.keys(value).length === fields.size &&
+    typeof value.id === 'string' && uuid.test(value.id) &&
+    typeof value.name === 'string' && value.name.trim().length >= 2 && value.name.length <= 120 &&
+    typeof value.slug === 'string' && value.slug.length <= 120 && slug.test(value.slug) &&
+    typeof value.category === 'string' && categories.has(value.category as DirectoryCategory) &&
+    typeof value.summary === 'string' && value.summary.trim().length >= 20 && value.summary.length <= 500 &&
+    typeof value.region === 'string' && regions.has(value.region) &&
+    (value.country_code === null || (typeof value.country_code === 'string' && countryCode.test(value.country_code))) &&
     isHttpsUrl(value.website_url) &&
     isHttpsUrl(value.source_url) &&
     typeof value.is_featured === 'boolean' &&
-    isNullableString(value.verified_at) &&
-    typeof value.created_at === 'string'
+    (value.verified_at === null || isDateTime(value.verified_at)) &&
+    isDateTime(value.created_at)
   )
 }
 
 export async function fetchListings(signal?: AbortSignal): Promise<DirectoryListing[]> {
-  if (!supabaseUrl || !publishableKey) {
-    throw new Error('Directory service is not configured yet.')
-  }
-
-  const endpoint = new URL('/rest/v1/listings', supabaseUrl)
-  endpoint.searchParams.set(
-    'select',
-    'id,name,slug,category,summary,region,country_code,website_url,source_url,is_featured,verified_at,created_at',
-  )
-  endpoint.searchParams.set('status', 'eq.published')
-  endpoint.searchParams.set('order', 'is_featured.desc,created_at.desc')
-  endpoint.searchParams.set('limit', '60')
-
-  const response = await fetch(endpoint, {
+  const response = await fetch('/api/v1/listings', {
     signal,
-    headers: {
-      apikey: publishableKey,
-      Authorization: `Bearer ${publishableKey}`,
-    },
+    headers: { Accept: 'application/json' },
   })
 
   if (!response.ok) {
@@ -107,9 +107,17 @@ export async function fetchListings(signal?: AbortSignal): Promise<DirectoryList
   }
 
   const payload: unknown = await response.json()
-  if (!Array.isArray(payload) || !payload.every(isDirectoryListing)) {
-    throw new Error('Directory service returned data in an unexpected format.')
+  if (
+    !isRecord(payload) ||
+    Object.keys(payload).some((key) => !['ok', 'version', 'data'].includes(key)) ||
+    payload.ok !== true ||
+    payload.version !== 'v1' ||
+    !Array.isArray(payload.data) ||
+    payload.data.length > 60 ||
+    !payload.data.every(isDirectoryListing)
+  ) {
+    throw new Error('Directory service returned data outside the public API contract.')
   }
 
-  return payload
+  return payload.data
 }
