@@ -126,8 +126,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
             TextField(
               controller: _search,
               onChanged: (_) => setState(() {}),
+              textInputAction: TextInputAction.search,
               decoration: InputDecoration(
-                hintText: 'Search the directory',
+                labelText: 'Search the directory',
+                hintText: 'Name, summary, region or country',
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _search.text.isEmpty ? null : IconButton(
                   tooltip: 'Clear search',
@@ -175,9 +177,23 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       padding: const EdgeInsets.all(16),
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Row(children: [
-                          _tag(listing.category),
-                          const Spacer(),
-                          Flexible(child: Text(listing.region, overflow: TextOverflow.ellipsis,
+                          Expanded(
+                            child: Wrap(
+                              spacing: 8,
+                              runSpacing: 6,
+                              children: [
+                                _tag(listing.category),
+                                if (listing.isFeatured)
+                                  Semantics(
+                                    label: 'Featured listing',
+                                    child: _tag('Featured'),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Flexible(child: Text(listing.region, textAlign: TextAlign.end,
+                              overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Colors.white60))),
                         ]),
                         const SizedBox(height: 12),
