@@ -1,3 +1,4 @@
+@import "tailwindcss/utilities";
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 :root{font-family:'DM Sans',sans-serif;color:#f4f6fa;background:#10151d;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-optical-sizing:auto;font-weight:400;--bg:#10151d;--panel:#171f2a;--muted:#a1adbb;--line:rgba(255,255,255,.09);--blue:#73a7ff;--mint:#91e4ce;--orange:#ffbd91}
