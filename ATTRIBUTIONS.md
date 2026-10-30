@@ -19,6 +19,7 @@ The following sources were used to identify or verify public entities. FurFinder
 | Infurnity Taiwan Furry Convention | https://www.infurnity.com/en/ | https://www.infurnity.com/en/about-en/ | Asia-Pacific | Taiwan |
 | Japan Meeting of Furries (JMoF) | https://www.jmof.jp/en | https://www.jmof.jp/en | Asia-Pacific | Japan |
 | Midwest FurFest | https://www.furfest.org/ | https://www.furfest.org/ | North America | United States |
+| BangkokBeasts 2026 | https://bangkokbeasts.com/2026/en/ | https://bangkokbeasts.com/2026/en/ | Asia-Pacific | Thailand |
 | BangkokBeasts | https://bangkokbeasts.com/2026/en/ | https://bangkokbeasts.com/2026/en/ | Asia-Pacific | Thailand |
 
 Newly researched entries are inserted as **pending** and are not public until moderator review. Age and entry rules can differ by event and date. BangkokBeasts 2026 remains pending until its current attendee eligibility and age policy can be confirmed directly with the organizer.
