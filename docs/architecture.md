@@ -15,7 +15,7 @@ FurFinder is a discovery and directory product, not a private social network or 
 | Web framework evaluation | Compare static/content and server-rendered routes | Astro and Next.js evaluated as separate deployment candidates, not duplicate production shells |
 | UI framework evaluation | Compatibility experiments for other ecosystems | Vue, Angular, Svelte kept in isolated examples until a real use case is approved |
 | Application state | Local view state and query state | React state first; TanStack Query for server state; Recoil only if a concrete state graph justifies it |
-| Backend/API | Domain services and integrations | Node.js first; Go, Rust, Java, Ruby, Python, Elixir are isolated service/lab options with explicit API contracts |
+| Backend/API | Versioned JSON endpoints and trusted listing intake | Vercel Node.js Functions under `api/v1`; other runtimes remain isolated service/lab options |
 | Runtime experiments | Compare JavaScript runtimes | Node, Deno, and Bun tested in separate tooling or service tasks |
 | Compute | Optional browser inference and portable compute | WebNN and WebAssembly behind feature detection |
 | Desktop/mobile | Future companion clients | Electron and Dart/Flutter evaluated as separate clients; web remains the primary MVP |
@@ -66,4 +66,4 @@ This is a planned model, not an applied database migration.
 
 ## Current status
 
-The current production web client is Vite + React + TypeScript, deployed on Vercel and connected to Supabase PostgreSQL. The initial public directory table uses RLS and allows read-only access to published rows. Other languages, frameworks and runtimes are planned as isolated modules or experiments; see [technology matrix](technology-roadmap.md).
+The production web client is Vite + React + TypeScript, deployed on Vercel and connected to Supabase PostgreSQL. Vercel Node.js Functions expose `GET /api/v1/health` and a Turnstile-protected `POST /api/v1/submissions`. The public directory table remains read-only for browser roles and only published rows are visible. Other languages, frameworks and runtimes remain staged modules or experiments; see [technology matrix](technology-roadmap.md).
