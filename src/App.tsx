@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import {
   ArrowRight, Search, MapPin, CalendarDays, Palette, Users,
   Building2, Factory, BookOpen, ShieldCheck, Globe2, Menu, X,
   Compass, Sparkles, ChevronRight, ExternalLink
 } from 'lucide-react'
-import { fetchListings, type DirectoryListing } from './lib/directory'
+import { fetchListings } from './lib/directory'
 
 type Category = 'All' | 'Communities' | 'Conventions' | 'Artists' | 'Organizations' | 'Industry'
 
@@ -33,23 +34,16 @@ export default function App() {
   const [category, setCategory] = useState<Category>('All')
   const [region, setRegion] = useState('Anywhere')
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [listings, setListings] = useState<DirectoryListing[]>([])
-  const [loadingListings, setLoadingListings] = useState(true)
-  const [directoryError, setDirectoryError] = useState('')
-
-  useEffect(() => {
-    const controller = new AbortController()
-    fetchListings(controller.signal)
-      .then((items) => setListings(items))
-      .catch((error: unknown) => {
-        if (error instanceof Error && error.name === 'AbortError') return
-        setDirectoryError(error instanceof Error ? error.message : 'Unable to load directory listings.')
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setLoadingListings(false)
-      })
-    return () => controller.abort()
-  }, [])
+  const {
+    data: listings = [],
+    isPending: loadingListings,
+    error: directoryError,
+  } = useQuery({
+    queryKey: ['directory', 'published'],
+    queryFn: ({ signal }) => fetchListings(signal),
+    staleTime: 60_000,
+    retry: 1,
+  })
 
   const visibleListings = useMemo(() => {
     const normalized = query.trim().toLowerCase()
@@ -154,7 +148,7 @@ export default function App() {
           <p>Public listings with source links. Entries appear here only after review and publication.</p>
         </div>
         {loadingListings ? <p className="directory-status" role="status">Loading published listings…</p> : null}
-        {directoryError ? <p className="directory-status directory-error" role="alert">{directoryError}</p> : null}
+        {directoryError ? <p className="directory-status directory-error" role="alert">{directoryError instanceof Error ? directoryError.message : 'Unable to load directory listings.'}</p> : null}
         {!loadingListings && !directoryError && listings.length > 0 && visibleListings.length === 0 ? (
           <div className="directory-empty" role="status">
             <Search size={25} />
