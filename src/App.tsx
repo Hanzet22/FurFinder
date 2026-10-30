@@ -135,7 +135,7 @@ export default function App() {
           <p>From local meetups to international creative studios, start with what interests you.</p>
         </div>
         <div className="category-tabs" role="group" aria-label="Filter categories">
-          {categories.map(({ name, icon: Icon }) => <button key={name} className={category === name ? 'category-tab active' : 'category-tab'} onClick={() => setCategory(name)}><Icon size={16} />{name}</button>)}
+          {categories.map(({ name, icon: Icon }) => <button type="button" key={name} className={category === name ? 'category-tab active' : 'category-tab'} aria-pressed={category === name} onClick={() => setCategory(name)}><Icon size={16} />{name}</button>)}
         </div>
         <div className="feature-grid">
           {visibleFeatures.length ? visibleFeatures.map(({ icon: Icon, title, text, tag }, index) => (
