@@ -24,7 +24,7 @@ FurFinder helps people discover furry communities, conventions, artists and crea
 
 ## Current implementation
 
-The responsive web MVP uses Vite, React, and TypeScript. A Supabase PostgreSQL directory is connected through its publishable API key and row-level security. The public homepage reads only published listings; submissions and moderation are not open to anonymous clients.
+The responsive web MVP uses Vite, React, and TypeScript. A Supabase PostgreSQL directory is connected through its publishable API key and row-level security. The public homepage reads only published listings; public database roles have SELECT-only grants. The browser client validates listing payloads at runtime. XML v1 import schema and examples are defined, but the production importer and Node API are not implemented yet.
 
 ## Development
 
@@ -39,16 +39,19 @@ npm run dev
 - [x] Product scope and safety principles
 - [x] Responsive discovery UI
 - [x] Supabase project and initial directory schema
-- [x] Public read-only directory API with RLS
+- [x] Public read-only directory API with RLS and least-privilege grants
+- [x] Runtime validation for public listing responses
+- [ ] Node API and trusted listing importer
+- [x] XML v1 import contract and example
 - [ ] Authentication and role model
 - [ ] Moderation and verification workflows
 - [x] Polyglot technology matrix and staged implementation roadmap
 - [x] Mobile companion product brief
 - [x] Vercel deployment
-- [x] Automated build and typecheck on initial CI baseline
+- [x] Automated typecheck and production build in CI
 - [ ] End-to-end tests and launch review
 
-See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/technology-roadmap.md](docs/technology-roadmap.md) for the complete polyglot technology matrix, [docs/mobile-app-prd.md](docs/mobile-app-prd.md) for the Flutter companion plan, and [docs/database.md](docs/database.md) for the database and moderation boundary.
+See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/technology-roadmap.md](docs/technology-roadmap.md) for the complete polyglot technology matrix, [docs/mobile-app-prd.md](docs/mobile-app-prd.md) for the Flutter companion plan, [docs/database.md](docs/database.md) for the database and moderation boundary, and [contracts/README.md](contracts/README.md) for the XML import contract.
 
 ## Local environment
 
