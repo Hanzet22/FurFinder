@@ -52,6 +52,6 @@ See [docs/moderation.md](moderation.md) for first-admin bootstrap, adding modera
 - `20261030132124_harden_public_listings_grants`
 - `20261030140921_create_moderator_console`
 - `20261030140950_deny_browser_access_moderation_tables`
-- `20261030141015_index_moderation_event_foreign_keys`- `20261030145500_enforce_single_active_moderator_admin`
+- `20261030141015_index_moderation_event_foreign_keys`- `20261030142538_enforce_single_active_moderator_admin`
 
 The original public `anon` and `authenticated` grants on `listings` remain SELECT-only. Moderator powers are server-side only.
