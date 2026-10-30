@@ -56,9 +56,13 @@ export function PrivacyControls() {
     root.dataset.motion = effectiveMotion
     root.dataset.lod = motion === 'full' ? 'high' : lowPower || motion === 'reduced' || motion === 'off' ? 'low' : 'auto'
     root.dataset.accent = accent
-    writeStorage(MOTION_KEY, motion)
-    writeStorage(ACCENT_KEY, accent)
-  }, [motion, accent])
+    if (consent?.preferences) {
+      writeStorage(MOTION_KEY, motion)
+      writeStorage(ACCENT_KEY, accent)
+    } else {
+      try { window.localStorage.removeItem(MOTION_KEY); window.localStorage.removeItem(ACCENT_KEY) } catch { /* storage may be unavailable */ }
+    }
+  }, [motion, accent, consent?.preferences])
 
   const consentSummary = useMemo(() => consent ? 'Your choices are saved on this device.' : 'Choose which optional storage categories FurFinder may use.', [consent])
 
