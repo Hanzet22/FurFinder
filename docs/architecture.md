@@ -66,4 +66,4 @@ This is a planned model, not an applied database migration.
 
 ## Current status
 
-The repository currently has no Supabase project connected and no Vercel project found in the connected accounts. The first web scaffold can be developed independently; provider integration and deployment must wait until the appropriate project is connected.
+The current production web client is Vite + React + TypeScript, deployed on Vercel and connected to Supabase PostgreSQL. The initial public directory table uses RLS and allows read-only access to published rows. Other languages, frameworks and runtimes are planned as isolated modules or experiments; see [technology matrix](technology-roadmap.md).
