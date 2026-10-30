@@ -30,7 +30,7 @@ This document is the implementation contract for the requested technology set. I
 | Vue | Isolated integration/demo client for framework interoperability | `labs/vue-client` | Planned |
 | Next.js | Optional server-rendered application/API evaluation | `apps/next-evaluation` | Planned |
 | Vite | Current production web build and development server | `apps/web` (current root app) | Active |
-| Node.js | Primary API and tooling runtime | `services/api-node` | Planned |
+| Node.js | Versioned server-side APIs and tooling runtime | Vercel Functions in `api/v1` | Active (health and protected listing intake endpoints) |
 | TypeScript | Shared types and current web application | `apps/web`, `packages/contracts` | Active |
 | Ruby | Import/normalization worker experiment | `services/import-ruby` | Planned |
 | Python | Data quality, moderation-assist and offline analysis jobs | `services/data-python` | Planned |
@@ -134,7 +134,7 @@ This is a target layout, not a claim that all directories or services already ex
 - CI builds/tests it without breaking the main web client.
 - No secrets are bundled into browser/mobile artifacts.
 - Data access follows least privilege and RLS.
-- User-submitted records require validation, rate limiting, source provenance and moderation.
+- User-submitted records require server validation, anti-bot verification, provider-level rate limiting, source provenance and moderation.
 - Unsupported browser capabilities have a tested fallback.
 - Performance cost is measured before a module ships to all users.
 

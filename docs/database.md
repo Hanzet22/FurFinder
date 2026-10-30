@@ -2,28 +2,32 @@
 
 Project: `furfinder` (Singapore region)
 
-## Tables
+## Public directory
 
 ### `public.listings`
 
-Stores public directory entries for communities, conventions, artists, organizations, industry, and resources.
+Stores directory entries for communities, conventions, artists, organizations, industry, and resources.
 
 - `status`: `pending`, `published`, `rejected`, or `archived`.
-- Public clients can only SELECT rows with `status = 'published'`.
-- `anon` and `authenticated` have only the SELECT table privilege; RLS restricts visible rows to published entries.
-- Public INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, and TRIGGER privileges are revoked.
-- `source_url` records the public source used for verification.
+- Anonymous and authenticated browser roles have only SELECT table access.
+- RLS restricts public reads to rows where `status = 'published'`.
+- Public INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, and TRIGGER privileges remain revoked.
+- `source_url` records the public source used for moderator verification.
 - Website and source URLs are constrained to HTTPS.
 
-RLS is enabled. No anonymous write policy exists. Listing submissions and moderation must be handled by a trusted server-side workflow.
+The web browser never writes to this table. The Vercel `POST /api/v1/submissions` function uses a server-only Supabase secret after verifying the Turnstile token and request payload. It can only create a row with `status = 'pending'`, `is_featured = false`, and `verified_at = null`. It cannot set publication or featured status from user input.
 
 ## Moderation boundary
 
-Do not expose service-role keys in browser code. Do not add anonymous write policies. Before accepting submissions, implement server-side validation, rate limiting, spam controls, and a moderator review process.
+Pending rows are not publicly readable. The current review path is the Supabase Dashboard table editor: a moderator checks the official website and source, corrects metadata, and only then changes the status to `published`. Set `verified_at` when the source review is complete. A custom moderator console, role-management workflow, audit log, and distributed edge rate limiting are not implemented yet.
 
-## Migration history
+Do not expose a secret/service-role key in browser code, mobile bundles, URLs, or source control. Do not add anonymous write policies.
 
-- `20261030130751_create_public_directory`: baseline public directory table, constraints, RLS, and published-only read policy.
-- `20261030132124_harden_public_listings_grants`: least-privilege table grants for public client roles.
+## Migrations
 
-The SQL files in `supabase/migrations` are the repository's migration record. Verify changes with Supabase advisors and live permission queries before adding further policies.
+The initial directory and least-privilege grants are tracked in:
+
+- `20261030130751_create_public_directory`
+- `20261030132124_harden_public_listings_grants`
+
+The submission API reuses the existing `pending` state and table; it does not require an additional table or privilege change. Public `anon` and `authenticated` grants remain SELECT-only.
