@@ -42,11 +42,13 @@ npm run dev
 - [x] Public read-only directory API with RLS
 - [ ] Authentication and role model
 - [ ] Moderation and verification workflows
+- [x] Polyglot technology matrix and staged implementation roadmap
+- [x] Mobile companion product brief
 - [x] Vercel deployment
 - [x] Automated build and typecheck on initial CI baseline
 - [ ] End-to-end tests and launch review
 
-See [docs/architecture.md](docs/architecture.md) for the sector architecture and [docs/database.md](docs/database.md) for the database and moderation boundary.
+See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/technology-roadmap.md](docs/technology-roadmap.md) for the complete polyglot technology matrix, [docs/mobile-app-prd.md](docs/mobile-app-prd.md) for the Flutter companion plan, and [docs/database.md](docs/database.md) for the database and moderation boundary.
 
 ## Local environment
 
