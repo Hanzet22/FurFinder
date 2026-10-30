@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "npm run typecheck && npm test && vite build",
+    "build": "npm run typecheck && npm run validate:technology && npm test && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "typecheck": "tsc -b && tsc -p tsconfig.api.json",
     "test:api": "tsc -p tsconfig.tests.json && node --test tests/*.test.mjs",
-    "test": "npm run test:api"
+    "test": "npm run test:api",
+    "validate:technology": "node scripts/validate-technology-catalog.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

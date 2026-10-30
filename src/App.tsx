@@ -64,6 +64,23 @@ export default function App() {
     })
   }, [category, listings, query, region])
 
+  const distribution = useMemo(() => {
+    const total = listings.length
+    return regions.map((name) => {
+      const entries = listings.filter((listing) => listing.region === name)
+      const countries = new Map<string, number>()
+      entries.forEach((listing) => {
+        if (listing.country_code) countries.set(listing.country_code, (countries.get(listing.country_code) ?? 0) + 1)
+      })
+      return {
+        name,
+        count: entries.length,
+        share: total ? Math.round((entries.length / total) * 100) : 0,
+        countries: [...countries.entries()].sort((a, b) => b[1] - a[1]),
+      }
+    })
+  }, [listings])
+
   const visibleFeatures = useMemo(() => {
     const normalized = query.trim().toLowerCase()
     return features.filter((feature) => {
@@ -192,7 +209,20 @@ export default function App() {
 
       <section className="region-section" id="about">
         <div className="region-copy"><div className="eyebrow">ONE COMMUNITY, MANY PLACES</div><h2>Explore beyond<br />your borders.</h2><p>Furry communities are global. FurFinder is designed to make discovery easier across regions, languages, and creative scenes.</p><a href="#categories" className="inline-link">Explore the directory <ArrowRight size={16} /></a></div>
-        <div className="region-list">{regions.map((r, i) => <div className="region-row" key={r}><span className="region-number">0{i + 1}</span><b>{r}</b><ArrowRight size={17} /></div>)}</div>
+        <div className="region-list">
+          {distribution.map((item, i) => (
+            <div className="region-row region-row-detail" key={item.name}>
+              <span className="region-number">0{i + 1}</span>
+              <div className="region-row-copy">
+                <b>{item.name}</b>
+                <small>{item.count} published listings · {item.share}% of directory</small>
+                <small>{item.countries.length ? item.countries.map(([code, count]) => `${code} ${count} (${Math.round((count / listings.length) * 100)}%)`).join(' · ') : 'No country-level listings published yet'}</small>
+              </div>
+              <ArrowRight size={17} />
+            </div>
+          ))}
+          <p className="distribution-note">Ratios show the share of published directory records only—not the number or population of furries in each country. Pending entries are excluded.</p>
+        </div>
       </section>
 
       <section className="submit-section" id="submit" aria-labelledby="submit-title">
@@ -216,7 +246,7 @@ export default function App() {
         <a className="brand footer-brand" href="#"><span className="brand-mark"><Compass size={21} /></span><span>fur<span className="brand-accent">finder</span><small>GLOBAL DISCOVERY</small></span></a>
         <p>Discover openly. Respect communities. Verify sources.</p>
         <span className="footer-note">© {new Date().getFullYear()} FurFinder · Community discovery, worldwide.</span>
-        <a className="staff-link" href="/moderation">Moderator access</a>
+        <div className="footer-legal"><a href="/legal/terms.html">Terms</a><a href="/legal/privacy.html">Privacy</a><a href="/ATTRIBUTIONS.md">Attributions</a><a className="staff-link" href="/moderation">Moderator access</a></div>
       </footer>
     </main>
   )
