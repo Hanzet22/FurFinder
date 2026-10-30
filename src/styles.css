@@ -28,3 +28,9 @@
 .listing-card-links a:hover{color:#fff}
 @media(max-width:850px){.listing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.listing-grid{grid-template-columns:1fr}}
+
+/* Keyboard and touch-target refinements */
+:where(a,button,input,select):focus-visible{outline:3px solid #b7d4ff;outline-offset:3px}
+.category-tab{min-height:44px}
+.mobile-menu{min-width:44px;min-height:44px;display:grid;place-items:center}
+@media(max-width:600px){.category-tab{min-height:44px;padding:11px 12px}}
