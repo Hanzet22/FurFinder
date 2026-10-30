@@ -24,7 +24,7 @@ FurFinder helps people discover furry communities, conventions, artists and crea
 
 ## Current implementation
 
-The responsive web MVP uses Vite, React, and TypeScript. A Supabase PostgreSQL directory is connected through its publishable API key and row-level security. The public homepage reads only published listings; public database roles have SELECT-only grants. The browser client validates listing payloads at runtime. XML v1 import schema and examples are defined, but the production importer and Node API are not implemented yet.
+The responsive web MVP uses Vite, React, and TypeScript, with TanStack Query managing published-directory server state and caching. Tailwind CSS v4 utilities are integrated alongside the existing CSS design system without enabling the global preflight reset. A Supabase PostgreSQL directory is connected through its publishable API key and row-level security. The public homepage reads only published listings; public database roles have SELECT-only grants. The browser client validates listing payloads at runtime. XML v1 import schema and examples are defined, but the production importer and Node API are not implemented yet.
 
 ## Development
 
@@ -41,6 +41,8 @@ npm run dev
 - [x] Supabase project and initial directory schema
 - [x] Public read-only directory API with RLS and least-privilege grants
 - [x] Runtime validation for public listing responses
+- [x] TanStack Query cache for published directory data
+- [x] Tailwind CSS v4 utility layer integrated with existing CSS
 - [ ] Node API and trusted listing importer
 - [x] XML v1 import contract and example
 - [ ] Authentication and role model
