@@ -114,4 +114,28 @@ void main() {
     expect(cache.savedAt, DateTime.parse('2026-01-02T00:00:00.000Z'));
     repository.dispose();
   });
+  test('discards malformed or oversized offline cache data', () async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setString('furfinder.public_listings.v1', jsonEncode({
+      'saved_at': 'not-a-date',
+      'listings': [listing],
+    }));
+    final repository = DirectoryRepository(
+      client: MockClient((_) async => http.Response('', 500)),
+      preferences: preferences,
+      baseUrl: 'https://api.example.test',
+    );
+
+    expect(await repository.readCache(), isNull);
+    expect(preferences.getString('furfinder.public_listings.v1'), isNull);
+
+    await preferences.setString('furfinder.public_listings.v1', jsonEncode({
+      'saved_at': '2026-01-02T00:00:00.000Z',
+      'listings': List.generate(61, (_) => listing),
+    }));
+    expect(await repository.readCache(), isNull);
+    expect(preferences.getString('furfinder.public_listings.v1'), isNull);
+    repository.dispose();
+  });
+
 }
