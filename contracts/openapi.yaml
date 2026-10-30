@@ -22,7 +22,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../schemas/listings-response.schema.json
+                $ref: ./schemas/listings-response.schema.json
         "405":
           description: Method not allowed
         "502":
