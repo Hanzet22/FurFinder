@@ -213,7 +213,7 @@ export default function App() {
       <footer className="footer" id="how-it-works">
         <a className="brand footer-brand" href="#"><span className="brand-mark"><Compass size={21} /></span><span>fur<span className="brand-accent">finder</span><small>GLOBAL DISCOVERY</small></span></a>
         <p>Discover openly. Respect communities. Verify sources.</p>
-        <span className="footer-note">© {new Date().getFullYear()} FurFinder · Community discovery, worldwide.</span>
+        <span className="footer-note">© {new Date().getFullYear()} FurFinder · Community discovery, worldwide.</span>\n        <a className="staff-link" href="/moderation">Moderator access</a>
       </footer>
     </main>
   )
