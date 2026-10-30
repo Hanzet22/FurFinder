@@ -27,6 +27,10 @@ export default {
       return json({ ok: false, message: 'First-admin bootstrap is not enabled. Ask the project owner to configure it.' }, 403)
     }
 
+    if (!auth.user.email_confirmed_at) {
+      return json({ ok: false, message: 'Verify the email address on this account before first-admin setup.' }, 403)
+    }
+
     if (!auth.user.email || auth.user.email.toLowerCase() !== bootstrapEmail) {
       return json({ ok: false, message: 'This signed-in email is not the configured first-admin account.' }, 403)
     }
