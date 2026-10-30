@@ -1,0 +1,40 @@
+name: Flutter Mobile
+
+on:
+  push:
+    branches: [main, "feat/**", "fix/**"]
+    paths:
+      - "mobile/**"
+      - "api/v1/listings.ts"
+      - ".github/workflows/flutter.yml"
+  pull_request:
+    branches: [main, 'feat/**', 'fix/**']
+    paths:
+      - "mobile/**"
+      - "api/v1/listings.ts"
+      - ".github/workflows/flutter.yml"
+
+jobs:
+  flutter:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter create --platforms=android --project-name furfinder_mobile --org com.hanzet22 .
+      - run: rm -f test/widget_test.dart
+      - run: flutter pub get
+      - run: dart format lib test
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter build apk --release --dart-define=API_BASE_URL=https://furfinder-rho.vercel.app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: furfinder-android-apk
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error

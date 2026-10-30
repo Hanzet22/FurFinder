@@ -9,6 +9,8 @@ This document is the implementation contract for the requested technology set. I
 3. Alternative frameworks and runtimes run in isolated workspaces with independent lockfiles and CI jobs.
 4. No technology is marked implemented until code exists and its build or test is recorded.
 5. The browser client remains safe for minors: public discovery only, no adult-content discovery, private-location exposure, or unmoderated contact features.
+6. Languages, markup, query languages, data formats, frameworks, runtimes and infrastructure tools are tracked as distinct kinds of technology.
+7. New services must justify operational cost and must use versioned contracts; a language catalog is not a mandate to deploy every runtime.
 
 ## Technology matrix
 
@@ -52,6 +54,70 @@ This document is the implementation contract for the requested technology set. I
 | Recoil | State-management comparison lab only; adopt only if still maintained and justified | `labs/state-management` | Evaluation |
 | PostgreSQL | Source of truth for directory, provenance and moderation records | Supabase | Active |
 | Docker | Reproducible local services and isolated polyglot CI environments | `infra/docker` | Planned |
+| C | Low-level native utilities and portable parser experiments | `labs/native-c` | Planned |
+| C++ | High-performance media, geometry and native integration experiments | `labs/native-cpp` | Planned |
+| C# | Optional .NET tooling, desktop utilities and interoperability experiments | `labs/dotnet` | Planned |
+| Kotlin | Native Android features and platform-specific Flutter plugins | `apps/android-kotlin` | Planned |
+| Swift | Native iOS integrations where Flutter plugins are insufficient | `apps/ios-swift` | Planned |
+| PHP | Compatibility/import adapter experiments for partner systems | `services/import-php` | Evaluation |
+| Lua | Small embedded scripting and configurable transformation experiments | `labs/lua` | Evaluation |
+| Perl | Legacy feed-cleanup and text-processing interoperability | `labs/perl` | Evaluation |
+| R | Statistical analysis of aggregate, non-identifying directory quality metrics | `services/analytics-r` | Planned |
+| Julia | Numerical and performance research for non-personal aggregate datasets | `labs/julia` | Evaluation |
+| Scala | JVM data-pipeline interoperability evaluation | `labs/scala` | Evaluation |
+| Haskell | Typed parser and data-contract correctness research | `labs/haskell` | Evaluation |
+| Erlang | Reliability comparison for supervised background processing | `labs/erlang` | Evaluation |
+| Clojure | Data transformation and JVM interoperability experiment | `labs/clojure` | Evaluation |
+| F# | Typed .NET data-processing experiment | `labs/fsharp` | Evaluation |
+| Zig | Small native/WASM utility and C interoperability experiment | `labs/zig` | Evaluation |
+| Objective-C | Legacy Apple SDK interoperability only | `labs/apple-interop` | Evaluation |
+| PowerShell | Windows developer and release automation scripts | `scripts/powershell` | Planned |
+| SQL | Queries, constraints, views and reviewed database migrations | Supabase PostgreSQL | Active |
+| GraphQL | Optional typed aggregation API evaluation; not a replacement for REST v1 by default | `labs/graphql` | Evaluation |
+| Protocol Buffers | Compact, versioned contracts for future internal service boundaries | `packages/contracts/protobuf` | Planned |
+| JSON Schema | Runtime validation for public API and import payloads | `packages/contracts/json-schema` | Planned |
+| YAML | CI workflows and declarative configuration | `.github/workflows` | Active |
+| TOML | Tool and package configuration where supported | Repository tooling | Active / expand |
+| Markdown | Product, contributor, API and operational documentation | `docs` | Active |
+| Redis / Valkey | Optional ephemeral cache, queue coordination or rate-limit counters | `infra/cache` | Evaluation |
+| Meilisearch | Typo-tolerant directory search evaluation | `services/search-meilisearch` | Evaluation |
+| Typesense | Alternative search engine benchmark against PostgreSQL search | `labs/search-typesense` | Evaluation |
+| OpenSearch | Large-scale search and analytics option only if dataset size warrants it | `labs/search-opensearch` | Evaluation |
+| PostGIS | Region and public venue geospatial queries without exposing private locations | Supabase PostgreSQL extension | Evaluation |
+| pgvector | Similarity search for opt-in public content discovery, never sensitive profiling | Supabase PostgreSQL extension | Evaluation |
+| OpenAPI | Machine-readable REST API contract and generated client validation | `packages/contracts/openapi` | Planned |
+| gRPC | Typed internal service communication if separate services become necessary | `packages/contracts/grpc` | Evaluation |
+| Terraform / OpenTofu | Reviewable infrastructure-as-code for repeatable environments | `infra/iac` | Planned |
+| Kubernetes | Container orchestration only if service scale and operations justify it | `infra/kubernetes` | Evaluation |
+| Helm | Versioned Kubernetes deployment templates if Kubernetes is adopted | `infra/helm` | Evaluation |
+| OpenTelemetry | Standard traces, metrics and logs across API boundaries | `packages/observability` | Planned |
+| Sentry | Error aggregation with PII scrubbing and safe release metadata | Web/API observability | Evaluation |
+| Playwright | Browser end-to-end and accessibility smoke tests | `tests/e2e` | Planned |
+| Vitest | Fast isolated web unit/component tests | Web client CI | Planned |
+| Storybook | Isolated component catalogue and visual review | `apps/storybook` | Planned |
+| axe-core | Automated accessibility checks for web components and routes | `tests/accessibility` | Planned |
+| Lighthouse | Performance, accessibility and best-practice regression checks | CI / release checks | Planned |
+| Renovate | Dependency update proposals with CI validation | Repository automation | Planned |
+| Trivy | Container and dependency vulnerability scanning | CI / container pipeline | Planned |
+| Semgrep | Static analysis for common application security mistakes | CI security checks | Planned |
+| MapLibre GL | Optional public map rendering with coarse region defaults | `packages/maps` | Evaluation |
+| Leaflet | Lightweight map alternative for public event/region maps | `packages/maps` | Evaluation |
+| PWA / Service Workers | Installable web experience and controlled static/offline caching | Web client | Planned |
+| WebAuthn / Passkeys | Phishing-resistant sign-in option for staff accounts | Auth evaluation | Planned |
+| OpenID Connect (OIDC) | Standardized identity-provider integration | Auth boundary | Planned |
+| ICU MessageFormat | Pluralization and localization-ready message formatting | `packages/i18n` | Planned |
+| Firebase Cloud Messaging / APNs | Optional opt-in operational notifications, never unsolicited contact | `services/notifications` | Evaluation |
+| S3-compatible object storage | Publicly approved media and import artifacts with strict access policies | `infra/object-storage` | Evaluation |
+
+## Language and format classification
+
+- **General-purpose / systems languages:** C, C++, C#, Clojure, Dart, Elixir, Erlang, F#, Go, Haskell, Java, JavaScript, Julia, Kotlin, Lua, Objective-C, Perl, PHP, PowerShell, Python, R, Ruby, Rust, Scala, Swift, TypeScript, Zig.
+- **Query and API contract languages:** SQL, GraphQL, Protocol Buffers, OpenAPI.
+- **Markup and data/configuration formats:** HTML, CSS, MathML, Markdown, JSON, JSON Schema, XML, YAML, TOML, SVG.
+- **Runtimes, frameworks and platforms:** Node.js, Deno, Bun, React, Vue, Angular, Svelte, Astro, Next.js, Flutter, Electron, WebAssembly.
+- **Infrastructure, quality and operations:** Docker, Terraform/OpenTofu, Kubernetes, Helm, OpenTelemetry, Playwright, Vitest, Storybook, axe-core, Lighthouse, Renovate, Trivy, Semgrep.
+
+The catalog is intentionally broad. It does not mean every item belongs in the production dependency graph. Each candidate must pass the quality gates below and earn a concrete use case.
 
 ## Suggested workspace layout
 
@@ -63,6 +129,8 @@ apps/
   mobile-flutter/      # Dart / Flutter client
   desktop-electron/   # desktop companion
   android-java/        # native Android integration experiments
+  android-kotlin/      # Kotlin platform integration experiments
+  ios-swift/           # Swift platform integration experiments
 services/
   api-node/
   data-python/
@@ -70,12 +138,14 @@ services/
   search-go/
   index-rust/
   events-elixir/
+  analytics-r/
 packages/
   contracts/
   data-contracts/xml/
   ui-tailwind/
   visual-lab/
   wasm/
+  observability/
 labs/
   webgpu/
   webnn/
@@ -85,11 +155,21 @@ labs/
   svelte-widget/
   deno-runtime/
   state-management/
+  native-c/
+  native-cpp/
+  dotnet/
+  graphql/
+  search-typesense/
 tools/
   bun/
 scripts/
-infra/docker/
+infra/
+  docker/
+  iac/
 docs/
+tests/
+  e2e/
+  accessibility/
 ```
 
 This is a target layout, not a claim that all directories or services already exist. Create a workspace only when its first executable module and tests are ready.
@@ -108,15 +188,19 @@ This is a target layout, not a claim that all directories or services already ex
 - Focused Node built-in tests cover listing submission validation and pending-record invariants; CI runs them after the build.
 - Add Node.js API boundaries, XML import/export contract, TanStack Query and Tailwind design tokens. TanStack Query and the Tailwind utilities layer are now integrated in the web client.
 - Add Docker-based local development, Bash scripts and contract tests.
+- Add OpenAPI and JSON Schema contracts before expanding API consumers.
 - Build listing provenance, review records, moderation roles and reporting before public submissions.
 
 ### Phase 2 — content and mobile
 - Add Astro knowledge hub with MathML support.
-- Build Flutter/Dart mobile client and evaluate Java Android integration only for native platform capabilities.
+- Build Flutter/Dart mobile client and evaluate Java/Kotlin Android and Swift iOS integration only for native platform capabilities.
 - Evaluate Next.js separately for server-rendered routes; retain Vite unless measured benefits justify migration.
+- Add ICU-based localization and PWA behavior after core navigation and accessibility stabilize.
 
 ### Phase 3 — polyglot services
 - Build Python data-quality tooling, Ruby import worker, Go search/index API, Rust parser/WASM module, and Elixir event processing as independently deployable services.
+- Evaluate C/C++, C#, PHP, R and other language options only against a concrete module requirement.
+- Benchmark PostgreSQL search before adopting Meilisearch, Typesense, OpenSearch, Redis/Valkey, PostGIS or pgvector.
 - Define OpenAPI/JSON contracts and failure behavior before connecting each service.
 - Do not split services merely to check off language names.
 
@@ -125,10 +209,14 @@ This is a target layout, not a claim that all directories or services already ex
 - Add isolated Vue, Angular and Svelte interoperability examples.
 - Compare Deno and Bun in isolated tasks; keep Node.js as the first API runtime.
 - Evaluate Recoil only in a contained state-management comparison.
+- Evaluate MapLibre/Leaflet for public maps only; default to coarse regions and official public venues.
 
 ### Phase 5 — desktop and release hardening
 - Add Electron desktop companion only if moderation/research workflows need it.
-- Expand Docker/CI matrices, automated accessibility checks, end-to-end tests, observability and backup/restore drills.
+- Add Playwright, Vitest, Storybook and automated accessibility checks as maintainable test coverage grows.
+- Introduce OpenTelemetry and Sentry only with PII scrubbing, retention limits and access controls.
+- Add Terraform/OpenTofu and container scanning before expanding deployment infrastructure.
+- Kubernetes/Helm remain optional until independent services and operational staffing justify them.
 
 ## Quality gates for every module
 
@@ -140,6 +228,8 @@ This is a target layout, not a claim that all directories or services already ex
 - User-submitted records require server validation, anti-bot verification, provider-level rate limiting, source provenance and moderation.
 - Unsupported browser capabilities have a tested fallback.
 - Performance cost is measured before a module ships to all users.
+- Telemetry must redact tokens, private contact details, precise personal locations and message content.
+- Search, maps and analytics must not infer or expose sensitive personal attributes.
 
 ## Explicit non-goals
 
@@ -147,3 +237,4 @@ This is a target layout, not a claim that all directories or services already ex
 - Do not run every language as a network microservice without a real boundary.
 - Do not duplicate the production database or create competing sources of truth.
 - Do not treat a technology roadmap as proof of implementation.
+- Do not collect private location, private contact or behavioral-profile data to power search or analytics.
