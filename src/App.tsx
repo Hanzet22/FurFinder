@@ -6,6 +6,7 @@ import {
   Compass, Sparkles, ChevronRight, ExternalLink
 } from 'lucide-react'
 import { fetchListings } from './lib/directory'
+import { ListingSubmissionForm } from './components/ListingSubmissionForm'
 
 type Category = 'All' | 'Communities' | 'Conventions' | 'Artists' | 'Organizations' | 'Industry'
 
@@ -34,6 +35,7 @@ export default function App() {
   const [category, setCategory] = useState<Category>('All')
   const [region, setRegion] = useState('Anywhere')
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [showSubmission, setShowSubmission] = useState(false)
   const {
     data: listings = [],
     isPending: loadingListings,
@@ -136,7 +138,7 @@ export default function App() {
             <article className="feature-card" key={title}>
               <div className={`feature-icon icon-${index % 6}`}><Icon size={21} /></div>
               <div className="feature-card-body"><h3>{title}</h3><p>{text}</p></div>
-              <a href="#submit" className="card-link">{tag}<ChevronRight size={15} /></a>
+              <a href="#submit" className="card-link" onClick={() => setShowSubmission(true)}>{tag}<ChevronRight size={15} /></a>
             </article>
           )) : <div className="empty-state">No category matched that search. Try another keyword or select “All”.</div>}
         </div>
@@ -191,11 +193,22 @@ export default function App() {
         <div className="region-list">{regions.map((r, i) => <div className="region-row" key={r}><span className="region-number">0{i + 1}</span><b>{r}</b><ArrowRight size={17} /></div>)}</div>
       </section>
 
-      <section className="submit-section" id="submit">
+      <section className="submit-section" id="submit" aria-labelledby="submit-title">
         <div className="submit-icon"><Sparkles size={24} /></div>
-        <div><div className="eyebrow">HELP THE DIRECTORY GROW</div><h2>Know a place we should find?</h2><p>Suggest a public community, event, creator, or organization for future review.</p></div>
-        <a className="button" href="mailto:hello@furfinder.global?subject=FurFinder%20listing%20suggestion">Suggest a listing <ArrowRight size={17} /></a>
+        <div><div className="eyebrow">HELP THE DIRECTORY GROW</div><h2 id="submit-title">Know a place we should find?</h2><p>Suggest a public community, event, creator, or organization for future review.</p></div>
+        <button
+          className="button"
+          type="button"
+          aria-expanded={showSubmission}
+          aria-controls="listing-submission-form"
+          onClick={() => setShowSubmission((open) => !open)}
+        >
+          {showSubmission ? 'Close form' : 'Suggest a listing'} <ArrowRight size={17} />
+        </button>
       </section>
+      <div className="submission-panel" id="listing-submission-form" hidden={!showSubmission}>
+        <ListingSubmissionForm />
+      </div>
 
       <footer className="footer" id="how-it-works">
         <a className="brand footer-brand" href="#"><span className="brand-mark"><Compass size={21} /></span><span>fur<span className="brand-accent">finder</span><small>GLOBAL DISCOVERY</small></span></a>
