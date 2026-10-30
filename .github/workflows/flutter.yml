@@ -26,6 +26,7 @@ jobs:
         with:
           channel: stable
           cache: true
+      - run: flutter create --platforms=android --project-name furfinder_mobile --org com.hanzet22 .
       - run: flutter pub get
       - run: dart format lib test
       - run: flutter analyze
