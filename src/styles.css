@@ -37,3 +37,37 @@
 @media(max-width:600px){.category-tab{min-height:44px;padding:11px 12px}}
 
 .directory-count{margin:0 0 14px;color:#9eabba;font-size:11px}
+
+
+/* Moderated listing submission */
+.submission-panel{max-width:1172px;margin:-48px auto 75px;padding:0 34px}
+.submission-panel[hidden]{display:none}
+.submission-form{padding:30px;border:1px solid #ffffff20;border-radius:16px;background:linear-gradient(145deg,#182432,#141c26);box-shadow:0 18px 55px #0003}
+.submission-form-heading{margin-bottom:24px}
+.submission-form-heading h3,.submission-success h3{font:700 22px Manrope,sans-serif;margin:9px 0}
+.submission-form-heading p,.submission-success p{color:#a6b2c0;font-size:12px;line-height:1.7;margin:0;max-width:640px}
+.submission-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.submission-fields label{display:flex;flex-direction:column;gap:8px;color:#dce5ef;font-size:11px;font-weight:600;min-width:0}
+.submission-fields input,.submission-fields select,.submission-fields textarea{width:100%;min-height:44px;padding:11px 13px;border:1px solid #ffffff20;border-radius:9px;background:#0f1721;color:#f4f6fa;font-size:12px;outline:none}
+.submission-fields textarea{resize:vertical;min-height:105px;line-height:1.6}
+.submission-fields input::placeholder,.submission-fields textarea::placeholder{color:#748397}
+.submission-fields input:focus-visible,.submission-fields select:focus-visible,.submission-fields textarea:focus-visible{outline:3px solid #9fc4ff;outline-offset:2px;border-color:#9fc4ff}
+.submission-wide{grid-column:1/-1}
+.submission-verification{display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap;margin-top:22px;padding:17px;border:1px solid #ffffff18;border-radius:11px;background:#0f172180}
+.submission-verification>div:first-child{display:flex;align-items:center;gap:8px;color:#b7c9de;font-size:11px;font-weight:700}
+.submission-verification>div:first-child svg{color:#91e4ce}
+.turnstile-widget{min-height:65px;max-width:100%}
+.submission-config-warning{flex-basis:100%;margin:0;color:#ffc49f;font-size:11px;line-height:1.6}
+.submission-honeypot{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.submission-message{margin:15px 0 0;color:#ffc49f;font-size:12px}
+.submission-actions{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:20px}
+.submission-actions p{margin:0;color:#91a0b1;font-size:10px;line-height:1.6}
+.submission-actions .button:disabled{cursor:not-allowed;opacity:.45;transform:none}
+.submission-success{display:flex;align-items:flex-start;gap:16px;padding:26px;border:1px solid #91e4ce35;border-radius:15px;background:#152820}
+.submission-success>svg{color:#91e4ce;flex-shrink:0}
+.text-button{margin-top:14px;padding:0;border:0;background:none;color:#a9c9ff;font-size:11px;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.spinner{animation:furfinder-spin 1s linear infinite}
+@keyframes furfinder-spin{to{transform:rotate(360deg)}}
+@media(max-width:850px){.submission-panel{margin:-28px 24px 50px;padding:0}}
+@media(max-width:600px){.submission-panel{margin:-13px 20px 35px;padding:0}.submission-form{padding:20px}.submission-fields{grid-template-columns:1fr}.submission-wide{grid-column:auto}.submission-actions{align-items:flex-start;flex-direction:column}.submission-actions .button{width:100%;margin:0}.submission-verification{padding:13px}}
+@media(prefers-reduced-motion:reduce){.spinner{animation:none}}
