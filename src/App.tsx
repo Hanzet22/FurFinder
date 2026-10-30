@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   ArrowRight, Search, MapPin, CalendarDays, Palette, Users,
   Building2, Factory, BookOpen, ShieldCheck, Globe2, Menu, X,
-  Compass, Sparkles, ChevronRight
+  Compass, Sparkles, ChevronRight, ExternalLink
 } from 'lucide-react'
+import { fetchListings, type DirectoryListing } from './lib/directory'
 
 type Category = 'All' | 'Communities' | 'Conventions' | 'Artists' | 'Organizations' | 'Industry'
 
@@ -32,6 +33,37 @@ export default function App() {
   const [category, setCategory] = useState<Category>('All')
   const [region, setRegion] = useState('Anywhere')
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [listings, setListings] = useState<DirectoryListing[]>([])
+  const [loadingListings, setLoadingListings] = useState(true)
+  const [directoryError, setDirectoryError] = useState('')
+
+  useEffect(() => {
+    let active = true
+    fetchListings()
+      .then((items) => { if (active) setListings(items) })
+      .catch((error: unknown) => {
+        if (active) setDirectoryError(error instanceof Error ? error.message : 'Unable to load directory listings.')
+      })
+      .finally(() => { if (active) setLoadingListings(false) })
+    return () => { active = false }
+  }, [])
+
+  const visibleListings = useMemo(() => {
+    const normalized = query.trim().toLowerCase()
+    const categoryMap: Partial<Record<Category, string>> = {
+      Communities: 'community',
+      Conventions: 'convention',
+      Artists: 'artist',
+      Organizations: 'organization',
+      Industry: 'industry',
+    }
+    return listings.filter((listing) => {
+      const categoryMatch = category === 'All' || listing.category === categoryMap[category]
+      const regionMatch = region === 'Anywhere' || listing.region === region
+      const queryMatch = !normalized || `${listing.name} ${listing.summary} ${listing.region} ${listing.country_code ?? ''}`.toLowerCase().includes(normalized)
+      return categoryMatch && regionMatch && queryMatch
+    })
+  }, [category, listings, query, region])
 
   const visibleFeatures = useMemo(() => {
     const normalized = query.trim().toLowerCase()
@@ -111,6 +143,40 @@ export default function App() {
             </article>
           )) : <div className="empty-state">No category matched that search. Try another keyword or select “All”.</div>}
         </div>
+      </section>
+
+      <section className="section directory-section" id="directory" aria-labelledby="directory-title">
+        <div className="section-heading">
+          <div><div className="eyebrow">COMMUNITY-VERIFIED DISCOVERY</div><h2 id="directory-title">The global directory.</h2></div>
+          <p>Public listings with source links. Entries appear here only after review and publication.</p>
+        </div>
+        {loadingListings ? <p className="directory-status" role="status">Loading published listings…</p> : null}
+        {directoryError ? <p className="directory-status directory-error" role="alert">{directoryError}</p> : null}
+        {!loadingListings && !directoryError && visibleListings.length === 0 ? (
+          <div className="directory-empty">
+            <Globe2 size={25} />
+            <h3>No published listings yet</h3>
+            <p>The directory database is connected. Listings will appear here after their sources are checked and approved.</p>
+          </div>
+        ) : null}
+        {visibleListings.length > 0 ? (
+          <div className="listing-grid">
+            {visibleListings.map((listing) => (
+              <article className="listing-card" key={listing.id}>
+                <div className="listing-card-top">
+                  <span className="listing-category">{listing.category}</span>
+                  <span className="listing-region">{listing.region}</span>
+                </div>
+                <h3>{listing.name}</h3>
+                <p>{listing.summary}</p>
+                <div className="listing-card-links">
+                  <a href={listing.website_url} target="_blank" rel="noreferrer">Visit website <ExternalLink size={14} /></a>
+                  <a href={listing.source_url} target="_blank" rel="noreferrer">Source <ExternalLink size={14} /></a>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : null}
       </section>
 
       <section className="region-section" id="about">
