@@ -24,7 +24,7 @@ FurFinder helps people discover furry communities, conventions, artists and crea
 
 ## Current implementation
 
-The responsive web MVP uses Vite, React, and TypeScript, with TanStack Query managing published-directory state and caching. Tailwind CSS v4 utilities run alongside the existing CSS design system. Supabase PostgreSQL remains the source of truth; the browser can read published listings only. Vercel Node.js Functions now provide API health and a protected listing-submission route. That route validates payloads, verifies Cloudflare Turnstile server-side, and creates pending listings using a server-only Supabase secret. Public database roles remain SELECT-only. The XML v1 contract exists; its importer is still planned.
+The responsive web MVP uses Vite, React, and TypeScript, with TanStack Query managing published-directory state and caching. Tailwind CSS v4 utilities run alongside the existing CSS design system. Supabase PostgreSQL remains the source of truth; the browser can read published listings only. Vercel Node.js Functions provide API health, protected listing intake, and an authenticated moderation API. The moderation desk at `/moderation` verifies Supabase Auth sessions server-side, checks a server-only moderator allowlist, and records publish/reject decisions atomically with an audit event. Public database roles remain read-only; elevated credentials stay on the server. The XML v1 contract exists; its trusted importer is still planned.
 
 ## Development
 
@@ -46,17 +46,17 @@ npm run dev
 - [x] Node.js API functions for health and moderated listing suggestions
 - [ ] Trusted XML importer
 - [x] XML v1 import contract and example
-- [ ] Authentication and role model
+- [x] Supabase Auth sign-in and server-side moderator allowlist
 - [x] Pending submission queue and manual moderator review in Supabase Dashboard
-- [ ] In-app moderator console and role-management UI
+- [x] In-app pending review console and atomic moderation audit log\n- [ ] In-app moderator role-management UI
 - [x] Polyglot technology matrix and staged implementation roadmap
 - [x] Mobile companion product brief
 - [x] Vercel deployment
 - [x] Automated typecheck and production build in CI
 - [ ] Distributed edge rate limiting, automated end-to-end tests, and full launch review
 
-See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/technology-roadmap.md](docs/technology-roadmap.md) for the complete polyglot technology matrix, [docs/mobile-app-prd.md](docs/mobile-app-prd.md) for the Flutter companion plan, [docs/database.md](docs/database.md) for the database and moderation boundary, and [contracts/README.md](contracts/README.md) for the XML import contract.
+See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/technology-roadmap.md](docs/technology-roadmap.md) for the complete polyglot technology matrix, [docs/mobile-app-prd.md](docs/mobile-app-prd.md) for the Flutter companion plan, [docs/database.md](docs/database.md) for the database security boundary, [docs/submissions.md](docs/submissions.md) for listing intake, [docs/moderation.md](docs/moderation.md) for staff setup, and [contracts/README.md](contracts/README.md) for the XML import contract.
 
 ## Local environment
 
-Copy `.env.example` to `.env.local` for browser settings. Run Vercel Functions locally with `vercel dev`. Configure `VITE_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, and `SUPABASE_SECRET_KEY` in Vercel before enabling submissions. Never put a Supabase secret/service-role key in a Vite variable or browser bundle. See [docs/submissions.md](docs/submissions.md).
+Copy `.env.example` to `.env.local` for browser settings. Run Vercel Functions locally with `vercel dev`. Configure `VITE_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, and `SUPABASE_SECRET_KEY` in Vercel before enabling submissions. For moderator access, create a Supabase Auth user and follow [docs/moderation.md](docs/moderation.md) for the one-time admin bootstrap. Never put a Supabase secret/service-role key in a Vite variable or browser bundle. See [docs/submissions.md](docs/submissions.md).

@@ -40,21 +40,22 @@ FurFinder is a discovery and directory product, not a private social network or 
 - Test both allowed and denied access for anonymous, authenticated, submitter, and moderator roles.
 - Treat verification as a recorded review event with reviewer, timestamp, evidence source, and outcome.
 
-## Initial domain model (planned)
+## Implemented domain records
+
+- `public.listings` — public directory entries and pending suggestions.
+- `public.moderators` — server-only Auth user allowlist and reviewer role.
+- `public.moderation_events` — atomic publish/reject audit events.
+
+## Remaining planned domain model
 
 - profiles
-- listings
 - listing_categories
 - listing_sources
-- listing_reviews
 - events
 - event_locations
 - creator_profiles
 - organizations
 - reports
-- moderation_actions
-
-This is a planned model, not an applied database migration.
 
 ## Safety and privacy
 
@@ -66,4 +67,4 @@ This is a planned model, not an applied database migration.
 
 ## Current status
 
-The production web client is Vite + React + TypeScript, deployed on Vercel and connected to Supabase PostgreSQL. Vercel Node.js Functions expose `GET /api/v1/health` and a Turnstile-protected `POST /api/v1/submissions`. The public directory table remains read-only for browser roles and only published rows are visible. Other languages, frameworks and runtimes remain staged modules or experiments; see [technology matrix](technology-roadmap.md).
+The production web client is Vite + React + TypeScript, deployed on Vercel and connected to Supabase PostgreSQL. Vercel Node.js Functions expose `GET /api/v1/health`, a Turnstile-protected `POST /api/v1/submissions`, and an authenticated moderation API under `/api/v1/moderation`. The `/moderation` route is a staff-only UI. The public directory table remains read-only for browser roles and only published rows are visible. Other languages, frameworks and runtimes remain staged modules or experiments; see [technology matrix](technology-roadmap.md).
