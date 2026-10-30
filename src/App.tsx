@@ -7,7 +7,6 @@ import {
 } from 'lucide-react'
 import { fetchListings } from './lib/directory'
 import { ListingSubmissionForm } from './components/ListingSubmissionForm'
-import { PrivacyControls } from './components/PrivacyControls'
 
 type Category = 'All' | 'Communities' | 'Conventions' | 'Artists' | 'Organizations' | 'Industry'
 
@@ -249,7 +248,6 @@ export default function App() {
         <span className="footer-note">© {new Date().getFullYear()} FurFinder · Community discovery, worldwide.</span>
         <div className="footer-legal"><a href="/legal/terms.html">Terms</a><a href="/legal/privacy.html">Privacy</a><a href="/ATTRIBUTIONS.md">Attributions</a><a className="staff-link" href="/moderation">Moderator access</a></div>
       </footer>
-      <PrivacyControls />
     </main>
   )
 }
