@@ -95,7 +95,7 @@
       "responsibility": "Static public knowledge hub and SEO-oriented content",
       "placement": "apps/knowledge-astro",
       "status": "Planned",
-      "category": "Other"
+      "category": "Web & UI"
     },
     {
       "name": "Vue",
@@ -123,7 +123,7 @@
       "responsibility": "Versioned server-side APIs and trusted moderation boundary",
       "placement": "Vercel Functions in api/v1",
       "status": "Active (health, listing intake, moderator queue and review)",
-      "category": "Other"
+      "category": "Languages & formats"
     },
     {
       "name": "TypeScript",
@@ -172,14 +172,14 @@
       "responsibility": "Edge/runtime compatibility and scheduled-task experiment",
       "placement": "labs/deno-runtime",
       "status": "Planned",
-      "category": "Other"
+      "category": "Languages & formats"
     },
     {
       "name": "Bun",
       "responsibility": "Fast local tooling and test-runner comparison",
       "placement": "tools/bun",
       "status": "Planned",
-      "category": "Other"
+      "category": "Languages & formats"
     },
     {
       "name": "Electron",
@@ -529,14 +529,14 @@
       "responsibility": "Standard traces, metrics and logs across API boundaries",
       "placement": "packages/observability",
       "status": "Planned",
-      "category": "Other"
+      "category": "Quality & security"
     },
     {
       "name": "Sentry",
       "responsibility": "Error aggregation with PII scrubbing and safe release metadata",
       "placement": "Web/API observability",
       "status": "Evaluation",
-      "category": "Other"
+      "category": "Quality & security"
     },
     {
       "name": "Playwright",
@@ -658,7 +658,6 @@
     "Cloud & infrastructure",
     "Quality & security",
     "Mobile & platform",
-    "Graphics & maps",
-    "Other"
+    "Graphics & maps"
   ]
 }
