@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://furfinder-rho.vercel.app/contracts/schemas/listings-response.schema.json",
+  "title": "FurFinder public listings response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ok",
+    "version",
+    "data"
+  ],
+  "properties": {
+    "ok": {
+      "const": true
+    },
+    "version": {
+      "const": "v1"
+    },
+    "data": {
+      "type": "array",
+      "maxItems": 60,
+      "items": {
+        "$ref": "#/$defs/listing"
+      }
+    }
+  },
+  "$defs": {
+    "listing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "slug",
+        "category",
+        "summary",
+        "region",
+        "country_code",
+        "website_url",
+        "source_url",
+        "is_featured",
+        "verified_at",
+        "created_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "maxLength": 120
+        },
+        "category": {
+          "enum": [
+            "community",
+            "convention",
+            "artist",
+            "organization",
+            "industry",
+            "resource"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "region": {
+          "enum": [
+            "North America",
+            "Europe",
+            "Asia-Pacific",
+            "Latin America",
+            "Middle East & Africa"
+          ]
+        },
+        "country_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[A-Z]{2}$"
+        },
+        "website_url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "is_featured": {
+          "type": "boolean"
+        },
+        "verified_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
