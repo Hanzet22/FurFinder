@@ -76,6 +76,11 @@ export default {
       return json({ ok: false, message: 'Content-Type must be application/json.' }, 415)
     }
 
+    const declaredLength = Number(request.headers.get('content-length') ?? 0)
+    if (declaredLength > 8192) {
+      return json({ ok: false, message: 'Submission is too large.' }, 413)
+    }
+
     const bodyText = await request.text()
     if (bodyText.length > 8192) {
       return json({ ok: false, message: 'Submission is too large.' }, 413)
@@ -149,7 +154,9 @@ export default {
           method: 'POST',
           headers: {
             apikey: supabaseSecret,
-            Authorization: `Bearer ${supabaseSecret}`,
+            ...(supabaseSecret.startsWith('sb_secret_')
+              ? {}
+              : { Authorization: `Bearer ${supabaseSecret}` }),
             'Content-Type': 'application/json',
             Prefer: 'return=minimal',
           },
