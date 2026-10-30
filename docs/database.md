@@ -38,7 +38,7 @@ The web browser never writes to this table. The Vercel `POST /api/v1/submissions
 
 This is a `SECURITY INVOKER` function with an empty search path. It checks that the supplied moderator is active, only accepts `publish` or `reject`, updates a listing only while its state is `pending`, and inserts the audit event atomically. Execute privilege is revoked from `PUBLIC`, `anon`, and `authenticated`; only `service_role` can execute it through the trusted server API.
 
-The function does not permit a browser client to set `is_featured`, alter sources, or override a previously reviewed listing.
+The function does not permit a browser client to set `is_featured`, alter sources, or override a previously reviewed listing. A partial unique index on active admin rows ensures at most one active administrator can exist, including during concurrent first-admin bootstrap attempts.
 
 ## Moderation boundary
 
