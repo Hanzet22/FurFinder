@@ -2,13 +2,13 @@ name: Flutter Mobile
 
 on:
   push:
-    branches: [main, "feat/flutter-mobile-mvp"]
+    branches: [main, "feat/**", "fix/**"]
     paths:
       - "mobile/**"
       - "api/v1/listings.ts"
       - ".github/workflows/flutter.yml"
   pull_request:
-    branches: [main]
+    branches: [main, "feat/**", "fix/**"]
     paths:
       - "mobile/**"
       - "api/v1/listings.ts"
