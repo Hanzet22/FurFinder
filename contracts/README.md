@@ -11,5 +11,6 @@ Important boundaries:
 - The importer must validate against `listing-v1.xsd`, normalize text, reject
   duplicate slugs, and re-check URLs before writing.
 - Never let browser clients import directly into `public.listings`.
-- This is a schema contract only. The production importer and Node API are not
-  implemented yet.
+- This remains a schema contract only; the production XML importer is not
+  implemented. Browser suggestions use the separate Vercel Node API documented
+  in [docs/submissions.md](../docs/submissions.md).
