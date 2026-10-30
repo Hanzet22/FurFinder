@@ -66,4 +66,4 @@ This is a planned model, not an applied database migration.
 
 ## Current status
 
-The production web client is Vite + React + TypeScript, deployed on Vercel and connected to Supabase PostgreSQL. Vercel Node.js Functions expose `GET /api/v1/health` and a Turnstile-protected `POST /api/v1/submissions`. The public directory table remains read-only for browser roles and only published rows are visible. Other languages, frameworks and runtimes remain staged modules or experiments; see [technology matrix](technology-roadmap.md).
+The production web client is Vite + React + TypeScript, deployed on Vercel and connected to Supabase PostgreSQL. Vercel Node.js Functions expose `GET /api/v1/health`, a Turnstile-protected `POST /api/v1/submissions`, and an authenticated moderation API under `/api/v1/moderation`. The `/moderation` route is a staff-only UI. The public directory table remains read-only for browser roles and only published rows are visible. Other languages, frameworks and runtimes remain staged modules or experiments; see [technology matrix](technology-roadmap.md).
