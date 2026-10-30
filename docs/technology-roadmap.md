@@ -103,6 +103,9 @@ This is a target layout, not a claim that all directories or services already ex
 - Do not add competing frameworks to the production bundle.
 
 ### Phase 1 — core platform
+- Node.js Vercel Functions now provide health, protected listing intake, and Supabase Auth-verified moderation queue/review APIs.
+- The moderator desk uses a server-side allowlist and atomic audit log. First-admin bootstrap requires a confirmed email; a partial unique index enforces one active admin.
+- Focused Node built-in tests cover listing submission validation and pending-record invariants; CI runs them after the build.
 - Add Node.js API boundaries, XML import/export contract, TanStack Query and Tailwind design tokens. TanStack Query and the Tailwind utilities layer are now integrated in the web client.
 - Add Docker-based local development, Bash scripts and contract tests.
 - Build listing provenance, review records, moderation roles and reporting before public submissions.
