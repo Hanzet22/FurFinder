@@ -170,8 +170,9 @@ export default function App() {
           </div>
         ) : null}
         {visibleListings.length > 0 ? (
-          <p className="directory-count" role="status">{visibleListings.length} {visibleListings.length === 1 ? 'listing' : 'listings'} shown</p>
-          <div className="listing-grid">
+          <>
+            <p className="directory-count" role="status">{visibleListings.length} {visibleListings.length === 1 ? 'listing' : 'listings'} shown</p>
+            <div className="listing-grid">
             {visibleListings.map((listing) => (
               <article className="listing-card" key={listing.id}>
                 <div className="listing-card-top">
@@ -186,7 +187,8 @@ export default function App() {
                 </div>
               </article>
             ))}
-          </div>
+            </div>
+          </>
         ) : null}
       </section>
 
