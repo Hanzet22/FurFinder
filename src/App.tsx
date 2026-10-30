@@ -216,7 +216,7 @@ export default function App() {
               <div className="region-row-copy">
                 <b>{item.name}</b>
                 <small>{item.count} published listings · {item.share}% of directory</small>
-                <small>{item.countries.length ? item.countries.map(([code, count]) => `${code} ${count}`).join(' · ') : 'No country-level listings published yet'}</small>
+                <small>{item.countries.length ? item.countries.map(([code, count]) => `${code} ${count} (${Math.round((count / listings.length) * 100)}%)`).join(' · ') : 'No country-level listings published yet'}</small>
               </div>
               <ArrowRight size={17} />
             </div>
