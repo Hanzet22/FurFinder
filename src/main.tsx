@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App'
 import { ModerationConsole } from './components/ModerationConsole'
 import { TechnologyExplorer } from './TechnologyExplorer'
+import { PrivacyControls } from './components/PrivacyControls'
 import './styles.css'
 
 const queryClient = new QueryClient({
@@ -23,6 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RootComponent />
+      <PrivacyControls />
     </QueryClientProvider>
   </React.StrictMode>,
 )
