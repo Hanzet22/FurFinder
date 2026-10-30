@@ -15,7 +15,7 @@ const queryClient = new QueryClient({
   },
 })
 
-const normalizedPath = window.location.pathname.replace(/\\/+$/, '')
+const normalizedPath = window.location.pathname.endsWith('/') ? window.location.pathname.slice(0, -1) : window.location.pathname
 const RootComponent = normalizedPath === '/moderation' ? ModerationConsole : App
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
