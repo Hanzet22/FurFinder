@@ -30,3 +30,10 @@ test('rejects malformed slugs, dates, and oversized collections', () => {
   assert.equal(isPublicListingsResponse({ ...fixture, data: [{ ...first, created_at: 'not-a-date' }, ...rest] }), false)
   assert.equal(isPublicListingsResponse({ ...fixture, data: Array.from({ length: 61 }, () => first) }), false)
 })
+
+test('rejects values that violate database field constraints', () => {
+  const [first, ...rest] = fixture.data
+  assert.equal(isPublicListingsResponse({ ...fixture, data: [{ ...first, name: 'A' }, ...rest] }), false)
+  assert.equal(isPublicListingsResponse({ ...fixture, data: [{ ...first, summary: 'Too short' }, ...rest] }), false)
+  assert.equal(isPublicListingsResponse({ ...fixture, data: [{ ...first, created_at: '2026-02-31T10:00:00Z' }, ...rest] }), false)
+})
