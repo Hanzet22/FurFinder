@@ -28,7 +28,8 @@ class DirectoryRepository {
     }
     final decoded = jsonDecode(response.body);
     if (decoded is! Map<String, dynamic> || decoded['ok'] != true ||
-        decoded['version'] != 'v1' || decoded['data'] is! List) {
+        decoded['version'] != 'v1' || decoded['data'] is! List ||
+        (decoded['data'] as List).length > 60) {
       throw const FormatException('Unexpected directory API response.');
     }
     final listings = (decoded['data'] as List).map((item) {
