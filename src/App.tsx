@@ -91,7 +91,9 @@ export default function App() {
   }, [category, query])
 
   return (
-    <main>
+    <>
+      <a className="skip-link" href="#discover">Skip to directory content</a>
+      <main>
       <header className="site-header">
         <a className="brand" href="#" aria-label="FurFinder home">
           <span className="brand-mark"><Compass size={23} strokeWidth={2.4} /></span>
@@ -186,7 +188,7 @@ export default function App() {
         ) : null}
         {visibleListings.length > 0 ? (
           <>
-            <p className="directory-count" role="status">{visibleListings.length} {visibleListings.length === 1 ? 'listing' : 'listings'} shown</p>
+            <p className="directory-count" role="status" aria-live="polite">{visibleListings.length} {visibleListings.length === 1 ? 'listing' : 'listings'} shown</p>
             <div className="listing-grid">
             {visibleListings.map((listing) => (
               <article className="listing-card" key={listing.id}>
@@ -197,8 +199,8 @@ export default function App() {
                 <h3>{listing.name}</h3>
                 <p>{listing.summary}</p>
                 <div className="listing-card-links">
-                  <a href={listing.website_url} target="_blank" rel="noreferrer">Visit website <ExternalLink size={14} /></a>
-                  <a href={listing.source_url} target="_blank" rel="noreferrer">Source <ExternalLink size={14} /></a>
+                  <a href={listing.website_url} target="_blank" rel="noreferrer" aria-label={`Visit ${listing.name} official website (opens in a new tab)`}>Visit website <ExternalLink size={14} /></a>
+                  <a href={listing.source_url} target="_blank" rel="noreferrer" aria-label={`View ${listing.name} information source (opens in a new tab)`}>Source <ExternalLink size={14} /></a>
                 </div>
               </article>
             ))}
@@ -249,5 +251,6 @@ export default function App() {
         <div className="footer-legal"><a href="/legal/terms.html">Terms</a><a href="/legal/privacy.html">Privacy</a><a href="/ATTRIBUTIONS.md">Attributions</a><a className="staff-link" href="/moderation">Moderator access</a></div>
       </footer>
     </main>
+    </>
   )
 }
