@@ -10,7 +10,12 @@ function isDateTime(value: unknown, nullable = false): boolean {
   if (typeof value !== 'string') return false
   const match = DATE_TIME.exec(value)
   if (!match || Number.isNaN(Date.parse(value))) return false
-  const [, year, month, day, hour, minute, second] = match.map(Number)
+  const year = Number(match[1])
+  const month = Number(match[2])
+  const day = Number(match[3])
+  const hour = Number(match[4])
+  const minute = Number(match[5])
+  const second = Number(match[6])
   const date = new Date(Date.UTC(year, month - 1, day))
   return date.getUTCFullYear() === year
     && date.getUTCMonth() === month - 1
