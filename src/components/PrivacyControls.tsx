@@ -46,7 +46,10 @@ export function PrivacyControls() {
   const [termsOpen, setTermsOpen] = useState(() => !readStorage<boolean>(TERMS_KEY, false))
   const [motion, setMotion] = useState<MotionMode>(() => readStorage<MotionMode>(MOTION_KEY, 'auto'))
   const [accent, setAccent] = useState<AccentMode>(() => readStorage<AccentMode>(ACCENT_KEY, 'blue'))
-  const [preferences, setPreferences] = useState({ preferences: false, analytics: false, marketing: false })
+  const [preferences, setPreferences] = useState(() => {
+    const saved = readStorage<Consent | null>(CONSENT_KEY, null)
+    return { preferences: saved?.preferences ?? false, analytics: saved?.analytics ?? false, marketing: saved?.marketing ?? false }
+  })
 
   useEffect(() => {
     const root = document.documentElement
