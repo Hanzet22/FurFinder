@@ -129,7 +129,6 @@ export function ModerationConsole() {
       const signedIn = await signInWithPassword(email, password)
       setPassword('')
       setSession(signedIn)
-      await loadQueue()
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Could not sign in.')
       setLoading(false)
