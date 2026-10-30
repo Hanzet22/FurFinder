@@ -64,7 +64,7 @@ export default {
     if (!origin) return json({ ok: false, message: 'Origin is required.' }, 403)
 
     try {
-      if (new URL(origin).host !== requestUrl.host) {
+      if (new URL(origin).origin !== requestUrl.origin) {
         return json({ ok: false, message: 'Cross-origin requests are not accepted.' }, 403)
       }
     } catch {
