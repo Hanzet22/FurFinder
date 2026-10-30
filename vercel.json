@@ -7,6 +7,14 @@
     {
       "source": "/moderation/",
       "destination": "/index.html"
+    },
+    {
+      "source": "/technology",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/technology/",
+      "destination": "/index.html"
     }
   ]
 }
