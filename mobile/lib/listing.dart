@@ -63,17 +63,27 @@ class Listing {
     final featured = json['is_featured'];
     final created = json['created_at'];
 
-    if (!_uuid.hasMatch(id)) throw const FormatException('Invalid listing id');
-    if (!_slug.hasMatch(slug)) throw const FormatException('Invalid listing slug');
-    if (!categories.contains(category)) throw const FormatException('Unsupported listing category');
-    if (!regions.contains(region)) throw const FormatException('Unsupported listing region');
+    if (!_uuid.hasMatch(id)) {
+      throw const FormatException('Invalid listing id');
+    }
+    if (!_slug.hasMatch(slug)) {
+      throw const FormatException('Invalid listing slug');
+    }
+    if (!categories.contains(category)) {
+      throw const FormatException('Unsupported listing category');
+    }
+    if (!regions.contains(region)) {
+      throw const FormatException('Unsupported listing region');
+    }
     if (country != null && (country is! String || !_country.hasMatch(country))) {
       throw const FormatException('Invalid country_code');
     }
     if (verified != null && (verified is! String || DateTime.tryParse(verified) == null)) {
       throw const FormatException('Invalid verified_at');
     }
-    if (featured is! bool) throw const FormatException('Invalid is_featured');
+    if (featured is! bool) {
+      throw const FormatException('Invalid is_featured');
+    }
     if (created is! String || DateTime.tryParse(created) == null) {
       throw const FormatException('Invalid created_at');
     }
