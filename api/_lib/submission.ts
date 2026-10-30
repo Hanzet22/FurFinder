@@ -63,12 +63,18 @@ export function validateListingSubmission(input: unknown): ValidationResult {
   const name = cleanText(input.name, 2, 120)
   const summary = cleanText(input.summary, 20, 500)
   const turnstileToken = cleanText(input.turnstileToken, 1, 2048)
+  if (
+    input.country_code !== undefined &&
+    input.country_code !== null &&
+    typeof input.country_code !== 'string'
+  ) {
+    return { ok: false, message: 'Country code must use two letters.' }
+  }
+
   const countryCode =
-    input.country_code === undefined || input.country_code === null || input.country_code === ''
-      ? null
-      : typeof input.country_code === 'string'
-        ? input.country_code.trim().toUpperCase()
-        : null
+    typeof input.country_code === 'string' && input.country_code.trim()
+      ? input.country_code.trim().toUpperCase()
+      : null
 
   if (!name) return { ok: false, message: 'Name must contain 2–120 characters.' }
   if (!summary) return { ok: false, message: 'Summary must contain 20–500 characters.' }
