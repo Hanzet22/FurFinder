@@ -1,0 +1,31 @@
+openapi: 3.1.0
+info:
+  title: FurFinder Public Directory API
+  version: 1.0.0
+  description: Public, published-only directory listings. No private contact or location fields.
+servers:
+  - url: https://furfinder-rho.vercel.app
+paths:
+  /api/v1/listings:
+    get:
+      operationId: listPublishedListings
+      summary: List published directory entries
+      description: Returns at most 60 published listings. Pending and rejected records are never exposed.
+      responses:
+        "200":
+          description: Published listing collection
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Public edge cache with stale-while-revalidate.
+          content:
+            application/json:
+              schema:
+                $ref: ../schemas/listings-response.schema.json
+        "405":
+          description: Method not allowed
+        "502":
+          description: Upstream directory service unavailable
+        "503":
+          description: Directory service unavailable or not configured
