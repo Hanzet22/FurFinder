@@ -423,7 +423,7 @@
       "name": "JSON Schema",
       "responsibility": "Runtime validation for public API and import payloads",
       "placement": "packages/contracts/json-schema",
-      "status": "Planned",
+      "status": "Active",
       "category": "Languages & formats"
     },
     {
@@ -493,7 +493,7 @@
       "name": "OpenAPI",
       "responsibility": "Machine-readable REST API contract and generated client validation",
       "placement": "packages/contracts/openapi",
-      "status": "Planned",
+      "status": "Active",
       "category": "Data & APIs"
     },
     {
