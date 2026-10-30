@@ -19,11 +19,9 @@ The following sources were used to identify or verify public entities. FurFinder
 | Infurnity Taiwan Furry Convention | https://www.infurnity.com/en/ | https://www.infurnity.com/en/about-en/ | Asia-Pacific | Taiwan |
 | Japan Meeting of Furries (JMoF) | https://www.jmof.jp/en | https://www.jmof.jp/en | Asia-Pacific | Japan |
 | Midwest FurFest | https://www.furfest.org/ | https://www.furfest.org/ | North America | United States |
-| PAWCon | https://www.pacanthro.org/ | https://pacanthro.org/registration/ | North America | United States |
 | BangkokBeasts | https://bangkokbeasts.com/2026/en/ | https://bangkokbeasts.com/2026/en/ | Asia-Pacific | Thailand |
-| Adelaide Anthros (A2) | https://www.adelaideanthros.com/ | https://www.adelaideanthros.com/event-details/adelaide-anthros-a2-2026 | Asia-Pacific (Oceania grouping) | Australia |
 
-Newly researched entries are inserted as **pending** and are not public until moderator review. Age and entry rules can differ by event and date. The A2 2026 source states that Saturday was all-ages and Sunday was 18+ only; FurFinder does not present the Sunday portion as suitable for minors. Other event eligibility must be checked with the organizer.
+Newly researched entries are inserted as **pending** and are not public until moderator review. Age and entry rules can differ by event and date. BangkokBeasts 2026 remains pending until its current attendee eligibility and age policy can be confirmed directly with the organizer.
 
 ## Research directories and reference sources
 
