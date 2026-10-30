@@ -30,7 +30,7 @@ This document is the implementation contract for the requested technology set. I
 | Vue | Isolated integration/demo client for framework interoperability | `labs/vue-client` | Planned |
 | Next.js | Optional server-rendered application/API evaluation | `apps/next-evaluation` | Planned |
 | Vite | Current production web build and development server | `apps/web` (current root app) | Active |
-| Node.js | Versioned server-side APIs and tooling runtime | Vercel Functions in `api/v1` | Active (health and protected listing intake endpoints) |
+| Node.js | Versioned server-side APIs and trusted moderation boundary | Vercel Functions in `api/v1` | Active (health, listing intake, moderator queue and review) |
 | TypeScript | Shared types and current web application | `apps/web`, `packages/contracts` | Active |
 | Ruby | Import/normalization worker experiment | `services/import-ruby` | Planned |
 | Python | Data quality, moderation-assist and offline analysis jobs | `services/data-python` | Planned |
