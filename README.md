@@ -43,10 +43,12 @@ npm run dev
 - [x] Runtime validation for public listing responses
 - [x] TanStack Query cache for published directory data
 - [x] Tailwind CSS v4 utility layer integrated with existing CSS
-- [x] Node.js API functions for health and moderated listing suggestions\n- [ ] Trusted XML importer
+- [x] Node.js API functions for health and moderated listing suggestions
+- [ ] Trusted XML importer
 - [x] XML v1 import contract and example
 - [ ] Authentication and role model
-- [x] Pending submission queue and manual moderator review in Supabase Dashboard\n- [ ] In-app moderator console and role-management UI
+- [x] Pending submission queue and manual moderator review in Supabase Dashboard
+- [ ] In-app moderator console and role-management UI
 - [x] Polyglot technology matrix and staged implementation roadmap
 - [x] Mobile companion product brief
 - [x] Vercel deployment
