@@ -38,14 +38,17 @@ export default function App() {
   const [directoryError, setDirectoryError] = useState('')
 
   useEffect(() => {
-    let active = true
-    fetchListings()
-      .then((items) => { if (active) setListings(items) })
+    const controller = new AbortController()
+    fetchListings(controller.signal)
+      .then((items) => setListings(items))
       .catch((error: unknown) => {
-        if (active) setDirectoryError(error instanceof Error ? error.message : 'Unable to load directory listings.')
+        if (error instanceof Error && error.name === 'AbortError') return
+        setDirectoryError(error instanceof Error ? error.message : 'Unable to load directory listings.')
       })
-      .finally(() => { if (active) setLoadingListings(false) })
-    return () => { active = false }
+      .finally(() => {
+        if (!controller.signal.aborted) setLoadingListings(false)
+      })
+    return () => controller.abort()
   }, [])
 
   const visibleListings = useMemo(() => {
@@ -81,7 +84,7 @@ export default function App() {
           <span className="brand-mark"><Compass size={23} strokeWidth={2.4} /></span>
           <span>fur<span className="brand-accent">finder</span><small>GLOBAL DISCOVERY</small></span>
         </a>
-        <nav className={mobileOpen ? 'nav nav-open' : 'nav'} aria-label="Main navigation">
+        <nav id="primary-navigation" className={mobileOpen ? 'nav nav-open' : 'nav'} aria-label="Main navigation">
           <a href="#discover" onClick={() => setMobileOpen(false)}>Discover</a>
           <a href="#categories" onClick={() => setMobileOpen(false)}>Categories</a>
           <a href="#about" onClick={() => setMobileOpen(false)}>About</a>
@@ -90,7 +93,7 @@ export default function App() {
           <a className="text-link" href="#how-it-works">How it works</a>
           <a className="button button-small" href="#submit">Suggest a listing <ArrowRight size={15} /></a>
         </div>
-        <button className="mobile-menu" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? 'Close menu' : 'Open menu'}>
+        <button type="button" className="mobile-menu" onClick={() => setMobileOpen(!mobileOpen)} aria-controls="primary-navigation" aria-expanded={mobileOpen} aria-label={mobileOpen ? 'Close menu' : 'Open menu'}>
           {mobileOpen ? <X /> : <Menu />}
         </button>
       </header>
@@ -152,7 +155,14 @@ export default function App() {
         </div>
         {loadingListings ? <p className="directory-status" role="status">Loading published listings…</p> : null}
         {directoryError ? <p className="directory-status directory-error" role="alert">{directoryError}</p> : null}
-        {!loadingListings && !directoryError && visibleListings.length === 0 ? (
+        {!loadingListings && !directoryError && listings.length > 0 && visibleListings.length === 0 ? (
+          <div className="directory-empty" role="status">
+            <Search size={25} />
+            <h3>No matching listings</h3>
+            <p>Try a different keyword, category, or region to broaden your search.</p>
+          </div>
+        ) : null}
+        {!loadingListings && !directoryError && listings.length === 0 ? (
           <div className="directory-empty">
             <Globe2 size={25} />
             <h3>No published listings yet</h3>
@@ -160,6 +170,7 @@ export default function App() {
           </div>
         ) : null}
         {visibleListings.length > 0 ? (
+          <p className="directory-count" role="status">{visibleListings.length} {visibleListings.length === 1 ? 'listing' : 'listings'} shown</p>
           <div className="listing-grid">
             {visibleListings.map((listing) => (
               <article className="listing-card" key={listing.id}>
