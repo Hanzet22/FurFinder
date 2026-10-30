@@ -26,7 +26,7 @@ The browser never receives the Supabase secret key and has no direct SELECT/INSE
 5. Open `https://furfinder-rho.vercel.app/moderation`, sign in with the first staff account, then choose **Set up first admin account**.
 6. After the API confirms the first administrator was created, remove `MODERATOR_BOOTSTRAP_EMAIL` from Vercel and redeploy. The bootstrap endpoint will then remain disabled.
 
-The bootstrap endpoint also checks that the moderator table is empty and requires a confirmed email address. A partial unique database index guarantees that concurrent bootstrap requests cannot create two active administrators. Do not leave the bootstrap email configured as a permanent access mechanism.
+The bootstrap endpoint also checks that the moderator table is empty and requires a confirmed email address. A partial unique database index (`moderators_single_active_admin_idx`) guarantees that concurrent bootstrap requests cannot create two active administrators. Do not leave the bootstrap email configured as a permanent access mechanism.
 
 ## Adding another reviewer
 
