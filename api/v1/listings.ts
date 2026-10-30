@@ -1,3 +1,5 @@
+import { isPublicListingsResponse } from '../lib/validate-listings-response'
+
 declare const process: { env: Record<string, string | undefined> }
 
 export default {
@@ -19,7 +21,9 @@ export default {
       if (!response.ok) return json({ ok: false, message: 'Directory service is temporarily unavailable.' }, 502)
       const data: unknown = await response.json()
       if (!Array.isArray(data)) return json({ ok: false, message: 'Unexpected directory response.' }, 502)
-      return json({ ok: true, version: 'v1', data }, 200, 'public, s-maxage=60, stale-while-revalidate=300')
+      const payload = { ok: true, version: 'v1', data }
+      if (!isPublicListingsResponse(payload)) return json({ ok: false, message: 'Directory returned data outside the public API contract.' }, 502)
+      return json(payload, 200, 'public, s-maxage=60, stale-while-revalidate=300')
     } catch { return json({ ok: false, message: 'Directory service is temporarily unavailable.' }, 503) }
   },
 }
