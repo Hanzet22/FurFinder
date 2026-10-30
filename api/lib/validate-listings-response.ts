@@ -3,6 +3,7 @@ const REGIONS = new Set(['North America', 'Europe', 'Asia-Pacific', 'Latin Ameri
 const FIELDS = new Set(['id', 'name', 'slug', 'category', 'summary', 'region', 'country_code', 'website_url', 'source_url', 'is_featured', 'verified_at', 'created_at'])
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 const COUNTRY = /^[A-Z]{2}$/
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const DATE_TIME = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/
 
 function isDateTime(value: unknown, nullable = false): boolean {
@@ -38,8 +39,8 @@ function isListing(value: unknown): boolean {
   const item = value as Record<string, unknown>
   if (Object.keys(item).some((key) => !FIELDS.has(key))) return false
   if ([...FIELDS].some((key) => !(key in item))) return false
-  if (typeof item.id !== 'string' || !item.id.trim()) return false
-  if (typeof item.name !== 'string' || item.name.trim().length < 2) return false
+  if (typeof item.id !== 'string' || !UUID.test(item.id)) return false
+  if (typeof item.name !== 'string' || item.name.trim().length < 2 || item.name.length > 120) return false
   if (typeof item.slug !== 'string' || item.slug.length > 120 || !SLUG.test(item.slug)) return false
   if (typeof item.category !== 'string' || !CATEGORIES.has(item.category)) return false
   if (typeof item.summary !== 'string' || item.summary.trim().length < 20 || item.summary.length > 500) return false
