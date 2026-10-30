@@ -21,10 +21,66 @@ export type DirectoryListing = {
   created_at: string
 }
 
+const categories = new Set<DirectoryCategory>([
+  'community',
+  'convention',
+  'artist',
+  'organization',
+  'industry',
+  'resource',
+])
+
+const regions = new Set([
+  'North America',
+  'Europe',
+  'Asia-Pacific',
+  'Latin America',
+  'Middle East & Africa',
+])
+
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const publishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 
-export async function fetchListings(): Promise<DirectoryListing[]> {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function isHttpsUrl(value: unknown): value is string {
+  if (typeof value !== 'string') return false
+
+  try {
+    return new URL(value).protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
+function isNullableString(value: unknown): value is string | null {
+  return value === null || typeof value === 'string'
+}
+
+function isDirectoryListing(value: unknown): value is DirectoryListing {
+  if (!isRecord(value)) return false
+
+  return (
+    typeof value.id === 'string' &&
+    typeof value.name === 'string' &&
+    typeof value.slug === 'string' &&
+    typeof value.category === 'string' &&
+    categories.has(value.category as DirectoryCategory) &&
+    typeof value.summary === 'string' &&
+    typeof value.region === 'string' &&
+    regions.has(value.region) &&
+    isNullableString(value.country_code) &&
+    isHttpsUrl(value.website_url) &&
+    isHttpsUrl(value.source_url) &&
+    typeof value.is_featured === 'boolean' &&
+    isNullableString(value.verified_at) &&
+    typeof value.created_at === 'string'
+  )
+}
+
+export async function fetchListings(signal?: AbortSignal): Promise<DirectoryListing[]> {
   if (!supabaseUrl || !publishableKey) {
     throw new Error('Directory service is not configured yet.')
   }
@@ -39,6 +95,7 @@ export async function fetchListings(): Promise<DirectoryListing[]> {
   endpoint.searchParams.set('limit', '60')
 
   const response = await fetch(endpoint, {
+    signal,
     headers: {
       apikey: publishableKey,
       Authorization: `Bearer ${publishableKey}`,
@@ -49,5 +106,10 @@ export async function fetchListings(): Promise<DirectoryListing[]> {
     throw new Error(`Directory request failed (${response.status}).`)
   }
 
-  return (await response.json()) as DirectoryListing[]
+  const payload: unknown = await response.json()
+  if (!Array.isArray(payload) || !payload.every(isDirectoryListing)) {
+    throw new Error('Directory service returned data in an unexpected format.')
+  }
+
+  return payload
 }
