@@ -24,7 +24,7 @@ FurFinder helps people discover furry communities, conventions, artists and crea
 
 ## Current implementation
 
-The first milestone is a responsive web MVP built with Vite, React, and TypeScript. The backend is intentionally not connected yet because no Supabase project is currently available to this account connection.
+The responsive web MVP uses Vite, React, and TypeScript. A Supabase PostgreSQL directory is connected through its publishable API key and row-level security. The public homepage reads only published listings; submissions and moderation are not open to anonymous clients.
 
 ## Development
 
@@ -37,11 +37,17 @@ npm run dev
 
 - [x] Repository foundation
 - [x] Product scope and safety principles
-- [ ] Responsive discovery UI
-- [ ] Supabase project and schema
+- [x] Responsive discovery UI
+- [x] Supabase project and initial directory schema
+- [x] Public read-only directory API with RLS
 - [ ] Authentication and role model
 - [ ] Moderation and verification workflows
-- [ ] Vercel deployment
-- [ ] Automated checks and launch review
+- [x] Vercel deployment
+- [x] Automated build and typecheck on initial CI baseline
+- [ ] End-to-end tests and launch review
 
-See [docs/architecture.md](docs/architecture.md) for the sector architecture.
+See [docs/architecture.md](docs/architecture.md) for the sector architecture and [docs/database.md](docs/database.md) for the database and moderation boundary.
+
+## Local environment
+
+Copy `.env.example` to `.env.local` and fill in the Supabase project URL and publishable key. Never place a Supabase service-role or secret key in a Vite environment variable or browser bundle.
