@@ -25,7 +25,7 @@ This document is the implementation contract for the requested technology set. I
 | HTML | Semantic accessible document structure | Web client | Active |
 | CSS | Tokens, layout, responsive and accessible styling | Web client | Active |
 | CSS Houdini | Progressive-enhancement visual effects | `labs/css-houdini` | Experimental |
-| Tailwind CSS | Utility layer for selected reusable components | `packages/ui-tailwind` | Planned |
+| Tailwind CSS | Utility layer for selected reusable components | Current Vite web client | Active (utilities layer configured) |
 | Astro | Static public knowledge hub and SEO-oriented content | `apps/knowledge-astro` | Planned |
 | Vue | Isolated integration/demo client for framework interoperability | `labs/vue-client` | Planned |
 | Next.js | Optional server-rendered application/API evaluation | `apps/next-evaluation` | Planned |
@@ -48,7 +48,7 @@ This document is the implementation contract for the requested technology set. I
 | Go | High-throughput indexing or API worker if load justifies it | `services/search-go` | Planned |
 | Rust | Safe high-performance parsing/indexing core compiled natively or to WASM | `services/index-rust` | Planned |
 | Elixir | Reliable event/notification processing, not an open chat system | `services/events-elixir` | Planned |
-| TanStack | Server-state fetching/cache and typed table/query utilities | Web client | Planned |
+| TanStack | Server-state fetching/cache and typed table/query utilities | Current Vite web client | Active (published directory query/cache) |
 | Recoil | State-management comparison lab only; adopt only if still maintained and justified | `labs/state-management` | Evaluation |
 | PostgreSQL | Source of truth for directory, provenance and moderation records | Supabase | Active |
 | Docker | Reproducible local services and isolated polyglot CI environments | `infra/docker` | Planned |
@@ -103,7 +103,7 @@ This is a target layout, not a claim that all directories or services already ex
 - Do not add competing frameworks to the production bundle.
 
 ### Phase 1 — core platform
-- Add Node.js API boundaries, XML import/export contract, TanStack Query and Tailwind design tokens.
+- Add Node.js API boundaries, XML import/export contract, TanStack Query and Tailwind design tokens. TanStack Query and the Tailwind utilities layer are now integrated in the web client.
 - Add Docker-based local development, Bash scripts and contract tests.
 - Build listing provenance, review records, moderation roles and reporting before public submissions.
 
