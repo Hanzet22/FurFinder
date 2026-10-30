@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<directory version="1">
+  <listing>
+    <name>Example Public Community</name>
+    <slug>example-public-community</slug>
+    <category>community</category>
+    <summary>A sample public community entry used to demonstrate the FurFinder XML import contract.</summary>
+    <region>Asia-Pacific</region>
+    <countryCode>SG</countryCode>
+    <websiteUrl>https://example.com/community</websiteUrl>
+    <sourceUrl>https://example.com/about</sourceUrl>
+  </listing>
+</directory>
