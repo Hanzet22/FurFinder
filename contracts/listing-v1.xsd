@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+  <xs:simpleType name="slugType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-z0-9]+(-[a-z0-9]+)*"/>
+      <xs:maxLength value="120"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="categoryType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="community"/>
+      <xs:enumeration value="convention"/>
+      <xs:enumeration value="artist"/>
+      <xs:enumeration value="organization"/>
+      <xs:enumeration value="industry"/>
+      <xs:enumeration value="resource"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="regionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="North America"/>
+      <xs:enumeration value="Europe"/>
+      <xs:enumeration value="Asia-Pacific"/>
+      <xs:enumeration value="Latin America"/>
+      <xs:enumeration value="Middle East &amp; Africa"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="httpsUrlType">
+    <xs:restriction base="xs:anyURI">
+      <xs:pattern value="https://.+"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="directory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="listing" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" type="xs:string"/>
+              <xs:element name="slug" type="slugType"/>
+              <xs:element name="category" type="categoryType"/>
+              <xs:element name="summary">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:minLength value="20"/>
+                    <xs:maxLength value="500"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="region" type="regionType"/>
+              <xs:element name="countryCode" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:pattern value="[A-Z]{2}"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="websiteUrl" type="httpsUrlType"/>
+              <xs:element name="sourceUrl" type="httpsUrlType"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="version" use="required" fixed="1"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
