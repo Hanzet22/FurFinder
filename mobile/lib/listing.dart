@@ -35,8 +35,12 @@ class Listing {
 
     final country = json['country_code'];
     final verified = json['verified_at'];
-    if (country != null && country is! String) throw const FormatException('Invalid country_code');
-    if (verified != null && verified is! String) throw const FormatException('Invalid verified_at');
+    if (country != null && country is! String) {
+      throw const FormatException('Invalid country_code');
+    }
+    if (verified != null && verified is! String) {
+      throw const FormatException('Invalid verified_at');
+    }
 
     return Listing(
       id: requiredString('id'),
