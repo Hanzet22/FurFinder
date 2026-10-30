@@ -55,7 +55,7 @@ npm run dev
 - [x] Automated typecheck and production build in CI
 - [ ] Distributed edge rate limiting, automated end-to-end tests, and full launch review
 
-See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/technology-roadmap.md](docs/technology-roadmap.md) for the complete polyglot technology matrix, [docs/mobile-app-prd.md](docs/mobile-app-prd.md) for the Flutter companion plan, [docs/database.md](docs/database.md) for the database and moderation boundary, and [contracts/README.md](contracts/README.md) for the XML import contract.
+See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/technology-roadmap.md](docs/technology-roadmap.md) for the complete polyglot technology matrix, [docs/mobile-app-prd.md](docs/mobile-app-prd.md) for the Flutter companion plan, [docs/database.md](docs/database.md) for the database security boundary, [docs/submissions.md](docs/submissions.md) for listing intake, [docs/moderation.md](docs/moderation.md) for staff setup, and [contracts/README.md](contracts/README.md) for the XML import contract.
 
 ## Local environment
 
