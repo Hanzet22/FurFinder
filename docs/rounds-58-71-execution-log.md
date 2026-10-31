@@ -23,7 +23,7 @@
 | 68 | Firecrawl source pilot | Verified MYFurCon 2027 on its official organizer site (24–25 Apr, Hotel Armada Petaling Jaya) and Fur-Eh! 2027 on its official site (15–18 Jul, Edmonton; venue unconfirmed). |
 | 69 | Source governance | Added source pilot 3 and updated the source register. Aggregator results remain discovery-only; no database import or media reuse. |
 | 70 | Supabase / VibeRaven boundary | Rechecked live Supabase advisors. No production schema changes. The previous VibeRaven SQL review remains static-only; no new SQL migration was introduced. |
-| 71 | CI and release gate | CI run [41163761885](https://github.com/Hanzet22/FurFinder/actions/runs/41163761885) passed 38 tests and `npm run build` at commit `0904a9e`. Seven endpoint-level tests were added at `59931b3`; their CI result is not yet confirmed. |
+| 71 | CI and release gate | CI run [41164098929](https://github.com/Hanzet22/FurFinder/actions/runs/41164098929) passed all 45 tests and `npm run build` at PR head `faceeb3`. |
 
 ## Code changes
 
@@ -47,7 +47,7 @@ No convention listing was imported or published. No attendee lists, member roste
 
 | System | Current result |
 |---|---|
-| GitHub CI | Run 41163761885 completed successfully: 38/38 tests and `npm run build` passed at `0904a9e`. Seven additional endpoint tests are present at current head `59931b3`; no passing run for that head is confirmed yet. |
+| GitHub CI | Run [41164098929](https://github.com/Hanzet22/FurFinder/actions/runs/41164098929) completed successfully: 45/45 tests and `npm run build` passed at PR head `faceeb3`. |
 | Supabase Security Advisor | 0 lints (live read-only check). |
 | Supabase Performance Advisor | 2 INFO unused-index notices on existing moderation-event indexes; retained. |
 | VibeRaven | Earlier static review: 0 critical / 0 high / 0 warning / 2 INFO. It is not a live DB test. No SQL changed in this round. |
