@@ -87,6 +87,29 @@ test('rejects malformed cursor payloads even when the signature is valid', async
   assert.equal(await decodeDirectoryCursor(`${encode(payload)}.${encode(signature)}`, secret), null)
 })
 
+test('rejects a correctly signed cursor after its 24-hour lifetime', async () => {
+  const payload = new TextEncoder().encode(JSON.stringify({
+    v: 1,
+    iat: Date.now() - 25 * 60 * 60 * 1000,
+    created_at: validTimestamp,
+    id: validId,
+  }))
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  )
+  const signature = new Uint8Array(await crypto.subtle.sign('HMAC', key, payload))
+  const encode = (bytes) => {
+    let binary = ''
+    for (const byte of bytes) binary += String.fromCharCode(byte)
+    return btoa(binary).replace(/=/g, '').replace(/\\+/g, '-').replace(/\\//g, '_')
+  }
+  assert.equal(await decodeDirectoryCursor(`${encode(payload)}.${encode(signature)}`, secret), null)
+})
+
 test('public listing validation rejects malformed records and the projection omits internal fields', () => {
   const record = {
     id: validId,
