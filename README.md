@@ -62,7 +62,8 @@ npm run dev
 - [x] XML v1 import contract and example
 - [x] Supabase Auth sign-in and server-side moderator allowlist
 - [x] Pending submission queue and manual moderator review in Supabase Dashboard
-- [x] In-app pending review console and atomic moderation audit log\n- [x] In-app moderator role-management UI for reviewer access (admin protected)
+- [x] In-app pending review console and atomic moderation audit log
+- [x] In-app moderator role-management UI for reviewer access (admin protected)
 - [x] Polyglot technology matrix and staged implementation roadmap
 - [x] Mobile companion product brief
 - [x] Vercel deployment
@@ -78,7 +79,6 @@ See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/
 
 Copy `.env.example` to `.env.local` for browser settings. Run Vercel Functions locally with `vercel dev`. Configure `VITE_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, and `SUPABASE_SECRET_KEY` in Vercel before enabling submissions. For moderator access, create a Supabase Auth user and follow [docs/moderation.md](docs/moderation.md) for the one-time admin bootstrap. Never put a Supabase secret/service-role key in a Vite variable or browser bundle. See [docs/submissions.md](docs/submissions.md).
 
-
 ## Engineering and governance documentation
 
 - [Global directory API implementation](docs/global-directory-api-implementation.md)
@@ -86,5 +86,8 @@ Copy `.env.example` to `.env.local` for browser settings. Run Vercel Functions l
 - [Moderation report workflow](docs/moderation-report-workflow.md) — design only; no report endpoint yet.
 - [Accessibility acceptance checklist](docs/accessibility-acceptance-checklist.md) — manual test plan, not a conformance claim.
 - [Source pilot 4](docs/source-pilot-4.md)
-- [Atlassian workspace bootstrap](docs/atlassian-workspace-bootstrap.md) — Jira/Confluence provisioning status and intended structure.
+- [Source pilot 5](docs/source-pilot-5.md)
+- [Yellow Flag release gate](docs/yellow-flag-release-gate.md)
+- [Atlassian workspace bootstrap](docs/atlassian-workspace-bootstrap.md)
 - [Execution log, rounds 72–91](docs/rounds-72-91-execution-log.md)
+- [Execution log, rounds 92–93](docs/rounds-92-93-execution-log.md)
