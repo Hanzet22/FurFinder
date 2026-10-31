@@ -142,3 +142,6 @@
 .listing-verification{display:inline-flex;align-items:center;gap:6px;width:max-content;margin:12px 0 2px;padding:5px 8px;border:1px solid var(--line);border-radius:999px;color:#b9c4d0;font-size:10px;line-height:1.2}
 .listing-verification.is-verified{border-color:#91e4ce55;color:#a9e9d7}
 .listing-verification svg{flex:none}
+
+.directory-load-more{display:flex;justify-content:center;margin-top:28px}
+.directory-load-more .button{min-width:190px;min-height:44px}
