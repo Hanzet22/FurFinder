@@ -10,7 +10,7 @@ type ListingDetailDialogProps = {
 
 export function ListingDetailDialog({ slug, onClose }: ListingDetailDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const { data, isPending, error } = useQuery({
+  const { data, isPending, error, refetch, isFetching } = useQuery({
     queryKey: ['directory-listing', slug],
     queryFn: ({ signal }) => fetchListingBySlug(slug, signal),
     staleTime: 60_000,
@@ -45,9 +45,12 @@ export function ListingDetailDialog({ slug, onClose }: ListingDetailDialogProps)
 
       {isPending ? <p className="directory-status" role="status">Loading listing details…</p> : null}
       {error ? (
-        <p className="directory-status directory-error" role="alert">
-          {error instanceof Error ? error.message : 'Unable to load this listing.'}
-        </p>
+        <div className="directory-status directory-error" role="alert">
+          <p>{error instanceof Error ? error.message : 'Unable to load this listing.'}</p>
+          <button className="button button-small" type="button" onClick={() => void refetch()} disabled={isFetching}>
+            {isFetching ? 'Retrying…' : 'Try again'}
+          </button>
+        </div>
       ) : null}
       {data ? (
         <>

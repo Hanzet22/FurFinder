@@ -27,3 +27,21 @@ test('service worker caches only the public shell and build assets', async () =>
   assert.match(worker, /url\.pathname\.startsWith\('\/assets\/'\)/)
   assert.match(worker, /fetch\(request\)/)
 })
+
+test('service worker activates updates and removes only older FurFinder shell caches', async () => {
+  const worker = await read('../public/sw.js')
+  assert.match(worker, /const CACHE_PREFIX = 'furfinder-shell-'/)
+  assert.match(worker, /const CACHE_NAME = `\$\{CACHE_PREFIX\}v1`/)
+  assert.match(worker, /then\(\(\) => self\.skipWaiting\(\)\)/)
+  assert.match(worker, /key\.startsWith\(CACHE_PREFIX\) && key !== CACHE_NAME/)
+  assert.match(worker, /then\(\(\) => self\.clients\.claim\(\)\)/)
+})
+
+test('navigation uses network-first fallback while private API and moderator paths bypass caching', async () => {
+  const worker = await read('../public/sw.js')
+  assert.match(worker, /request\.mode === 'navigate'/)
+  assert.match(worker, /catch\(async \(\) => \(await caches\.match\('\/'\)\) \|\| Response\.error\(\)/)
+  assert.match(worker, /url\.pathname\.startsWith\('\/api\/'\)/)
+  assert.match(worker, /url\.pathname === '\/moderation'/)
+  assert.match(worker, /url\.pathname\.startsWith\('\/moderation\/'\)/)
+})

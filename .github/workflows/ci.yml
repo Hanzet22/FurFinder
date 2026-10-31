@@ -2,13 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [main, feat/global-directory-rounds-16-29, feat/global-directory-rounds-72-91, feat/furfinder-rounds-92-93-yellow-flag, feat/furfinder-rounds-94-96-yellow-flag, feat/furfinder-rounds-97-120-release-evidence, feat/furfinder-rounds-121-142-development, feat/furfinder-rounds-143-199-tech-expansion]
+    branches: [main, feat/global-directory-rounds-16-29, feat/global-directory-rounds-72-91, feat/furfinder-rounds-92-93-yellow-flag, feat/furfinder-rounds-94-96-yellow-flag, feat/furfinder-rounds-97-120-release-evidence, feat/furfinder-rounds-121-142-development, feat/furfinder-rounds-143-199-tech-expansion, feat/furfinder-rounds-200-250-platform]
   pull_request:
-    branches: [main, feat/api-hardening-bounded-body, feat/global-directory-rounds-16-29, feat/global-directory-rounds-72-91, feat/furfinder-rounds-92-93-yellow-flag, feat/furfinder-rounds-94-96-yellow-flag, feat/furfinder-rounds-97-120-release-evidence, feat/furfinder-rounds-121-142-development]
+    branches: [main, feat/api-hardening-bounded-body, feat/global-directory-rounds-16-29, feat/global-directory-rounds-72-91, feat/furfinder-rounds-92-93-yellow-flag, feat/furfinder-rounds-94-96-yellow-flag, feat/furfinder-rounds-97-120-release-evidence, feat/furfinder-rounds-121-142-development, feat/furfinder-rounds-143-199-tech-expansion]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -17,3 +17,5 @@ jobs:
       - run: npm install
       - run: npm test
       - run: npm run build
+      - run: npx playwright install chromium
+      - run: npm run test:e2e
