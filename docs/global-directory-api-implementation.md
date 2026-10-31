@@ -78,7 +78,7 @@ Never place the secret key in a `VITE_*` browser variable. The API uses a seven-
 ## Verification status
 
 - Unit tests in `tests/directory-api.test.mjs` cover filter validation, signed cursor integrity, tampering, 24-hour expiry, malformed cursors, public response projection and canonical listing-slug validation.
-- GitHub Actions run [41163761885](https://github.com/Hanzet22/FurFinder/actions/runs/41163761885) passed 38/38 tests and `npm run build` at commit `0904a9e`. Seven additional endpoint-level tests were added at commit `59931b3`; CI for that newer commit has not yet been confirmed.
+- GitHub Actions run [41164098929](https://github.com/Hanzet22/FurFinder/actions/runs/41164098929) passed all 45 tests and `npm run build` at PR head `faceeb3`, including seven endpoint-level tests for the detail route.
 - Supabase production schema and data were not changed.
 - The proposed global-directory SQL remains under `supabase/proposed/`, not `supabase/migrations/`.
 - VibeRaven static review is separate from live database testing; see the execution log.
