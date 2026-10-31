@@ -53,3 +53,7 @@ export async function readBoundedBody(
     return { ok: false, reason: 'unreadable' }
   }
 }
+
+export function isJsonContentType(value: string | null): boolean {
+  return (value ?? '').split(';', 1)[0].trim().toLowerCase() === 'application/json'
+}
