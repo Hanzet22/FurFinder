@@ -136,3 +136,9 @@
 .moderation-footer a{display:inline-flex;align-items:center;gap:6px;color:#9fc2ff;font-weight:700}
 @media(max-width:600px){.moderation-header{height:68px;padding:0 17px}.moderation-account{gap:10px;font-size:9px}.moderation-logout{font-size:9px}.moderation-main{padding:48px 17px 65px}.moderation-login{margin:30px auto;padding:22px}.moderation-queue{padding:16px}.moderation-queue-heading h2{font-size:18px}.moderation-card{padding:16px}.moderation-card-top time{margin-left:0;width:100%}.moderation-actions{display:grid;grid-template-columns:1fr 1fr}.moderation-actions button{padding:0 8px}.moderation-footer{padding:20px 17px;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.moderation-spinning{animation:none}}
+
+
+/* Listing provenance is visible without relying on color alone. */
+.listing-verification{display:inline-flex;align-items:center;gap:6px;width:max-content;margin:12px 0 2px;padding:5px 8px;border:1px solid var(--line);border-radius:999px;color:#b9c4d0;font-size:10px;line-height:1.2}
+.listing-verification.is-verified{border-color:#91e4ce55;color:#a9e9d7}
+.listing-verification svg{flex:none}
