@@ -55,7 +55,7 @@ export default function App() {
         Industry: 'industry',
         Resources: 'resource',
       }
-      const safeQuery = query.trim().normalize('NFC').replace(/[^\\p{L}\\p{N} -]/gu, '').slice(0, 100)
+      const safeQuery = query.trim().normalize('NFC').replace(/[^\p{L}\p{N} -]/gu, '').slice(0, 100)
       return fetchListings(signal, pageParam, {
         q: safeQuery || undefined,
         category: category === 'All' ? undefined : categoryMap[category],
