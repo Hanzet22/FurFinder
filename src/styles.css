@@ -189,3 +189,8 @@
 .listing-detail-note{margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);color:#93a1b2;font-size:11px;line-height:1.7}
 @media(max-width:600px){.listing-detail-dialog{padding:20px;border-radius:14px}.listing-detail-links{align-items:stretch;flex-direction:column}.listing-detail-links .button{min-height:44px}.listing-detail-links .text-link{min-height:44px;display:inline-flex;align-items:center}}
 @media(prefers-reduced-motion:reduce){.listing-detail-trigger{transition:none}}
+
+
+/* Retry controls remain readable in directory error states. */
+.directory-error p{margin:0 0 12px}
+.directory-error .button{min-height:40px}
