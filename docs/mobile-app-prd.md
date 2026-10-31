@@ -41,15 +41,15 @@ Provide a lightweight Flutter mobile client for discovering public furry communi
 
 ## Current implementation gap assessment
 
-The current repository is a responsive Vite web client, not a shipped Flutter app. The web client currently reads published listings directly from Supabase PostgREST with the public publishable key and uses offset pagination. Its submission route is a web-oriented flow that requires a same-origin request and a Cloudflare Turnstile token bound to the web hostname.
+The current repository is a responsive Vite web client, not a shipped Flutter app. The web directory now reads published listings through the same-origin `GET /api/v1/listings` route, with bounded filters and signed keyset cursors. The route uses the publishable key for public database reads and keeps cursor signing server-side. The existing submission route remains a web-oriented flow that requires a same-origin request and a Cloudflare Turnstile token bound to the web hostname.
 
 Before a Flutter client can reuse the same product workflows, close these gaps:
 
-1. **Versioned public API:** define and document a stable /api/v1 read contract for published listings, detail lookup, pagination and provenance. The current browser-to-PostgREST read path is not yet that contract.
+1. **Versioned public API:** the first read endpoint, `GET /api/v1/listings`, is implemented on the feature branch and documented. Listing detail lookup is now implemented on the web feature branch through `GET /api/v1/listings/{slug}`; event joins and a formal API stability/release gate remain open.
 2. **Mobile-safe submission:** design a separate mobile-compatible submission flow. Do not simply remove origin validation or bypass anti-abuse checks; choose an appropriate platform-compatible verification and rate-limiting design first.
 3. **Report/correction workflow:** the current web flow supports suggestions, but a dedicated report/correction API and moderation outcome are still required.
-4. **Pagination contract:** retain deterministic ordering and move to a cursor contract before relying on pagination across clients with concurrent updates.
-5. **Verification:** add API contract tests and mobile integration tests before treating the web API as a stable mobile dependency.
+4. **Pagination contract:** signed keyset pagination is implemented for the list endpoint. It still needs CI execution and controlled integration tests with duplicate timestamps and concurrent updates.
+5. **Verification:** focused API unit tests have been added; CI execution, API integration tests and mobile integration tests are still required before treating the API as a stable mobile dependency.
 
 The moderation endpoints remain privileged server workflows. A mobile public client must never receive the Supabase secret/service-role key or call moderator-only operations.
 
@@ -57,13 +57,19 @@ The moderation endpoints remain privileged server workflows. A mobile public cli
 
 - Web directory and moderator workflows: active development.
 - Flutter companion: planned, not implemented.
-- Mobile API contract: design work required.
+- Mobile API contract: partial implementation; list endpoint and cursor pagination exist on the feature branch, but detail/report/event APIs and runtime validation remain open.
 - App-store release: not ready until the API, privacy, accessibility and moderation gaps above are closed.
 
 
 ## Global directory expansion (A + B)
 
 The mobile companion follows the expanded FurFinder scope while preserving strict separation between public entity discovery and voluntary adult profiles.
+
+### Current public API detail contract
+- `GET /api/v1/listings` returns bounded, published-only pages with signed keyset cursors.
+- `GET /api/v1/listings/{slug}` returns one published listing by canonical slug, or 404 when unavailable.
+- Both routes use explicit public-field projections and never return moderation notes, account identifiers, consent evidence or private fields.
+- The web UI now has a detail dialog backed by the slug endpoint. This does not mean a Flutter client exists; the mobile client remains planned.
 
 ### Public directory entities
 - Organizations and associations

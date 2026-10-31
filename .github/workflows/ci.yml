@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, feat/global-directory-rounds-16-29]
   pull_request:
-    branches: [main]
+    branches: [main, feat/api-hardening-bounded-body]
 
 jobs:
   build:

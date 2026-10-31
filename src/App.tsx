@@ -5,8 +5,9 @@ import {
   Building2, Factory, BookOpen, ShieldCheck, Globe2, Menu, X,
   Compass, Sparkles, ChevronRight, ExternalLink
 } from 'lucide-react'
-import { DIRECTORY_PAGE_SIZE, fetchListings } from './lib/directory'
+import { fetchListings } from './lib/directory'
 import { ListingSubmissionForm } from './components/ListingSubmissionForm'
+import { ListingDetailDialog } from './components/ListingDetailDialog'
 
 type Category = 'All' | 'Communities' | 'Conventions' | 'Artists' | 'Organizations' | 'Industry' | 'Resources'
 
@@ -37,6 +38,7 @@ export default function App() {
   const [region, setRegion] = useState('Anywhere')
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showSubmission, setShowSubmission] = useState(false)
+  const [selectedListingSlug, setSelectedListingSlug] = useState<string | null>(null)
   const {
     data: listingPages,
     isPending: loadingListings,
@@ -45,35 +47,31 @@ export default function App() {
     isFetchingNextPage,
     fetchNextPage,
   } = useInfiniteQuery({
-    queryKey: ['directory', 'published'],
-    queryFn: ({ signal, pageParam }) => fetchListings(signal, pageParam),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.length === DIRECTORY_PAGE_SIZE
-        ? allPages.length * DIRECTORY_PAGE_SIZE
-        : undefined,
+    queryKey: ['directory', 'published', query, category, region],
+    queryFn: ({ signal, pageParam }) => {
+      const categoryMap: Partial<Record<Category, 'community' | 'convention' | 'artist' | 'organization' | 'industry' | 'resource'>> = {
+        Communities: 'community',
+        Conventions: 'convention',
+        Artists: 'artist',
+        Organizations: 'organization',
+        Industry: 'industry',
+        Resources: 'resource',
+      }
+      const safeQuery = query.trim().normalize('NFC').replace(/[^\p{L}\p{N} -]/gu, '').slice(0, 100)
+      return fetchListings(signal, pageParam, {
+        q: safeQuery || undefined,
+        category: category === 'All' ? undefined : categoryMap[category],
+        region: region === 'Anywhere' ? undefined : region,
+      })
+    },
+    initialPageParam: null as string | null,
+    getNextPageParam: (lastPage) => lastPage.page.next_cursor ?? undefined,
     staleTime: 60_000,
     retry: 1,
   })
-  const listings = listingPages?.pages.flat() ?? []
+  const listings = listingPages?.pages.flatMap((page) => page.data) ?? []
 
-  const visibleListings = useMemo(() => {
-    const normalized = query.trim().toLowerCase()
-    const categoryMap: Partial<Record<Category, string>> = {
-      Communities: 'community',
-      Conventions: 'convention',
-      Artists: 'artist',
-      Organizations: 'organization',
-      Industry: 'industry',
-      Resources: 'resource',
-    }
-    return listings.filter((listing) => {
-      const categoryMatch = category === 'All' || listing.category === categoryMap[category]
-      const regionMatch = region === 'Anywhere' || listing.region === region
-      const queryMatch = !normalized || `${listing.name} ${listing.summary} ${listing.region} ${listing.country_code ?? ''}`.toLowerCase().includes(normalized)
-      return categoryMatch && regionMatch && queryMatch
-    })
-  }, [category, listings, query, region])
+  const visibleListings = listings
 
   const visibleFeatures = useMemo(() => {
     const normalized = query.trim().toLowerCase()
@@ -94,6 +92,7 @@ export default function App() {
 
   return (
     <main>
+      <a className="skip-link" href="#directory">Skip to directory</a>
       <header className="site-header">
         <a className="brand" href="#" aria-label="FurFinder home">
           <span className="brand-mark"><Compass size={23} strokeWidth={2.4} /></span>
@@ -201,6 +200,7 @@ export default function App() {
                 <h3>{listing.name}</h3>
                 <p>{listing.summary}</p>
                 <div className="listing-card-links">
+                  <button className="listing-detail-trigger" type="button" onClick={() => setSelectedListingSlug(listing.slug)}>View details <ChevronRight size={14} /></button>
                   <a href={listing.website_url} target="_blank" rel="noreferrer">Visit website <ExternalLink size={14} /></a>
                   <a href={listing.source_url} target="_blank" rel="noreferrer">Source <ExternalLink size={14} /></a>
                 </div>
@@ -223,6 +223,8 @@ export default function App() {
           </div>
         ) : null}
       </section>
+
+      {selectedListingSlug ? <ListingDetailDialog slug={selectedListingSlug} onClose={() => setSelectedListingSlug(null)} /> : null}
 
       <section className="region-section" id="about">
         <div className="region-copy"><div className="eyebrow">ONE COMMUNITY, MANY PLACES</div><h2>Explore beyond<br />your borders.</h2><p>Furry communities are global. FurFinder is designed to make discovery easier across regions, languages, and creative scenes.</p><a href="#categories" className="inline-link">Explore the directory <ArrowRight size={16} /></a></div>
