@@ -34,6 +34,8 @@ The responsive web MVP uses Vite, React, and TypeScript, with TanStack Query man
 - [Source Code Availability](SOURCE.md)
 - [Source Register](SOURCES.md)
 - [Global Directory API Implementation](docs/global-directory-api-implementation.md)
+- [Rounds 58–71 Execution Log](docs/rounds-58-71-execution-log.md)
+- [Public Source Pilot 3](docs/source-pilot-3.md)
 - [Rounds 35–57 Execution Log](docs/rounds-35-57-execution-log.md)
 - [UI Accessibility Review](docs/ui-accessibility-review.md)
 
@@ -68,7 +70,7 @@ npm run dev
 - [x] Streaming byte limits for listing submissions and moderation review requests
 - [x] Directory pagination with a load-more control
 - [ ] Distributed edge rate limiting, automated end-to-end tests, and full launch review
-- [x] Versioned public directory read API with signed keyset cursors (feature branch; pending CI/preview validation)
+- [x] Versioned public directory list and detail read APIs with signed keyset cursors (feature branch; CI passed; latest preview validation pending)
 
 See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/global-directory-data-governance.md](docs/global-directory-data-governance.md) for global source, privacy and ingestion rules, [docs/global-directory-information-architecture.md](docs/global-directory-information-architecture.md), [docs/source-registry-pilot.md](docs/source-registry-pilot.md) for the expanded navigation and user flows, [docs/technology-roadmap.md](docs/technology-roadmap.md) for the complete polyglot technology matrix, [docs/mobile-app-prd.md](docs/mobile-app-prd.md) for the Flutter companion plan, [docs/database.md](docs/database.md) for the database security boundary, [docs/submissions.md](docs/submissions.md) for listing intake, [docs/moderation.md](docs/moderation.md) for staff setup, and [contracts/README.md](contracts/README.md) for the XML import contract.
 
