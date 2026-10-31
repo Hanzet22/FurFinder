@@ -20,7 +20,7 @@ export default {
     }
 
     const { q, category, region, country, limit, cursor: cursorToken } = parsed.value
-    let cursor = null
+    let cursor: { created_at: string; id: string } | null = null
     if (cursorToken) {
       cursor = await decodeDirectoryCursor(cursorToken, config.secretKey)
       if (!cursor) return json({ ok: false, message: 'Cursor is invalid or expired.' }, 400)
@@ -45,9 +45,7 @@ export default {
         `or(created_at.lt.${cursor.created_at},and(created_at.eq.${cursor.created_at},id.gt.${cursor.id}))`,
       )
     }
-    if (filters.length === 1 && cursor) {
-      endpoint.searchParams.set('or', filters[0].slice(3, -1))
-    } else if (filters.length === 1 && q) {
+    if (filters.length === 1) {
       endpoint.searchParams.set('or', filters[0].slice(3, -1))
     } else if (filters.length > 1) {
       endpoint.searchParams.set('and', `(${filters.join(',')})`)
