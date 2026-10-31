@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import { fetchListings } from './lib/directory'
 import { ListingSubmissionForm } from './components/ListingSubmissionForm'
+import { ListingDetailDialog } from './components/ListingDetailDialog'
 
 type Category = 'All' | 'Communities' | 'Conventions' | 'Artists' | 'Organizations' | 'Industry' | 'Resources'
 
@@ -37,6 +38,7 @@ export default function App() {
   const [region, setRegion] = useState('Anywhere')
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showSubmission, setShowSubmission] = useState(false)
+  const [selectedListingSlug, setSelectedListingSlug] = useState<string | null>(null)
   const {
     data: listingPages,
     isPending: loadingListings,
@@ -198,6 +200,7 @@ export default function App() {
                 <h3>{listing.name}</h3>
                 <p>{listing.summary}</p>
                 <div className="listing-card-links">
+                  <button className="listing-detail-trigger" type="button" onClick={() => setSelectedListingSlug(listing.slug)}>View details <ChevronRight size={14} /></button>
                   <a href={listing.website_url} target="_blank" rel="noreferrer">Visit website <ExternalLink size={14} /></a>
                   <a href={listing.source_url} target="_blank" rel="noreferrer">Source <ExternalLink size={14} /></a>
                 </div>
@@ -220,6 +223,8 @@ export default function App() {
           </div>
         ) : null}
       </section>
+
+      {selectedListingSlug ? <ListingDetailDialog slug={selectedListingSlug} onClose={() => setSelectedListingSlug(null)} /> : null}
 
       <section className="region-section" id="about">
         <div className="region-copy"><div className="eyebrow">ONE COMMUNITY, MANY PLACES</div><h2>Explore beyond<br />your borders.</h2><p>Furry communities are global. FurFinder is designed to make discovery easier across regions, languages, and creative scenes.</p><a href="#categories" className="inline-link">Explore the directory <ArrowRight size={16} /></a></div>
