@@ -44,14 +44,17 @@ function cleanText(value: unknown, minimum: number, maximum: number): string | n
   return normalized
 }
 
-function isHttpsUrl(value: unknown): value is string {
-  if (typeof value !== 'string' || value.length > 2048) return false
+function normalizeHttpsUrl(value: unknown): string | null {
+  if (typeof value !== 'string' || value.length > 2048) return null
 
   try {
-    const url = new URL(value)
-    return url.protocol === 'https:' && Boolean(url.hostname) && !url.username && !url.password
+    const url = new URL(value.trim())
+    if (url.protocol !== 'https:' || !url.hostname || url.username || url.password) {
+      return null
+    }
+    return url.toString()
   } catch {
-    return false
+    return null
   }
 }
 
@@ -87,10 +90,12 @@ export function validateListingSubmission(input: unknown): ValidationResult {
   if (countryCode !== null && !/^[A-Z]{2}$/.test(countryCode)) {
     return { ok: false, message: 'Country code must use two letters.' }
   }
-  if (!isHttpsUrl(input.website_url)) {
+  const websiteUrl = normalizeHttpsUrl(input.website_url)
+  if (!websiteUrl) {
     return { ok: false, message: 'Website must be a valid HTTPS URL.' }
   }
-  if (!isHttpsUrl(input.source_url)) {
+  const sourceUrl = normalizeHttpsUrl(input.source_url)
+  if (!sourceUrl) {
     return { ok: false, message: 'Source must be a valid HTTPS URL.' }
   }
   if (!turnstileToken) {
@@ -105,8 +110,8 @@ export function validateListingSubmission(input: unknown): ValidationResult {
       summary,
       region: input.region as SubmissionRegion,
       country_code: countryCode,
-      website_url: input.website_url,
-      source_url: input.source_url,
+      website_url: websiteUrl,
+      source_url: sourceUrl,
       turnstileToken,
     },
   }
