@@ -5,15 +5,16 @@
 
 ## Current decision
 
-**Do not mark Green yet.** PR #19's exact-head CI passed, but the new rounds 97–120 branch needs its own CI result, a matching READY Vercel preview, and manual accessibility verification. Source terms/access and moderator decisions also remain pending.
+**Do not mark Green yet.** The rounds 97–120 branch's exact commit 5c5c29cc87096590845ca274357416fb0318c941 passed CI run #230, but the visible READY Vercel preview points to an earlier SHA. Manual accessibility verification and source terms/access plus moderator decisions also remain outstanding.
 
 ## Latest evidence
 
-- PR #19 head `d630ec828cced62a2c407fa3c71145d391d982f8` passed GitHub Actions run [41166482802](https://github.com/Hanzet22/FurFinder/actions/runs/41166482802), run #228. Dependency installation, `npm test` and `npm run build` all passed. This result is for PR #19 only, not the new rounds 97–120 branch.
-- The visible READY Vercel preview is associated with old commit `82cc11bcac2205fde1e0c5d06bc94b8abb007813`. It is not an exact-head preview for PR #19 or this new branch. Do not use it as release evidence.
+- PR #19 exact head d630ec828cced62a2c407fa3c71145d391d982f8 passed GitHub Actions run [41166482802](https://github.com/Hanzet22/FurFinder/actions/runs/41166482802), run #228. Dependency installation, npm test and npm run build passed.
+- Rounds 97–120 exact branch commit 5c5c29cc87096590845ca274357416fb0318c941 passed GitHub Actions run [41167339037](https://github.com/Hanzet22/FurFinder/actions/runs/41167339037), run #230. Dependency installation, npm test and npm run build passed. A later commit requires fresh CI.
+- The visible READY Vercel deployment for this branch is tied to commit 49c716e48283c18bf21476a86b69d4e1e71b9493, not the current branch head. The Vercel status check reports build-rate-limit. Do not retry deployment repeatedly or use the stale preview as release evidence.
 - Supabase Security Advisor: 0 lints.
-- Supabase Performance Advisor: 2 INFO unused-index notices for existing `moderation_events_listing_created_idx` and `moderation_events_moderator_created_idx`. Retain them until workload evidence supports removal.
-- VibeRaven 1.7.1 static scan of `supabase/proposed/global-directory-expansion.sql`: 0 critical, 0 high, 0 warning, 2 INFO `rls_no_policies` for `public.directory_sources` and `public.listing_sources`. These are server-only provenance tables with RLS enabled and no browser policies. Static-only; no SQL execution or live DB/auth test.
+- Supabase Performance Advisor: 2 INFO unused-index notices for existing moderation_events_listing_created_idx and moderation_events_moderator_created_idx. Retain them until workload evidence supports removal.
+- VibeRaven 1.7.1 static scan of supabase/proposed/global-directory-expansion.sql: 0 critical, 0 high, 0 warning, 2 INFO rls_no_policies for public.directory_sources and public.listing_sources. These are server-only provenance tables with RLS enabled and no browser policies. Static-only; no SQL execution or live DB/auth test.
 - Firecrawl source pilot 7 records organizer-supported dates for Further Confusion 2027, Anthrocon 2027 and Las Vegas Fur Con 2027. Venue is recorded only where supported; all candidates remain pending terms/access review and human moderation.
 - Accessibility work remains acceptance documentation; no manual device, screen-reader or WCAG conformance test is claimed.
 - Flutter companion remains PRD-only; no mobile app implementation or build is claimed.
@@ -44,10 +45,10 @@
 - Record all INFO notices and workload rationale.
 - Run VibeRaven against the complete proposed SQL and record version, paths and findings.
 - Static analysis is not a live database/auth test.
-- Proposed SQL outside `supabase/migrations/` is not deployed. No DDL or migration without separate explicit approval.
+- Proposed SQL outside supabase/migrations/ is not deployed. No DDL or migration without separate explicit approval.
 
 ### Accessibility and mobile
-- Execute [accessibility acceptance checklist](accessibility-acceptance-checklist.md) and [mobile UX acceptance review](mobile-ux-acceptance-review.md) against the exact preview.
+- Execute accessibility-acceptance-checklist.md and mobile-ux-acceptance-review.md against the exact preview.
 - Record browser/OS, assistive technology/version, viewport, date, result, defect and retest.
 - Check keyboard-only operation, focus visibility/restoration, labels and status announcements, 320 CSS-pixel reflow, 200% zoom, reduced motion, contrast and touch targets.
 - Do not claim WCAG 2.2 AA conformance from source inspection or a checklist alone.
