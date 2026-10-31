@@ -26,6 +26,8 @@ FurFinder helps people discover furry communities, conventions, artists and crea
 
 The responsive web MVP uses Vite, React, and TypeScript, with TanStack Query managing published-directory state and cursor pagination. The public directory client reads through the same-origin GET /api/v1/listings Vercel Function, which applies bounded filters, signed cursors and an explicit response allowlist. Supabase PostgreSQL remains the source of truth; public listing reads use the publishable key and published-row access controls. Vercel Node.js Functions also provide health, protected listing intake and authenticated moderation. The moderation desk at /moderation verifies Supabase Auth sessions server-side, checks a server-only moderator allowlist, and records publish/reject decisions atomically with an audit event. Elevated credentials stay on the server. The XML v1 contract exists; its trusted importer remains planned.
 
+The web client now also includes a Progressive Web App shell: a web manifest, app icon, production service-worker registration, offline navigation fallback and a deliberately narrow static-asset cache. API and moderator routes are excluded from service-worker caching. Baseline Vercel security response headers are configured; a Content Security Policy remains deferred until all legitimate third-party origins are inventoried.
+
 ## Legal, licensing and source transparency
 
 - [Attributions](ATTRIBUTIONS.md)
@@ -66,12 +68,18 @@ npm run dev
 - [x] Automated request-body unit tests, typecheck, and production build in CI
 - [x] Streaming byte limits for listing submissions and moderation review requests
 - [x] Directory pagination with a load-more control
+- [x] PWA manifest, app icon and privacy-bounded service-worker shell cache (feature branch; CI/preview verification pending)
+- [x] Baseline security response headers (feature branch; preview response verification pending)
 - [ ] Trusted XML importer runtime
 - [ ] Distributed edge rate limiting, automated end-to-end tests, and full launch review
 - [x] Versioned public directory list and detail read APIs with signed keyset cursors (feature branch; release validation remains separate)
 
 ## Engineering and governance documentation
 
+- [Technology expansion catalogue — 144 entries](docs/technology-expansion-catalogue-143-199.md)
+- [Rounds 143–199 technology delivery plan](docs/rounds-143-199-technology-delivery-plan.md)
+- [PWA and web security implementation](docs/pwa-security-implementation-143-160.md)
+- [Execution log, rounds 143–199](docs/rounds-143-199-execution-log.md)
 - [Global directory API implementation](docs/global-directory-api-implementation.md)
 - [Mobile companion PRD](docs/mobile-app-prd.md)
 - [Moderation report workflow v1](docs/moderation-report-workflow.md) — design only; no report endpoint.

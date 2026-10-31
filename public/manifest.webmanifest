@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "FurFinder — Global Discovery",
+  "short_name": "FurFinder",
+  "description": "Discover public furry communities, conventions, creators, organizations, and industry resources.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#10151d",
+  "theme_color": "#10151d",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

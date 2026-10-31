@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App'
 import { ModerationConsole } from './components/ModerationConsole'
+import { registerPwa } from './lib/registerPwa'
 import './styles.css'
 
 const queryClient = new QueryClient({
@@ -17,6 +18,8 @@ const queryClient = new QueryClient({
 
 const normalizedPath = window.location.pathname.endsWith('/') ? window.location.pathname.slice(0, -1) : window.location.pathname
 const RootComponent = normalizedPath === '/moderation' ? ModerationConsole : App
+
+registerPwa()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
