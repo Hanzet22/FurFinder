@@ -26,6 +26,13 @@ FurFinder helps people discover furry communities, conventions, artists and crea
 
 The responsive web MVP uses Vite, React, and TypeScript, with TanStack Query managing published-directory state and caching. Tailwind CSS v4 utilities run alongside the existing CSS design system. Supabase PostgreSQL remains the source of truth; the browser can read published listings only. Vercel Node.js Functions provide API health, protected listing intake, and an authenticated moderation API. The moderation desk at `/moderation` verifies Supabase Auth sessions server-side, checks a server-only moderator allowlist, and records publish/reject decisions atomically with an audit event. Public database roles remain read-only; elevated credentials stay on the server. The XML v1 contract exists; its trusted importer is still planned.
 
+## Legal, licensing and source transparency
+
+- [Attributions](ATTRIBUTIONS.md)
+- [Legal Notice](LEGAL-NOTICE.md)
+- [Licensing Notice](LICENSING-NOTICE.md)
+- [Source Register](SOURCES.md)
+
 ## Development
 
 ```bash
