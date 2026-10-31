@@ -173,7 +173,11 @@ export default function App() {
               <article className="listing-card" key={listing.id}>
                 <div className="listing-card-top">
                   <span className="listing-category">{listing.category}</span>
-                  <span className="listing-region">{listing.region}</span>
+                  <span className="listing-region">{listing.region}{listing.country_code ? ` · ${listing.country_code}` : ''}</span>
+                </div>
+                <div className={listing.verified_at ? 'listing-verification is-verified' : 'listing-verification'}>
+                  <ShieldCheck size={13} />
+                  {listing.verified_at ? 'Source checked' : 'Community-submitted'}
                 </div>
                 <h3>{listing.name}</h3>
                 <p>{listing.summary}</p>
