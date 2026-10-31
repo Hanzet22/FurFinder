@@ -197,20 +197,20 @@ export default function App() {
               </article>
             ))}
             </div>
-            {hasNextPage ? (
-              <div className="directory-load-more">
-                <button
-                  className="button"
-                  type="button"
-                  onClick={() => void fetchNextPage()}
-                  disabled={isFetchingNextPage}
-                >
-                  {isFetchingNextPage ? 'Loading more…' : 'Load more listings'}
-                  <ArrowRight size={16} />
-                </button>
-              </div>
-            ) : null}
           </>
+        ) : null}
+        {hasNextPage ? (
+          <div className="directory-load-more">
+            <button
+              className="button"
+              type="button"
+              onClick={() => void fetchNextPage()}
+              disabled={isFetchingNextPage}
+            >
+              {isFetchingNextPage ? 'Loading more…' : 'Load more listings'}
+              <ArrowRight size={16} />
+            </button>
+          </div>
         ) : null}
       </section>
 
