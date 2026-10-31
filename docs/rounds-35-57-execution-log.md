@@ -20,7 +20,7 @@
 | 42 | Web data layer | Replaced direct browser-to-Supabase listing reads with the same-origin versioned API client. |
 | 43 | Infinite pagination | Switched the web directory to server-issued cursors through TanStack Query. |
 | 44 | Filter state | Added search/category/region to the query key so filter changes restart pagination. |
-| 45 | Unit-test coverage | Added tests for filters, cursor signing/tampering, 24-hour expiry, malformed cursor payloads and response-field minimization. CI run 41159212428 passed all 37 tests (37/37) and `npm run build` at current head 0974300. |
+| 45 | Unit-test coverage | Added tests for filters, cursor signing/tampering, 24-hour expiry, malformed cursor payloads and response-field minimization. CI run 41159212428 passed all 37 tests (37/37) and `npm run build` at code commit 0974300. |
 | 46 | API documentation | Added `docs/global-directory-api-implementation.md` and updated the API contract status. |
 | 47 | Firecrawl discovery | Rechecked the public FurryCons 2027 calendar as an aggregator-only discovery source; no source pages were bulk-crawled. |
 | 48 | Source provenance | Retained organizer verification as the publication gate; aggregator entries remain candidates, not official confirmation. |
