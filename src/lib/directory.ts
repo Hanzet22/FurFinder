@@ -21,6 +21,12 @@ export type DirectoryListing = {
   created_at: string
 }
 
+export type DirectoryFilters = {
+  q?: string
+  category?: DirectoryCategory
+  region?: string
+}
+
 export type DirectoryPage = {
   data: DirectoryListing[]
   page: {
@@ -101,9 +107,13 @@ function isDirectoryPage(value: unknown): value is DirectoryPage {
 export async function fetchListings(
   signal?: AbortSignal,
   cursor: string | null = null,
+  filters: DirectoryFilters = {},
 ): Promise<DirectoryPage> {
   const endpoint = new URL('/api/v1/listings', window.location.origin)
   if (cursor) endpoint.searchParams.set('cursor', cursor)
+  if (filters.q) endpoint.searchParams.set('q', filters.q)
+  if (filters.category) endpoint.searchParams.set('category', filters.category)
+  if (filters.region) endpoint.searchParams.set('region', filters.region)
 
   const response = await fetch(endpoint, {
     signal,
