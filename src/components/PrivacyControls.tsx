@@ -97,7 +97,10 @@ export function PrivacyControls() {
       }
       const first = focusable[0]
       const last = focusable[focusable.length - 1]
-      if (event.shiftKey && document.activeElement === first) {
+      if (!dialog.contains(document.activeElement)) {
+        event.preventDefault()
+        ;(event.shiftKey ? last : first).focus()
+      } else if (event.shiftKey && document.activeElement === first) {
         event.preventDefault()
         last.focus()
       } else if (!event.shiftKey && document.activeElement === last) {
@@ -130,7 +133,7 @@ export function PrivacyControls() {
 
   return (
     <>
-      <div className="privacy-toolbar" aria-label="Display and privacy settings">
+      <div className="privacy-toolbar" role="group" aria-label="Display and privacy settings">
         <button type="button" onClick={() => setMotion((value) => value === 'auto' ? 'full' : value === 'full' ? 'reduced' : value === 'reduced' ? 'off' : 'auto')} aria-label={`Animation mode: ${motion}. Change animation mode`}>
           <Sparkles size={15} /> Motion: {motion}
         </button>
