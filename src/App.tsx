@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import {
   ArrowRight, Search, MapPin, CalendarDays, Palette, Users,
   Building2, Factory, BookOpen, ShieldCheck, Globe2, Menu, X,
   Compass, Sparkles, ChevronRight, ExternalLink
 } from 'lucide-react'
-import { fetchListings } from './lib/directory'
+import { DIRECTORY_PAGE_SIZE, fetchListings } from './lib/directory'
 import { ListingSubmissionForm } from './components/ListingSubmissionForm'
 
 type Category = 'All' | 'Communities' | 'Conventions' | 'Artists' | 'Organizations' | 'Industry'
@@ -37,15 +37,24 @@ export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showSubmission, setShowSubmission] = useState(false)
   const {
-    data: listings = [],
+    data: listingPages,
     isPending: loadingListings,
     error: directoryError,
-  } = useQuery({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
     queryKey: ['directory', 'published'],
-    queryFn: ({ signal }) => fetchListings(signal),
+    queryFn: ({ signal, pageParam }) => fetchListings(signal, pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.length === DIRECTORY_PAGE_SIZE
+        ? allPages.length * DIRECTORY_PAGE_SIZE
+        : undefined,
     staleTime: 60_000,
     retry: 1,
   })
+  const listings = listingPages?.pages.flat() ?? []
 
   const visibleListings = useMemo(() => {
     const normalized = query.trim().toLowerCase()
@@ -188,6 +197,19 @@ export default function App() {
               </article>
             ))}
             </div>
+            {hasNextPage ? (
+              <div className="directory-load-more">
+                <button
+                  className="button"
+                  type="button"
+                  onClick={() => void fetchNextPage()}
+                  disabled={isFetchingNextPage}
+                >
+                  {isFetchingNextPage ? 'Loading more…' : 'Load more listings'}
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+            ) : null}
           </>
         ) : null}
       </section>
