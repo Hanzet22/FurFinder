@@ -38,3 +38,24 @@ Provide a lightweight Flutter mobile client for discovering public furry communi
 - M2: accessibility, offline cache and automated tests.
 - M3: closed testing and privacy review.
 - M4: public release only after moderation and operational readiness.
+
+## Current implementation gap assessment
+
+The current repository is a responsive Vite web client, not a shipped Flutter app. The web client currently reads published listings directly from Supabase PostgREST with the public publishable key and uses offset pagination. Its submission route is a web-oriented flow that requires a same-origin request and a Cloudflare Turnstile token bound to the web hostname.
+
+Before a Flutter client can reuse the same product workflows, close these gaps:
+
+1. **Versioned public API:** define and document a stable /api/v1 read contract for published listings, detail lookup, pagination and provenance. The current browser-to-PostgREST read path is not yet that contract.
+2. **Mobile-safe submission:** design a separate mobile-compatible submission flow. Do not simply remove origin validation or bypass anti-abuse checks; choose an appropriate platform-compatible verification and rate-limiting design first.
+3. **Report/correction workflow:** the current web flow supports suggestions, but a dedicated report/correction API and moderation outcome are still required.
+4. **Pagination contract:** retain deterministic ordering and move to a cursor contract before relying on pagination across clients with concurrent updates.
+5. **Verification:** add API contract tests and mobile integration tests before treating the web API as a stable mobile dependency.
+
+The moderation endpoints remain privileged server workflows. A mobile public client must never receive the Supabase secret/service-role key or call moderator-only operations.
+
+## Delivery status
+
+- Web directory and moderator workflows: active development.
+- Flutter companion: planned, not implemented.
+- Mobile API contract: design work required.
+- App-store release: not ready until the API, privacy, accessibility and moderation gaps above are closed.
