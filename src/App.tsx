@@ -92,7 +92,7 @@ export default function App() {
 
   return (
     <>
-      <a className="skip-link" href="#discover">Skip to directory content</a>
+      <a className="skip-link" href="#directory">Skip to directory content</a>
       <main>
       <header className="site-header">
         <a className="brand" href="#" aria-label="FurFinder home">
