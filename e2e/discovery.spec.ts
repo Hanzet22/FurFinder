@@ -64,10 +64,9 @@ test('directory communicates offline state without hiding previously loaded publ
 })
 
 test('directory retry recovers after a temporary API failure', async ({ page }) => {
-  let attempts = 0
+  let allowSuccess = false
   await mockDirectory(page, async (route) => {
-    attempts += 1
-    if (attempts <= 2) {
+    if (!allowSuccess) {
       await route.fulfill({
         status: 503,
         contentType: 'application/json',
@@ -83,8 +82,11 @@ test('directory retry recovers after a temporary API failure', async ({ page }) 
   })
   await page.goto('/')
 
+  const alert = page.getByRole('alert')
+  await expect(alert).toBeVisible({ timeout: 15_000 })
   const retry = page.getByRole('button', { name: 'Try again' })
-  await expect(retry).toBeVisible({ timeout: 15_000 })
+  await expect(retry).toBeVisible()
+  allowSuccess = true
   await retry.click()
   await expect(page.getByText(listing.name)).toBeVisible()
 })
