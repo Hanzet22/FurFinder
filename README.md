@@ -35,6 +35,7 @@ The responsive web MVP uses Vite, React, and TypeScript, with TanStack Query man
 - [Source Register](SOURCES.md)
 - [Global Directory API Implementation](docs/global-directory-api-implementation.md)
 - [Rounds 35–57 Execution Log](docs/rounds-35-57-execution-log.md)
+- [UI Accessibility Review](docs/ui-accessibility-review.md)
 
 ## Development
 
