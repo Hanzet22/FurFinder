@@ -159,11 +159,11 @@ export default function App() {
               <div className="feature-card-body"><h3>{title}</h3><p>{text}</p></div>
               <a href="#submit" className="card-link" onClick={() => setShowSubmission(true)}>{tag}<ChevronRight size={15} /></a>
             </article>
-          )) : <div className="empty-state">No category matched that search. Try another keyword or select “All”.</div>}
+          )) : <div className="empty-state" role="status">No category matched that search. Try another keyword or select “All”.</div>}
         </div>
       </section>
 
-      <section className="section directory-section" id="directory" aria-labelledby="directory-title">
+      <section className="section directory-section" id="directory" aria-labelledby="directory-title" aria-busy={loadingListings}>
         <div className="section-heading">
           <div><div className="eyebrow">COMMUNITY-VERIFIED DISCOVERY</div><h2 id="directory-title">The global directory.</h2></div>
           <p>Public listings with source links. Entries appear here only after review and publication.</p>
