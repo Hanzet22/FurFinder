@@ -82,3 +82,12 @@ These policy pages are relevant context for source governance. They are not blan
 - [ConFuzzled Code of Conduct](https://confuzzled.org.uk/code-of-conduct) — page links to Terms and Conditions, Conditions of Sale, Privacy Policy and Media Access. Its media rules include restrictions on publication/commercial use of convention photography and video without written permission. Do not ingest or republish attendee images or event artwork based only on public accessibility.
 
 Policy pages should be rechecked at the time of ingestion because organizers may update them. Store policy URLs and review timestamps, not copied policy text, unless reuse is expressly permitted.
+
+
+## New official-source candidate (pilot 4)
+
+| Source | Type | Appropriate use | Pilot status |
+|---|---|---|---|
+| [Las Vegas Fur Con 2027](https://lasvegasfurcon.org/) | Official organizer | Event identity and announced dates; official hotel-information page | Homepage and hotel page checked 2026-10-31; 25–28 March 2027 confirmed; candidate only, not imported |
+
+The official organizer homepage confirms the event dates. Its hotel page describes multiple partner properties; do not treat a third-party calendar's single venue suggestion as organizer-confirmed venue data. See [source pilot 4](docs/source-pilot-4.md).
