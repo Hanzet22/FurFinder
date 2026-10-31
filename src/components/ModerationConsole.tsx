@@ -368,7 +368,7 @@ export function ModerationConsole() {
             <p className="moderation-footnote">This only succeeds when the project owner has configured the matching first-admin email and no moderator exists yet.</p>
           </div>
         ) : (
-          <section className="moderation-queue" aria-labelledby="queue-title">
+          <section className="moderation-queue" aria-labelledby="queue-title" aria-busy={loading}>
             {role === 'admin' ? (
               <div className="moderator-management" aria-labelledby="moderator-management-title">
                 <div className="moderator-management-heading">
