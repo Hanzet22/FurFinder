@@ -20,13 +20,13 @@
 | 42 | Web data layer | Replaced direct browser-to-Supabase listing reads with the same-origin versioned API client. |
 | 43 | Infinite pagination | Switched the web directory to server-issued cursors through TanStack Query. |
 | 44 | Filter state | Added search/category/region to the query key so filter changes restart pagination. |
-| 45 | Unit-test coverage | Added tests for filters, cursor signing/tampering, malformed cursor payloads and response-field minimization. Tests still require CI execution. |
+| 45 | Unit-test coverage | Added tests for filters, cursor signing/tampering, 24-hour expiry, malformed cursor payloads and response-field minimization. The first CI run passed all 35 tests; the added expiry test is in the next CI run. |
 | 46 | API documentation | Added `docs/global-directory-api-implementation.md` and updated the API contract status. |
 | 47 | Firecrawl discovery | Rechecked the public FurryCons 2027 calendar as an aggregator-only discovery source; no source pages were bulk-crawled. |
 | 48 | Source provenance | Retained organizer verification as the publication gate; aggregator entries remain candidates, not official confirmation. |
 | 49 | Privacy boundary | Reconfirmed that no attendee lists, private rosters, private contacts, private messages or precise personal location data are collected. |
-| 50 | UI/UX alignment | Kept the existing mobile-first directory structure and trust labels; the current pass changes data access/pagination, not the overall visual identity. |
-| 51 | Accessibility | Existing UI specification continues to require keyboard support, readable contrast, visible focus, reduced motion and responsive states. A full WCAG audit remains open. |
+| 50 | UI/UX alignment | Kept the existing mobile-first directory structure and trust labels; added a keyboard skip link and standardized 44px minimum touch targets without changing the visual identity. |
+| 51 | Accessibility | Added a source-level accessibility review. Focus visibility, reduced motion, status roles and responsive states are present; contrast measurement, zoom/reflow and assistive-technology testing remain open. |
 | 52 | Mobile App Builder alignment | Kept the Flutter companion as a future API consumer; no native app build or store release is claimed. |
 | 53 | VibeRaven review | Static SQL review: 0 critical, 0 high, 0 warning, 2 INFO findings for server-only source/provenance tables with RLS and no browser policies. |
 | 54 | Supabase live review | Security Advisor: 0 lints. Performance Advisor: 2 INFO unused-index notices on existing moderation-event indexes; no index removed. |
@@ -42,6 +42,7 @@
 - `api/v1/listings.ts` — public published-listing endpoint.
 - `tests/directory-api.test.mjs` — focused unit tests.
 - `docs/global-directory-api-implementation.md` — route behavior, configuration, limitations and verification status.
+- `docs/ui-accessibility-review.md` — targeted source-level UI review and remaining WCAG checks.
 
 ### Updated files
 
