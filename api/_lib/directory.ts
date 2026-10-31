@@ -181,7 +181,7 @@ export function applyDirectoryFilters(
   }
 }
 
-function toPublicListing(value: Record<string, unknown>) {
+export function toPublicListing(value: Record<string, unknown>) {
   return {
     id: value.id,
     name: value.name,
