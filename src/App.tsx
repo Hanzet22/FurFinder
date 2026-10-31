@@ -45,8 +45,23 @@ export default function App() {
     isFetchingNextPage,
     fetchNextPage,
   } = useInfiniteQuery({
-    queryKey: ['directory', 'published'],
-    queryFn: ({ signal, pageParam }) => fetchListings(signal, pageParam),
+    queryKey: ['directory', 'published', query, category, region],
+    queryFn: ({ signal, pageParam }) => {
+      const categoryMap: Partial<Record<Category, 'community' | 'convention' | 'artist' | 'organization' | 'industry' | 'resource'>> = {
+        Communities: 'community',
+        Conventions: 'convention',
+        Artists: 'artist',
+        Organizations: 'organization',
+        Industry: 'industry',
+        Resources: 'resource',
+      }
+      const safeQuery = query.trim().normalize('NFC').replace(/[^\\p{L}\\p{N} -]/gu, '').slice(0, 100)
+      return fetchListings(signal, pageParam, {
+        q: safeQuery || undefined,
+        category: category === 'All' ? undefined : categoryMap[category],
+        region: region === 'Anywhere' ? undefined : region,
+      })
+    },
     initialPageParam: null as string | null,
     getNextPageParam: (lastPage) => lastPage.page.next_cursor ?? undefined,
     staleTime: 60_000,
