@@ -1,3 +1,4 @@
+import { readBoundedBody } from '../_lib/request'
 import {
   createPendingListing,
   validateListingSubmission,
@@ -56,7 +57,9 @@ async function verifyTurnstile(
 export default {
   async fetch(request: Request): Promise<Response> {
     if (request.method !== 'POST') {
-      return json({ ok: false, message: 'Method not allowed.' }, 405)
+      const response = json({ ok: false, message: 'Method not allowed.' }, 405)
+      response.headers.set('Allow', 'POST')
+      return response
     }
 
     const requestUrl = new URL(request.url)
@@ -76,15 +79,14 @@ export default {
       return json({ ok: false, message: 'Content-Type must be application/json.' }, 415)
     }
 
-    const declaredLength = Number(request.headers.get('content-length') ?? 0)
-    if (declaredLength > 8192) {
-      return json({ ok: false, message: 'Submission is too large.' }, 413)
+    const body = await readBoundedBody(request, 8192)
+    if (!body.ok) {
+      return json(
+        { ok: false, message: body.reason === 'too_large' ? 'Submission is too large.' : 'Could not read submission body.' },
+        body.reason === 'too_large' ? 413 : 400,
+      )
     }
-
-    const bodyText = await request.text()
-    if (bodyText.length > 8192) {
-      return json({ ok: false, message: 'Submission is too large.' }, 413)
-    }
+    const bodyText = body.text
 
     let input: unknown
     try {
