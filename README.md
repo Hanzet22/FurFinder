@@ -31,6 +31,7 @@ The responsive web MVP uses Vite, React, and TypeScript, with TanStack Query man
 - [Attributions](ATTRIBUTIONS.md)
 - [Legal Notice](LEGAL-NOTICE.md)
 - [Licensing Notice](LICENSING-NOTICE.md)
+- [Source Code Availability](SOURCE.md)
 - [Source Register](SOURCES.md)
 
 ## Development
