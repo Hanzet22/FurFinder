@@ -49,3 +49,24 @@
 - No public individual profiles for minors; adult profiles must be voluntary, consented and unpublished by default.
 - No production migrations, bulk data imports, deployment promotion, PR merge or new Atlassian project creation in this round set.
 - Proposed SQL is intentionally outside `supabase/migrations/` until reviewed and converted through the repository's migration workflow.
+
+
+## Follow-on work (after round 29)
+
+| Round | Focus | Result |
+|---|---|---|
+| 30 | Attribution and provenance docs | Added root `ATTRIBUTIONS.md` and source attribution practices |
+| 31 | Legal notice | Added root `LEGAL-NOTICE.md` with accuracy, privacy, third-party and reporting boundaries |
+| 32 | Licensing notice | Added root `LICENSING-NOTICE.md`, documenting the existing AGPL-3.0 license and third-party rights |
+| 33 | Source documentation | Added `SOURCE.md` for source-code availability and `SOURCES.md` for public-source provenance |
+| 34 | Policy review and release recheck | Reviewed official JMoF, Anthrocon and ConFuzzled policy pages; rechecked Supabase advisors, GitHub PR, Actions, Vercel and Jira |
+
+## Follow-on status
+
+- Four requested documentation areas are present, with both `SOURCE.md` (code availability) and `SOURCES.md` (data-source register) to avoid ambiguity.
+- README links to the four requested policy/register documents; `SOURCE.md` is linked from `SOURCES.md` and can be linked in README in a later documentation pass.
+- Supabase production remains unchanged. Security Advisor returned 0 lints; Performance Advisor retains 2 INFO unused-index notices on existing moderation-event indexes.
+- No GitHub Actions workflow run was returned for the latest checked PR head.
+- Vercel has a READY preview for an earlier documentation commit, but no deployment was found for the latest PR head.
+- Atlassian Jira search returned no FurFinder result; no project or issue was created.
+- No source candidates were imported, no bulk crawl was run, and no PR merge or production promotion occurred.
