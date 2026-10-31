@@ -59,3 +59,40 @@ The moderation endpoints remain privileged server workflows. A mobile public cli
 - Flutter companion: planned, not implemented.
 - Mobile API contract: design work required.
 - App-store release: not ready until the API, privacy, accessibility and moderation gaps above are closed.
+
+
+## Global directory expansion (A + B)
+
+The mobile companion follows the expanded FurFinder scope while preserving strict separation between public entity discovery and voluntary adult profiles.
+
+### Public directory entities
+- Organizations and associations
+- Public communities and public entry points
+- Conventions and announced public events
+- Studios, makers, manufacturers and businesses
+- Public creator portfolios and professional services
+- Public knowledge and safety resources
+
+Search and filters use entity type, broad region and country. Event detail pages show organizer-published dates, coarse venue location, official source URL, source-check state and last-checked timestamp. Third-party calendars may help discover candidates but are not the authority for publication; verify event details against official organizer sources.
+
+### Opt-in profile boundary
+- Public individual profiles are adult-only (18+), voluntary and unpublished by default.
+- Do not create public profiles for minors or infer profiles from scraped usernames, social posts, convention attendee lists or community rosters.
+- The user chooses each public field and sees an exact preview before an explicit publish action.
+- Provide immediate unpublish, consent withdrawal and deletion controls.
+- Never expose account IDs, email, exact birth date, private contact information or precise personal location.
+- No direct messaging, attendee discovery, public member search, real-time location or unrestricted profile exports.
+
+### Mobile-specific acceptance criteria
+- The app consumes a versioned public API and uses cursor pagination with stable ordering.
+- Entity and adult-profile endpoints are separate and return allowlisted public fields only.
+- Anonymous users can browse only published public entities.
+- Profile creation is unavailable to under-18 users.
+- Consent withdrawal immediately removes a profile from public API responses.
+- Report/correction flows accept public evidence URLs and route to moderation.
+- Offline cache contains public directory metadata only; no consent evidence, private account data or moderation notes.
+- No Supabase service-role key or moderator credential is bundled in the app.
+- All new workflows pass RLS, authorization, accessibility, privacy and minor-safety tests before release.
+
+### Release gate
+The expanded mobile client remains a future release. Do not ship profile features until age eligibility, consent, visibility preview, withdrawal/deletion, abuse reporting and jurisdiction-specific privacy review are complete. The read-only directory can ship earlier only after the versioned API, cursor pagination, official-source provenance and moderation/reporting contract are stable.
