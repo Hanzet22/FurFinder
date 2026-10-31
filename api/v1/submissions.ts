@@ -25,14 +25,12 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 async function verifyTurnstile(
   token: string,
   secret: string,
-  remoteIp: string | null,
   expectedHostname: string,
 ): Promise<boolean> {
   const body = new URLSearchParams({
     secret,
     response: token,
   })
-  if (remoteIp) body.set('remoteip', remoteIp)
 
   const response = await fetch(
     'https://challenges.cloudflare.com/turnstile/v0/siteverify',
@@ -74,8 +72,8 @@ export default {
       return json({ ok: false, message: 'Invalid request origin.' }, 403)
     }
 
-    const contentType = request.headers.get('content-type') ?? ''
-    if (!contentType.toLowerCase().includes('application/json')) {
+    const contentType = (request.headers.get('content-type') ?? '').split(';', 1)[0].trim().toLowerCase()
+    if (contentType !== 'application/json') {
       return json({ ok: false, message: 'Content-Type must be application/json.' }, 415)
     }
 
@@ -131,12 +129,10 @@ export default {
       return json({ ok: false, message: 'Submission service is unavailable.' }, 503)
     }
 
-    const remoteIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? null
     try {
       const verified = await verifyTurnstile(
         validation.value.turnstileToken,
         turnstileSecret,
-        remoteIp,
         requestUrl.hostname,
       )
       if (!verified) {
