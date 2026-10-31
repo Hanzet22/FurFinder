@@ -21,7 +21,8 @@ export default {
       return json({ ok: false, message: 'Cross-origin requests are not accepted.' }, 403)
     }
 
-    if (!(request.headers.get('content-type') ?? '').toLowerCase().includes('application/json')) {
+    const contentType = (request.headers.get('content-type') ?? '').split(';', 1)[0].trim().toLowerCase()
+    if (contentType !== 'application/json') {
       return json({ ok: false, message: 'Content-Type must be application/json.' }, 415)
     }
 
