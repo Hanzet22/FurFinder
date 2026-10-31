@@ -47,7 +47,7 @@ test('rejects a declared body size above the limit before reading', async () => 
   const request = new Request('https://furfinder.test/api', {
     method: 'POST',
     headers: { 'content-length': '9' },
-    body: 'small',
+    body: '123456789',
   })
 
   const result = await readBoundedBody(request, 4)
