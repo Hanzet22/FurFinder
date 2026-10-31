@@ -69,23 +69,7 @@ export default function App() {
   })
   const listings = listingPages?.pages.flatMap((page) => page.data) ?? []
 
-  const visibleListings = useMemo(() => {
-    const normalized = query.trim().toLowerCase()
-    const categoryMap: Partial<Record<Category, string>> = {
-      Communities: 'community',
-      Conventions: 'convention',
-      Artists: 'artist',
-      Organizations: 'organization',
-      Industry: 'industry',
-      Resources: 'resource',
-    }
-    return listings.filter((listing) => {
-      const categoryMatch = category === 'All' || listing.category === categoryMap[category]
-      const regionMatch = region === 'Anywhere' || listing.region === region
-      const queryMatch = !normalized || `${listing.name} ${listing.summary} ${listing.region} ${listing.country_code ?? ''}`.toLowerCase().includes(normalized)
-      return categoryMatch && regionMatch && queryMatch
-    })
-  }, [category, listings, query, region])
+  const visibleListings = listings
 
   const visibleFeatures = useMemo(() => {
     const normalized = query.trim().toLowerCase()
