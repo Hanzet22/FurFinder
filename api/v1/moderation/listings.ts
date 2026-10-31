@@ -2,13 +2,12 @@ import {
   authenticateModerator,
   callAdminRest,
   json,
+  methodNotAllowed,
 } from '../../_lib/moderation'
 
 export default {
   async fetch(request: Request): Promise<Response> {
-    if (request.method !== 'GET') {
-      return json({ ok: false, message: 'Method not allowed.' }, 405)
-    }
+    if (request.method !== 'GET') return methodNotAllowed('GET')
 
     const access = await authenticateModerator(request)
     if (!access.ok) return access.response
