@@ -1,88 +1,71 @@
-# FurFinder — Yellow Flag Release Gate
+# FurFinder — Release Gate
 
-**Status:** active caution state for rounds 94–96.  
-**Purpose:** prevent passing checks, stale previews or design-only documents from being mistaken for release approval.
+**Status:** Yellow Flag — rounds 97–120 release-readiness work.  
+**Last evidence refresh:** 2026-10-31.
 
-## Current state
+## Current decision
 
-**Yellow Flag — proceed with bounded review and documentation; do not release.**
+**Do not mark Green yet.** PR #19's exact-head CI passed, but the new rounds 97–120 branch needs its own CI result, a matching READY Vercel preview, and manual accessibility verification. Source terms/access and moderator decisions also remain pending.
 
-Evidence checked on 2026-10-31:
-- GitHub Actions run [41165828287](https://github.com/Hanzet22/FurFinder/actions/runs/41165828287), run #226, completed successfully for PR #18 head `b5a98f78fd90be211354bdc1931db4af9d1a5d4c`. Dependency installation, tests and production build all passed. This is not validation of the newer rounds 94–96 branch.
-- Vercel inventory still shows the latest visible READY preview on old commit `a87cf69f621f82d3d6dfad0691a0a9c48323e9e0`, not the rounds 94–96 branch. No current-head preview validation is claimed. Earlier deployment attempts were blocked by the free daily deployment cap; do not repeatedly retry.
+## Latest evidence
+
+- PR #19 head `d630ec828cced62a2c407fa3c71145d391d982f8` passed GitHub Actions run [41166482802](https://github.com/Hanzet22/FurFinder/actions/runs/41166482802), run #228. Dependency installation, `npm test` and `npm run build` all passed. This result is for PR #19 only, not the new rounds 97–120 branch.
+- The visible READY Vercel preview is associated with old commit `82cc11bcac2205fde1e0c5d06bc94b8abb007813`. It is not an exact-head preview for PR #19 or this new branch. Do not use it as release evidence.
 - Supabase Security Advisor: 0 lints.
-- Supabase Performance Advisor: 2 INFO unused-index notices for existing moderation-event indexes. Retain pending workload evidence; do not drop indexes solely from this notice.
-- VibeRaven 1.7.1 static review of the complete `supabase/proposed/global-directory-expansion.sql`: 0 critical, 0 high, 0 warning, 2 INFO `rls_no_policies` notices for the server-only provenance tables. Static analysis only; it did not execute SQL or inspect live authorization.
-- Round 94 verified Anthro Northwest 9 dates and venue from official organizer pages, and NordicFuzzCon dates/locality from its official homepage. NordicFuzzCon venue remains unconfirmed. Both candidates remain pending and unpublished.
-- Round 95 added a written UX/accessibility acceptance review. No manual device, screen-reader or WCAG conformance audit is claimed.
-- Flutter remains PRD-only; no mobile implementation is claimed.
-- No production migration, DDL, data write, deployment promotion, rollback or merge occurred.
+- Supabase Performance Advisor: 2 INFO unused-index notices for existing `moderation_events_listing_created_idx` and `moderation_events_moderator_created_idx`. Retain them until workload evidence supports removal.
+- VibeRaven 1.7.1 static scan of `supabase/proposed/global-directory-expansion.sql`: 0 critical, 0 high, 0 warning, 2 INFO `rls_no_policies` for `public.directory_sources` and `public.listing_sources`. These are server-only provenance tables with RLS enabled and no browser policies. Static-only; no SQL execution or live DB/auth test.
+- Firecrawl source pilot 7 records organizer-supported dates for Further Confusion 2027, Anthrocon 2027 and Las Vegas Fur Con 2027. Venue is recorded only where supported; all candidates remain pending terms/access review and human moderation.
+- Accessibility work remains acceptance documentation; no manual device, screen-reader or WCAG conformance test is claimed.
+- Flutter companion remains PRD-only; no mobile app implementation or build is claimed.
+- No migration, DDL, production data write, merge, production deployment or listing publication occurred.
 
-## State definitions
+## Release states
 
-| State | Meaning | Required action |
+| State | Meaning | Action |
 |---|---|---|
-| Green | All required evidence is current, complete and reviewed; no blocking findings remain. | Eligible for a separate release approval. |
-| Yellow | Evidence is partial, stale, rate-limited, or contains non-blocking findings needing review. | Continue bounded work; do not promote or claim launch readiness. |
-| Red | A critical/high security issue, privacy breach, broken core flow, failed required test, or unapproved data mutation is found. | Stop release work; contain and remediate before resuming. |
+| Green | All applicable evidence is current, exact-head and reviewed; no blocking findings remain. | Eligible for separate release approval only. |
+| Yellow | Evidence is partial, stale, rate-limited or awaiting manual review. | Continue bounded work; do not promote or claim launch readiness. |
+| Red | Critical/high security issue, privacy breach, broken core flow, failed required test or unapproved mutation. | Stop release work and remediate. |
 
-## Mandatory gates
+## Mandatory Green gates
 
-### 1. Repository and CI
-- Record exact PR head SHA and workflow run.
-- Require dependency install, tests and build to complete successfully.
-- Re-run after any code change that affects behavior.
-- A green CI result does not override a failed or stale provider check.
+### Repository and CI
+- Record candidate PR and exact head SHA.
+- Require dependency installation, tests and build to pass for that exact head.
+- Any subsequent commit requires a fresh CI result.
 
-### 2. Vercel preview
-- Preview must reference the exact PR head SHA.
-- Confirm READY state and inspect build output.
-- Verify protected preview access and critical read-only user flows.
-- If provider rate limits prevent a current-head preview, keep Yellow; do not repeatedly trigger builds or promote an older deployment as a substitute.
+### Vercel
+- Obtain a READY preview whose Git source SHA exactly matches the candidate head.
+- Inspect build output and verify published listing list/detail, bounded filters, cursor pagination, empty/error states and protected moderation access.
+- A stale preview or provider rate-limit block keeps the gate Yellow. Do not repeatedly trigger deployments or substitute an older deployment.
 
-### 3. Supabase
-- Run live Security and Performance Advisors after schema-affecting work.
-- Review every finding and distinguish INFO from blocking findings.
-- Confirm migrations and data changes are separately approved.
-- Never expose service-role/secret keys in browser code.
-- Proposed SQL outside `supabase/migrations/` is not a deployed schema change.
+### Supabase and VibeRaven
+- Review live Security and Performance Advisors; no unresolved critical/high security issue may remain.
+- Record all INFO notices and workload rationale.
+- Run VibeRaven against the complete proposed SQL and record version, paths and findings.
+- Static analysis is not a live database/auth test.
+- Proposed SQL outside `supabase/migrations/` is not deployed. No DDL or migration without separate explicit approval.
 
-### 4. VibeRaven
-- Record exact version, input paths and finding counts.
-- Static findings are repository-text analysis, not a live database/authentication test.
-- Server-only tables with RLS and no browser policies may be intentional; document the access boundary rather than adding broad policies.
-- A clear static report is not proof that production is secure.
-
-### 5. Accessibility and UX
-- Complete the manual checklist in [accessibility-acceptance-checklist.md](accessibility-acceptance-checklist.md).
-- Execute [mobile UX acceptance review](mobile-ux-acceptance-review.md) against the exact candidate build.
-- Test keyboard operation, focus behavior, labels, validation announcements, contrast, 200% zoom, narrow reflow, reduced motion and touch targets.
-- Run assistive-technology checks on supported platforms and record versions, date, defects and retest evidence.
+### Accessibility and mobile
+- Execute [accessibility acceptance checklist](accessibility-acceptance-checklist.md) and [mobile UX acceptance review](mobile-ux-acceptance-review.md) against the exact preview.
+- Record browser/OS, assistive technology/version, viewport, date, result, defect and retest.
+- Check keyboard-only operation, focus visibility/restoration, labels and status announcements, 320 CSS-pixel reflow, 200% zoom, reduced motion, contrast and touch targets.
 - Do not claim WCAG 2.2 AA conformance from source inspection or a checklist alone.
+- Flutter remains PRD-only; it is not a prerequisite to claim web MVP implementation, but no mobile build may be claimed.
 
-### 6. Mobile companion
-- The Flutter companion remains a PRD, not a built or tested application.
-- Keep its first release read-only until API contracts, privacy controls and parity checks are approved.
-- No attendee/member discovery, private messaging, precise personal location, or public profiles for minors.
-- Do not create a second data ingestion path from the mobile client.
-
-### 7. Source governance
-- Official organizer pages are preferred for event dates and status.
-- Verify fields independently; a date source does not automatically verify a venue.
-- Aggregators are discovery-only.
-- No auto-publication after scraping; moderation review remains mandatory.
-- No private rosters, attendee lists, private contacts or personal location data.
+### Sources, privacy and publication
+- Prefer official organizer sources; aggregators are discovery-only.
+- Verify every field independently; a date source does not automatically verify a venue.
+- Complete terms/robots/access review and human moderation before listing publication.
+- No automatic publication after scraping.
+- No attendee/member rosters, private contacts, private messages, precise personal location data or public profiles for minors.
+- Public individual profiles, if ever implemented, must be adults-only, voluntary and explicit-consent gated.
+- Public URL access is not permission to reuse artwork, logos, photography or event media.
 
 ## Stop conditions
 
-Keep Yellow or move to Red when:
-- The preview does not match the current PR head.
-- A required build/test fails or has not completed.
-- Live database state is assumed from static analysis.
-- A privacy, consent, licensing or minor-safety boundary is unclear.
-- A schema/data mutation or production action lacks explicit approval.
-- An unresolved high/critical issue affects security or core functionality.
+Keep Yellow or move Red if exact-head CI fails, the preview is stale, manual tests are incomplete, source rights/consent are unclear, or critical/high findings remain. Never infer live database state from static analysis.
 
 ## Approval boundary
 
-This document defines a gate; it does not authorize merge, migration, production deployment, Vercel promotion, firewall changes, or public listing publication. Each action requires its own explicit approval after the evidence is current.
+This gate does not authorize merge, production deployment, Vercel promotion, rollback, firewall changes, environment-variable mutation, Supabase migration/DDL, production data writes or public listing publication. Each action requires its own explicit approval.
