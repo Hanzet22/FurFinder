@@ -1,4 +1,4 @@
-import { isPublicListingsResponse } from '../lib/validate-listings-response'
+import { isPublicListingsResponse } from '../../lib/validate-listings-response'
 
 declare const process: { env: Record<string, string | undefined> }
 
