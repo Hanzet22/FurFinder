@@ -106,6 +106,7 @@ export default function App() {
 
   return (
     <main>
+      <a className="skip-link" href="#directory">Skip to directory</a>
       <header className="site-header">
         <a className="brand" href="#" aria-label="FurFinder home">
           <span className="brand-mark"><Compass size={23} strokeWidth={2.4} /></span>
