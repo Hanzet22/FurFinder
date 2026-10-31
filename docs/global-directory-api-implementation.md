@@ -34,7 +34,7 @@ The endpoint:
 
 ### Signed cursor behavior
 
-A cursor contains the last row's `created_at` and `id`, wrapped in a versioned payload and authenticated with HMAC-SHA-256. Invalid, altered, malformed or expired-by-key-rotation tokens are rejected with HTTP 400. Rotating the server signing key invalidates existing cursors, which clients can recover from by restarting pagination.
+A cursor contains the last row's `created_at` and `id`, wrapped in a versioned payload and authenticated with HMAC-SHA-256. Invalid, altered, malformed or older-than-24-hours tokens are rejected with HTTP 400. Rotating the server signing key also invalidates existing cursors. Rotating the server signing key invalidates existing cursors, which clients can recover from by restarting pagination.
 
 ### Web client
 
@@ -65,7 +65,7 @@ Never place the secret key in a `VITE_*` browser variable. The API uses a seven-
 
 ## Verification status
 
-- Unit tests were added in `tests/directory-api.test.mjs` for filter validation, signed cursor integrity, malformed cursors and public response projection.
+- Unit tests were added in `tests/directory-api.test.mjs` for filter validation, signed cursor integrity, tampering, 24-hour expiry, malformed cursors and public response projection.
 - These tests have **not been executed in this authoring environment**. A successful GitHub Actions run and a fresh Vercel preview are still required before claiming runtime/build validation.
 - Supabase production schema and data were not changed.
 - The proposed global-directory SQL remains under `supabase/proposed/`, not `supabase/migrations/`.
