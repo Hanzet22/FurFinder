@@ -70,3 +70,8 @@
 - Vercel has a READY preview for an earlier documentation commit, but no deployment was found for the latest PR head.
 - Atlassian Jira search returned no FurFinder result; no project or issue was created.
 - No source candidates were imported, no bulk crawl was run, and no PR merge or production promotion occurred.
+
+
+## Continuation
+
+Rounds 35–57 are recorded in [docs/rounds-35-57-execution-log.md](rounds-35-57-execution-log.md). The public directory API implementation is documented in [docs/global-directory-api-implementation.md](global-directory-api-implementation.md).
