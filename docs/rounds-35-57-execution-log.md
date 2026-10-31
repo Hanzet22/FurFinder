@@ -20,7 +20,7 @@
 | 42 | Web data layer | Replaced direct browser-to-Supabase listing reads with the same-origin versioned API client. |
 | 43 | Infinite pagination | Switched the web directory to server-issued cursors through TanStack Query. |
 | 44 | Filter state | Added search/category/region to the query key so filter changes restart pagination. |
-| 45 | Unit-test coverage | Added tests for filters, cursor signing/tampering, 24-hour expiry, malformed cursor payloads and response-field minimization. The first CI run passed all 35 tests; the added expiry test is in the next CI run. |
+| 45 | Unit-test coverage | Added tests for filters, cursor signing/tampering, 24-hour expiry, malformed cursor payloads and response-field minimization. CI run 41158933769 passed all 36 tests (36/36) and the production build at commit 8ac9457; later accessibility/documentation commits are awaiting the latest CI run. |
 | 46 | API documentation | Added `docs/global-directory-api-implementation.md` and updated the API contract status. |
 | 47 | Firecrawl discovery | Rechecked the public FurryCons 2027 calendar as an aggregator-only discovery source; no source pages were bulk-crawled. |
 | 48 | Source provenance | Retained organizer verification as the publication gate; aggregator entries remain candidates, not official confirmation. |
@@ -32,7 +32,7 @@
 | 54 | Supabase live review | Security Advisor: 0 lints. Performance Advisor: 2 INFO unused-index notices on existing moderation-event indexes; no index removed. |
 | 55 | Atlassian documentation | Confluence space listing returned 404 (site reports Confluence unavailable); Jira project search for “FurFinder” returned 0 projects. No page, project or issue was created. Atlassian documentation is blocked pending a Confluence-enabled site or an explicitly selected Jira project. |
 | 56 | GitHub synchronization | API, client, tests and documentation were committed to the existing feature branch and PR #16. |
-| 57 | Release gate | No merge, production migration, bulk import or deployment promotion. Runtime tests, fresh preview and external review remain required. |
+| 57 | Release gate | No merge, production migration, bulk import or deployment promotion. CI run 41158933769 passed tests/build at commit 8ac9457; the latest head is still awaiting CI completion, and a fresh preview/external review remain required. |
 
 ## Implementation details
 
