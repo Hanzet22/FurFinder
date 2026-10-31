@@ -5,7 +5,7 @@ import {
   methodNotAllowed,
   sameOrigin,
 } from '../../_lib/moderation'
-import { readBoundedBody } from '../../_lib/request'
+import { isJsonContentType, readBoundedBody } from '../../_lib/request'
 
 const userIdPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -50,8 +50,7 @@ export default {
     if (!sameOrigin(request)) {
       return json({ ok: false, message: 'Cross-origin requests are not accepted.' }, 403)
     }
-    const contentType = (request.headers.get('content-type') ?? '').split(';', 1)[0].trim().toLowerCase()
-    if (contentType !== 'application/json') {
+    if (!isJsonContentType(request.headers.get('content-type'))) {
       return json({ ok: false, message: 'Content-Type must be application/json.' }, 415)
     }
 
