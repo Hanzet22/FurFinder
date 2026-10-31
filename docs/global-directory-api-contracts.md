@@ -1,6 +1,6 @@
 # Global Directory API Contracts — Implementation Draft
 
-**Status:** feature-branch design; not deployed.  
+**Status:** partial feature-branch implementation; not deployed.  
 **Scope:** public entity directory, organizer-confirmed event metadata, and a separate adult opt-in profile projection.
 
 ## Public read contract
@@ -82,6 +82,12 @@ Accepts a listing ID, enumerated report reason and bounded explanation. Rate-lim
 - One account cannot modify another account's profile.
 - Cursor paging has no duplicates or omissions for a fixed dataset.
 - Invalid filters, cursors and oversized bodies return safe 4xx responses.
+
+## Implementation status (2026-10-31)
+
+The feature branch now implements `GET /api/v1/listings` and routes the web directory client through it. Supported filters are `q`, `category`, `region`, `country`, `limit` and a signed `cursor`. The endpoint enforces published-only reads, bounded page sizes, stable keyset ordering, HMAC-authenticated cursors and an explicit public response projection.
+
+Implementation details and remaining gaps are tracked in [global-directory-api-implementation.md](global-directory-api-implementation.md). The listing detail route, reports route, event joins and adult opt-in profile routes remain unimplemented. No production migration has been applied. Tests have been added but still require CI execution.
 
 ## Release gate
 This contract does not authorize production schema changes, profile launch, bulk ingestion or deployment. Add integration tests and review the SQL proposal before converting it into a timestamped Supabase migration.
