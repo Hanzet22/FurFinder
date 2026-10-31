@@ -1,3 +1,4 @@
+import { isJsonContentType, readBoundedBody } from '../_lib/request'
 import {
   createPendingListing,
   validateListingSubmission,
@@ -24,14 +25,12 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 async function verifyTurnstile(
   token: string,
   secret: string,
-  remoteIp: string | null,
   expectedHostname: string,
 ): Promise<boolean> {
   const body = new URLSearchParams({
     secret,
     response: token,
   })
-  if (remoteIp) body.set('remoteip', remoteIp)
 
   const response = await fetch(
     'https://challenges.cloudflare.com/turnstile/v0/siteverify',
@@ -56,7 +55,9 @@ async function verifyTurnstile(
 export default {
   async fetch(request: Request): Promise<Response> {
     if (request.method !== 'POST') {
-      return json({ ok: false, message: 'Method not allowed.' }, 405)
+      const response = json({ ok: false, message: 'Method not allowed.' }, 405)
+      response.headers.set('Allow', 'POST')
+      return response
     }
 
     const requestUrl = new URL(request.url)
@@ -71,20 +72,18 @@ export default {
       return json({ ok: false, message: 'Invalid request origin.' }, 403)
     }
 
-    const contentType = request.headers.get('content-type') ?? ''
-    if (!contentType.toLowerCase().includes('application/json')) {
+    if (!isJsonContentType(request.headers.get('content-type'))) {
       return json({ ok: false, message: 'Content-Type must be application/json.' }, 415)
     }
 
-    const declaredLength = Number(request.headers.get('content-length') ?? 0)
-    if (declaredLength > 8192) {
-      return json({ ok: false, message: 'Submission is too large.' }, 413)
+    const body = await readBoundedBody(request, 8192)
+    if (!body.ok) {
+      return json(
+        { ok: false, message: body.reason === 'too_large' ? 'Submission is too large.' : 'Could not read submission body.' },
+        body.reason === 'too_large' ? 413 : 400,
+      )
     }
-
-    const bodyText = await request.text()
-    if (bodyText.length > 8192) {
-      return json({ ok: false, message: 'Submission is too large.' }, 413)
-    }
+    const bodyText = body.text
 
     let input: unknown
     try {
@@ -129,12 +128,10 @@ export default {
       return json({ ok: false, message: 'Submission service is unavailable.' }, 503)
     }
 
-    const remoteIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? null
     try {
       const verified = await verifyTurnstile(
         validation.value.turnstileToken,
         turnstileSecret,
-        remoteIp,
         requestUrl.hostname,
       )
       if (!verified) {

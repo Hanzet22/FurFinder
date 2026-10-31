@@ -80,7 +80,12 @@ function isDirectoryListing(value: unknown): value is DirectoryListing {
   )
 }
 
-export async function fetchListings(signal?: AbortSignal): Promise<DirectoryListing[]> {
+export const DIRECTORY_PAGE_SIZE = 60
+
+export async function fetchListings(
+  signal?: AbortSignal,
+  offset = 0,
+): Promise<DirectoryListing[]> {
   if (!supabaseUrl || !publishableKey) {
     throw new Error('Directory service is not configured yet.')
   }
@@ -91,8 +96,9 @@ export async function fetchListings(signal?: AbortSignal): Promise<DirectoryList
     'id,name,slug,category,summary,region,country_code,website_url,source_url,is_featured,verified_at,created_at',
   )
   endpoint.searchParams.set('status', 'eq.published')
-  endpoint.searchParams.set('order', 'is_featured.desc,created_at.desc')
-  endpoint.searchParams.set('limit', '60')
+  endpoint.searchParams.set('order', 'is_featured.desc,created_at.desc,id.asc')
+  endpoint.searchParams.set('limit', String(DIRECTORY_PAGE_SIZE))
+  endpoint.searchParams.set('offset', String(Math.max(0, Math.floor(offset))))
 
   const response = await fetch(endpoint, {
     signal,

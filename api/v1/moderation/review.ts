@@ -1,3 +1,4 @@
+import { isJsonContentType, readBoundedBody } from '../../_lib/request'
 import {
   authenticateModerator,
   callAdminRest,
@@ -12,27 +13,32 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 export default {
   async fetch(request: Request): Promise<Response> {
     if (request.method !== 'POST') {
-      return json({ ok: false, message: 'Method not allowed.' }, 405)
+      const response = json({ ok: false, message: 'Method not allowed.' }, 405)
+      response.headers.set('Allow', 'POST')
+      return response
     }
     if (!sameOrigin(request)) {
       return json({ ok: false, message: 'Cross-origin requests are not accepted.' }, 403)
     }
 
-    const length = Number(request.headers.get('content-length') ?? 0)
-    if (length > 4096) return json({ ok: false, message: 'Request is too large.' }, 413)
+    if (!isJsonContentType(request.headers.get('content-type'))) {
+      return json({ ok: false, message: 'Content-Type must be application/json.' }, 415)
+    }
+
+    const body = await readBoundedBody(request, 4096)
+    if (!body.ok) {
+      return json(
+        { ok: false, message: body.reason === 'too_large' ? 'Request is too large.' : 'Could not read request body.' },
+        body.reason === 'too_large' ? 413 : 400,
+      )
+    }
 
     const access = await authenticateModerator(request)
     if (!access.ok) return access.response
 
-    if (!(request.headers.get('content-type') ?? '').includes('application/json')) {
-      return json({ ok: false, message: 'Content-Type must be application/json.' }, 415)
-    }
-
     let input: unknown
     try {
-      const raw = await request.text()
-      if (raw.length > 4096) return json({ ok: false, message: 'Request is too large.' }, 413)
-      input = JSON.parse(raw)
+      input = JSON.parse(body.text)
     } catch {
       return json({ ok: false, message: 'Invalid JSON request.' }, 400)
     }

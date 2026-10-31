@@ -32,8 +32,9 @@
 
 /* Keyboard and touch-target refinements */
 :where(a,button,input,select):focus-visible{outline:3px solid #b7d4ff;outline-offset:3px}
+.search-input-wrap input:focus-visible,.region-select select:focus-visible{outline:3px solid #315f9e;outline-offset:3px;border-radius:4px}
 .category-tab{min-height:44px}
-.mobile-menu{min-width:44px;min-height:44px;display:grid;place-items:center}
+.mobile-menu{min-width:44px;min-height:44px;place-items:center}
 @media(max-width:600px){.category-tab{min-height:44px;padding:11px 12px}}
 
 .directory-count{margin:0 0 14px;color:#9eabba;font-size:11px}
@@ -136,3 +137,35 @@
 .moderation-footer a{display:inline-flex;align-items:center;gap:6px;color:#9fc2ff;font-weight:700}
 @media(max-width:600px){.moderation-header{height:68px;padding:0 17px}.moderation-account{gap:10px;font-size:9px}.moderation-logout{font-size:9px}.moderation-main{padding:48px 17px 65px}.moderation-login{margin:30px auto;padding:22px}.moderation-queue{padding:16px}.moderation-queue-heading h2{font-size:18px}.moderation-card{padding:16px}.moderation-card-top time{margin-left:0;width:100%}.moderation-actions{display:grid;grid-template-columns:1fr 1fr}.moderation-actions button{padding:0 8px}.moderation-footer{padding:20px 17px;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.moderation-spinning{animation:none}}
+
+
+/* Listing provenance is visible without relying on color alone. */
+.listing-verification{display:inline-flex;align-items:center;gap:6px;width:max-content;margin:12px 0 2px;padding:5px 8px;border:1px solid var(--line);border-radius:999px;color:#b9c4d0;font-size:10px;line-height:1.2}
+.listing-verification.is-verified{border-color:#91e4ce55;color:#a9e9d7}
+.listing-verification svg{flex:none}
+
+.directory-load-more{display:flex;justify-content:center;margin-top:28px}
+.directory-load-more .button{min-width:190px;min-height:44px}
+
+
+.moderator-management{padding:20px;margin-bottom:24px;border:1px solid var(--line);border-radius:13px;background:#111923}
+.moderator-management-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.moderator-management-heading h2{font:700 19px Manrope,sans-serif;margin:9px 0 6px;color:#f4f6fa}
+.moderator-management-heading p,.moderator-add-form>p{font-size:11px;line-height:1.65;color:#9eabba;margin:0;max-width:560px}
+.moderator-add-form{margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:10px;background:#18222e}
+.moderator-add-form label{display:block;color:#d7e0eb;font-size:11px;font-weight:700;margin-bottom:8px}
+.moderator-add-controls{display:flex;gap:10px}
+.moderator-add-controls input{flex:1;min-width:0;min-height:43px;padding:0 12px;border:1px solid #344355;border-radius:8px;background:#101822;color:#f4f6fa;font-size:12px}
+.moderator-add-controls .button{min-height:43px;white-space:nowrap}
+.moderator-add-form>p{margin-top:9px}
+.moderator-access-list{display:grid;gap:8px}
+.moderator-access-row{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#17212c}
+.moderator-access-icon{width:31px;height:31px;flex:none;display:grid;place-items:center;border-radius:9px;background:#80adff20;color:#9dc2ff}
+.moderator-access-identity{min-width:0;flex:1}
+.moderator-access-identity code{display:block;overflow-wrap:anywhere;color:#dce5ef;font-size:10px}
+.moderator-access-identity small{display:block;margin-top:4px;color:#95a4b4;font-size:10px}
+.moderator-protected{color:#a9e9d7;font-size:10px;font-weight:700}
+.moderator-toggle{min-height:34px;padding:0 11px;border:1px solid #40546a;border-radius:7px;background:#202d3b;color:#c8d7e8;font-size:10px;font-weight:700;cursor:pointer}
+.moderator-toggle:hover{border-color:#8fb7ff;color:#fff}
+.moderator-toggle:disabled{opacity:.55;cursor:wait}
+@media(max-width:600px){.moderator-management{padding:14px}.moderator-management-heading{flex-direction:column}.moderator-add-form{padding:12px}.moderator-add-controls{flex-direction:column}.moderator-add-controls .button{width:100%}.moderator-access-row{align-items:flex-start;flex-wrap:wrap}.moderator-access-identity{flex-basis:calc(100% - 48px)}.moderator-protected,.moderator-toggle{margin-left:43px}}

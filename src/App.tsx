@@ -1,14 +1,14 @@
 import { useMemo, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import {
   ArrowRight, Search, MapPin, CalendarDays, Palette, Users,
   Building2, Factory, BookOpen, ShieldCheck, Globe2, Menu, X,
   Compass, Sparkles, ChevronRight, ExternalLink
 } from 'lucide-react'
-import { fetchListings } from './lib/directory'
+import { DIRECTORY_PAGE_SIZE, fetchListings } from './lib/directory'
 import { ListingSubmissionForm } from './components/ListingSubmissionForm'
 
-type Category = 'All' | 'Communities' | 'Conventions' | 'Artists' | 'Organizations' | 'Industry'
+type Category = 'All' | 'Communities' | 'Conventions' | 'Artists' | 'Organizations' | 'Industry' | 'Resources'
 
 const categories: { name: Category; icon: typeof Users; count: string }[] = [
   { name: 'All', icon: Compass, count: 'Explore all' },
@@ -17,6 +17,7 @@ const categories: { name: Category; icon: typeof Users; count: string }[] = [
   { name: 'Artists', icon: Palette, count: 'Creators & makers' },
   { name: 'Organizations', icon: Building2, count: 'Clubs & associations' },
   { name: 'Industry', icon: Factory, count: 'Studios & services' },
+  { name: 'Resources', icon: BookOpen, count: 'Guides & knowledge' },
 ]
 
 const features = [
@@ -37,15 +38,24 @@ export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showSubmission, setShowSubmission] = useState(false)
   const {
-    data: listings = [],
+    data: listingPages,
     isPending: loadingListings,
     error: directoryError,
-  } = useQuery({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
     queryKey: ['directory', 'published'],
-    queryFn: ({ signal }) => fetchListings(signal),
+    queryFn: ({ signal, pageParam }) => fetchListings(signal, pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.length === DIRECTORY_PAGE_SIZE
+        ? allPages.length * DIRECTORY_PAGE_SIZE
+        : undefined,
     staleTime: 60_000,
     retry: 1,
   })
+  const listings = listingPages?.pages.flat() ?? []
 
   const visibleListings = useMemo(() => {
     const normalized = query.trim().toLowerCase()
@@ -55,6 +65,7 @@ export default function App() {
       Artists: 'artist',
       Organizations: 'organization',
       Industry: 'industry',
+      Resources: 'resource',
     }
     return listings.filter((listing) => {
       const categoryMatch = category === 'All' || listing.category === categoryMap[category]
@@ -66,8 +77,16 @@ export default function App() {
 
   const visibleFeatures = useMemo(() => {
     const normalized = query.trim().toLowerCase()
+    const featureCategoryMap: Partial<Record<Category, string>> = {
+      Communities: 'communities',
+      Conventions: 'conventions',
+      Artists: 'artists',
+      Organizations: 'organizations',
+      Industry: 'industry',
+      Resources: 'knowledge',
+    }
     return features.filter((feature) => {
-      const categoryMatch = category === 'All' || feature.title.toLowerCase().includes(category === 'Artists' ? 'artists' : category.toLowerCase())
+      const categoryMatch = category === 'All' || feature.title.toLowerCase().includes(featureCategoryMap[category] ?? '')
       const queryMatch = !normalized || `${feature.title} ${feature.text}`.toLowerCase().includes(normalized)
       return categoryMatch && queryMatch
     })
@@ -140,11 +159,11 @@ export default function App() {
               <div className="feature-card-body"><h3>{title}</h3><p>{text}</p></div>
               <a href="#submit" className="card-link" onClick={() => setShowSubmission(true)}>{tag}<ChevronRight size={15} /></a>
             </article>
-          )) : <div className="empty-state">No category matched that search. Try another keyword or select “All”.</div>}
+          )) : <div className="empty-state" role="status">No category matched that search. Try another keyword or select “All”.</div>}
         </div>
       </section>
 
-      <section className="section directory-section" id="directory" aria-labelledby="directory-title">
+      <section className="section directory-section" id="directory" aria-labelledby="directory-title" aria-busy={loadingListings}>
         <div className="section-heading">
           <div><div className="eyebrow">COMMUNITY-VERIFIED DISCOVERY</div><h2 id="directory-title">The global directory.</h2></div>
           <p>Public listings with source links. Entries appear here only after review and publication.</p>
@@ -173,7 +192,11 @@ export default function App() {
               <article className="listing-card" key={listing.id}>
                 <div className="listing-card-top">
                   <span className="listing-category">{listing.category}</span>
-                  <span className="listing-region">{listing.region}</span>
+                  <span className="listing-region">{listing.region}{listing.country_code ? ` · ${listing.country_code}` : ''}</span>
+                </div>
+                <div className={listing.verified_at ? 'listing-verification is-verified' : 'listing-verification'}>
+                  <ShieldCheck size={13} />
+                  {listing.verified_at ? 'Source checked' : 'Community-submitted'}
                 </div>
                 <h3>{listing.name}</h3>
                 <p>{listing.summary}</p>
@@ -185,6 +208,19 @@ export default function App() {
             ))}
             </div>
           </>
+        ) : null}
+        {hasNextPage ? (
+          <div className="directory-load-more">
+            <button
+              className="button"
+              type="button"
+              onClick={() => void fetchNextPage()}
+              disabled={isFetchingNextPage}
+            >
+              {isFetchingNextPage ? 'Loading more…' : 'Load more listings'}
+              <ArrowRight size={16} />
+            </button>
+          </div>
         ) : null}
       </section>
 

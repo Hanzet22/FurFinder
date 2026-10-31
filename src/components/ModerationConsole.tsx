@@ -7,6 +7,8 @@ import {
   LogOut,
   RefreshCw,
   ShieldCheck,
+  UserPlus,
+  UserRound,
   X,
 } from 'lucide-react'
 import {
@@ -28,6 +30,13 @@ type Listing = {
   country_code: string | null
   website_url: string
   source_url: string
+  created_at: string
+}
+
+type ModeratorEntry = {
+  user_id: string
+  role: 'admin' | 'reviewer'
+  active: boolean
   created_at: string
 }
 
@@ -71,6 +80,10 @@ export function ModerationConsole() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [listings, setListings] = useState<Listing[]>([])
+  const [moderators, setModerators] = useState<ModeratorEntry[]>([])
+  const [newModeratorId, setNewModeratorId] = useState('')
+  const [moderatorLoading, setModeratorLoading] = useState(false)
+  const [moderatorBusyId, setModeratorBusyId] = useState<string | null>(null)
   const [role, setRole] = useState<'admin' | 'reviewer' | null>(null)
   const [accessDenied, setAccessDenied] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -78,6 +91,31 @@ export function ModerationConsole() {
   const [notes, setNotes] = useState<Record<string, string>>({})
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+
+  const loadModerators = useCallback(async () => {
+    setModeratorLoading(true)
+    try {
+      const response = await moderationRequest('/api/v1/moderation/moderators', {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+      })
+      if (!response.ok) throw new Error(await responseMessage(response))
+      const payload: unknown = await response.json()
+      if (
+        typeof payload !== 'object' ||
+        payload === null ||
+        !('moderators' in payload) ||
+        !Array.isArray(payload.moderators)
+      ) {
+        throw new Error('Moderator access returned an unexpected response.')
+      }
+      setModerators(payload.moderators as ModeratorEntry[])
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Could not load moderator access.')
+    } finally {
+      setModeratorLoading(false)
+    }
+  }, [])
 
   const loadQueue = useCallback(async () => {
     setLoading(true)
@@ -118,6 +156,59 @@ export function ModerationConsole() {
   useEffect(() => {
     if (session) void loadQueue()
   }, [session?.accessToken, loadQueue])
+
+  useEffect(() => {
+    if (role === 'admin') {
+      void loadModerators()
+    } else {
+      setModerators([])
+    }
+  }, [role, loadModerators])
+
+  async function handleAddReviewer(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setModeratorBusyId('add')
+    setError('')
+    setMessage('')
+    try {
+      const response = await moderationRequest('/api/v1/moderation/moderators', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: newModeratorId.trim() }),
+      })
+      if (!response.ok) throw new Error(await responseMessage(response))
+      setNewModeratorId('')
+      setMessage(await responseMessage(response))
+      await loadModerators()
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Could not add reviewer access.')
+    } finally {
+      setModeratorBusyId(null)
+    }
+  }
+
+  async function handleToggleReviewer(moderator: ModeratorEntry) {
+    setModeratorBusyId(moderator.user_id)
+    setError('')
+    setMessage('')
+    try {
+      const response = await moderationRequest('/api/v1/moderation/moderators', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: moderator.user_id,
+          active: !moderator.active,
+        }),
+      })
+      if (!response.ok) throw new Error(await responseMessage(response))
+      setMessage(await responseMessage(response))
+      await loadModerators()
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Could not update reviewer access.')
+    } finally {
+      setModeratorBusyId(null)
+    }
+  }
 
   async function handleSignIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -277,7 +368,70 @@ export function ModerationConsole() {
             <p className="moderation-footnote">This only succeeds when the project owner has configured the matching first-admin email and no moderator exists yet.</p>
           </div>
         ) : (
-          <section className="moderation-queue" aria-labelledby="queue-title">
+          <section className="moderation-queue" aria-labelledby="queue-title" aria-busy={loading}>
+            {role === 'admin' ? (
+              <div className="moderator-management" aria-labelledby="moderator-management-title">
+                <div className="moderator-management-heading">
+                  <div>
+                    <span className="moderation-queue-label"><ShieldCheck size={15} /> ADMIN CONTROLS</span>
+                    <h2 id="moderator-management-title">Moderator access</h2>
+                    <p>Grant or pause reviewer access. The admin role is protected and cannot be changed here.</p>
+                  </div>
+                  <button type="button" className="moderation-refresh" onClick={() => void loadModerators()} disabled={moderatorLoading}>
+                    <RefreshCw size={15} className={moderatorLoading ? 'moderation-spinning' : ''} />
+                    Refresh
+                  </button>
+                </div>
+                <form className="moderator-add-form" onSubmit={handleAddReviewer}>
+                  <label htmlFor="new-moderator-id">Supabase Auth user ID</label>
+                  <div className="moderator-add-controls">
+                    <input
+                      id="new-moderator-id"
+                      value={newModeratorId}
+                      onChange={(event) => setNewModeratorId(event.target.value)}
+                      placeholder="Paste the user's UUID"
+                      autoComplete="off"
+                      spellCheck={false}
+                      required
+                    />
+                    <button className="button" type="submit" disabled={moderatorBusyId === 'add' || !newModeratorId.trim()}>
+                      <UserPlus size={15} />
+                      {moderatorBusyId === 'add' ? 'Adding…' : 'Add reviewer'}
+                    </button>
+                  </div>
+                  <p>Find the UUID in Supabase Dashboard → Authentication → Users. New accounts are added as reviewers, never admins.</p>
+                </form>
+                {moderatorLoading ? <p className="moderation-status" role="status">Loading moderator access…</p> : null}
+                <div className="moderator-access-list">
+                  {moderators.map((moderator) => (
+                    <div className="moderator-access-row" key={moderator.user_id}>
+                      <span className="moderator-access-icon"><UserRound size={16} /></span>
+                      <span className="moderator-access-identity">
+                        <code>{moderator.user_id}</code>
+                        <small>{moderator.role === 'admin' ? 'Administrator' : 'Reviewer'} · {moderator.active ? 'Active' : 'Inactive'}</small>
+                      </span>
+                      {moderator.role === 'admin' ? (
+                        <span className="moderator-protected">Protected admin</span>
+                      ) : (
+                        <button
+                          type="button"
+                          className="moderator-toggle"
+                          onClick={() => void handleToggleReviewer(moderator)}
+                          disabled={moderatorBusyId === moderator.user_id}
+                        >
+                          {moderatorBusyId === moderator.user_id
+                            ? 'Saving…'
+                            : moderator.active ? 'Deactivate' : 'Reactivate'}
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  {!moderatorLoading && moderators.length === 0 ? (
+                    <p className="moderation-status">No moderator accounts are listed.</p>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
             <div className="moderation-queue-heading">
               <div>
                 <span className="moderation-queue-label"><Clock3 size={15} /> PENDING REVIEW</span>

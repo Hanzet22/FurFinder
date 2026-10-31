@@ -30,6 +30,7 @@ The responsive web MVP uses Vite, React, and TypeScript, with TanStack Query man
 
 ```bash
 npm install
+npm test
 npm run dev
 ```
 
@@ -48,14 +49,16 @@ npm run dev
 - [x] XML v1 import contract and example
 - [x] Supabase Auth sign-in and server-side moderator allowlist
 - [x] Pending submission queue and manual moderator review in Supabase Dashboard
-- [x] In-app pending review console and atomic moderation audit log\n- [ ] In-app moderator role-management UI
+- [x] In-app pending review console and atomic moderation audit log\n- [x] In-app moderator role-management UI for reviewer access (admin protected)
 - [x] Polyglot technology matrix and staged implementation roadmap
 - [x] Mobile companion product brief
 - [x] Vercel deployment
-- [x] Automated typecheck and production build in CI
+- [x] Automated request-body unit tests, typecheck, and production build in CI
+- [x] Streaming byte limits for listing submissions and moderation review requests
+- [x] Directory pagination with a load-more control
 - [ ] Distributed edge rate limiting, automated end-to-end tests, and full launch review
 
-See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/technology-roadmap.md](docs/technology-roadmap.md) for the complete polyglot technology matrix, [docs/mobile-app-prd.md](docs/mobile-app-prd.md) for the Flutter companion plan, [docs/database.md](docs/database.md) for the database security boundary, [docs/submissions.md](docs/submissions.md) for listing intake, [docs/moderation.md](docs/moderation.md) for staff setup, and [contracts/README.md](contracts/README.md) for the XML import contract.
+See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/global-directory-data-governance.md](docs/global-directory-data-governance.md) for global source, privacy and ingestion rules, [docs/global-directory-information-architecture.md](docs/global-directory-information-architecture.md), [docs/source-registry-pilot.md](docs/source-registry-pilot.md) for the expanded navigation and user flows, [docs/technology-roadmap.md](docs/technology-roadmap.md) for the complete polyglot technology matrix, [docs/mobile-app-prd.md](docs/mobile-app-prd.md) for the Flutter companion plan, [docs/database.md](docs/database.md) for the database security boundary, [docs/submissions.md](docs/submissions.md) for listing intake, [docs/moderation.md](docs/moderation.md) for staff setup, and [contracts/README.md](contracts/README.md) for the XML import contract.
 
 ## Local environment
 

@@ -42,10 +42,12 @@ export function json(
 }
 
 export function methodNotAllowed(allow: string): Response {
-  return json(
+  const response = json(
     { ok: false, message: 'Method not allowed.' },
     405,
   )
+  response.headers.set('Allow', allow)
+  return response
 }
 
 export function sameOrigin(request: Request): boolean {

@@ -3,6 +3,7 @@ import {
   callAdminRest,
   getModeratorCount,
   json,
+  methodNotAllowed,
   sameOrigin,
 } from '../../_lib/moderation'
 
@@ -12,9 +13,7 @@ declare const process: {
 
 export default {
   async fetch(request: Request): Promise<Response> {
-    if (request.method !== 'POST') {
-      return json({ ok: false, message: 'Method not allowed.' }, 405)
-    }
+    if (request.method !== 'POST') return methodNotAllowed('POST')
     if (!sameOrigin(request)) {
       return json({ ok: false, message: 'Cross-origin requests are not accepted.' }, 403)
     }

@@ -2,13 +2,12 @@ import {
   authenticateModerator,
   callAdminRest,
   json,
+  methodNotAllowed,
 } from '../../_lib/moderation'
 
 export default {
   async fetch(request: Request): Promise<Response> {
-    if (request.method !== 'GET') {
-      return json({ ok: false, message: 'Method not allowed.' }, 405)
-    }
+    if (request.method !== 'GET') return methodNotAllowed('GET')
 
     const access = await authenticateModerator(request)
     if (!access.ok) return access.response
@@ -19,7 +18,7 @@ export default {
       'id,name,slug,category,summary,region,country_code,website_url,source_url,created_at',
     )
     endpoint.searchParams.set('status', 'eq.pending')
-    endpoint.searchParams.set('order', 'created_at.asc')
+    endpoint.searchParams.set('order', 'created_at.asc,id.asc')
     endpoint.searchParams.set('limit', '100')
 
     try {
