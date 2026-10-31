@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, feat/global-directory-rounds-16-29, feat/global-directory-rounds-72-91, feat/furfinder-rounds-92-93-yellow-flag, feat/furfinder-rounds-94-96-yellow-flag]
+    branches: [main, feat/global-directory-rounds-16-29, feat/global-directory-rounds-72-91, feat/furfinder-rounds-92-93-yellow-flag, feat/furfinder-rounds-94-96-yellow-flag, feat/furfinder-rounds-97-120-release-evidence]
   pull_request:
     branches: [main, feat/api-hardening-bounded-body, feat/global-directory-rounds-16-29, feat/global-directory-rounds-72-91, feat/furfinder-rounds-92-93-yellow-flag, feat/furfinder-rounds-94-96-yellow-flag]
 

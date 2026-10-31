@@ -20,14 +20,15 @@
 | Source | Type | Appropriate use | Pilot status |
 |---|---|---|---|
 | [JMoF](https://www.jmof.jp/) | Official organizer | Organizer-published event dates and venue | 2027 candidate; reconfirm before import |
-| [Anthrocon](https://www.anthrocon.org/) | Official organizer | Event identity and announced dates | Dates identified; event-specific venue confirmation required |
+| [Anthrocon](https://www.anthrocon.org/) | Official organizer | Event identity and announced dates | Pilot 7; 1–4 Jul 2027 supported by homepage and registration page; venue not asserted |
 | [ConFuzzled](https://confuzzled.org.uk/) | Official organizer | Organizer-published dates, venue and policy links | 2027 candidate; review terms before recurring retrieval |
-| [Further Confusion](https://furtherconfusion.org/) | Official organizer | Event identity, San Jose context and organizer-published 2027 dates | Pilot 5; dates supported by official map-page search excerpt; venue not asserted |
+| [Further Confusion](https://furtherconfusion.org/) | Official organizer | Event identity, date and venue | Pilot 7; official homepage capture states 14–18 Jan 2027 and San Jose Convention Center; pending moderation |
 | [Oregon State University Furry Club](https://clubs.oregonstate.edu/furries) | Institution-hosted page | Public club identity and institution link | Discovery candidate; not imported |
 | [North Carolina Anthro Society groups](https://ncanthrosociety.org/groups) | Public organization index | Discover public group pages | Discovery candidate; verify each group independently |
 | [Furscience](https://furscience.com/) | Public research resource | Research and educational resource listing | Discovery candidate; not imported |
 | [Anthro Northwest](https://www.anthronw.com/anw9/index.html) | Official organizer | Event identity, dates and event information | Pilot 6; 7–10 Jan 2027; venue confirmed on official registration page; pending moderation |
 | [NordicFuzzCon](https://nordicfuzzcon.org/) | Official organizer | Event identity, dates and broad locality | Pilot 6; 24–28 Feb 2027 in Malmö, Sweden; venue not asserted; pending moderation |
+| [Las Vegas Fur Con](https://lasvegasfurcon.org/) | Official organizer | Event identity and date | Pilot 7; 25–28 Mar 2027; venue not asserted; pending moderation |
 
 ## Discovery-only sources
 
@@ -43,20 +44,19 @@ These candidates have not been imported into Supabase or published as FurFinder 
 | Event | Candidate information | Verification caveat |
 |---|---|---|
 | JMoF 2027 | 8–10 January 2027; Aichi Sky Expo, Tokoname, Japan | Reconfirm directly with organizer before import |
-| Anthrocon 2027 | 1–4 July 2027 | Confirm event-specific venue details before adding venue data |
+| Anthrocon 2027 | 1–4 July 2027 | Venue not asserted by pilot 7 |
 | ConFuzzled 2027 | 28 May–1 June 2027; Hilton Birmingham Metropole | Recheck organizer page and terms before import |
 | MYFurCon 2027: FurGear | 24–25 April 2027; Hotel Armada Petaling Jaya | Official homepage checked 2026-10-31; candidate only |
 | Fur-Eh! 2027: FURBALLS | 15–18 July 2027; Edmonton, Canada | Official homepage checked 2026-10-31; venue not confirmed |
 | Las Vegas Fur Con 2027 | 25–28 March 2027 | Official homepage confirms dates; hotel page describes multiple partner properties; no exclusive venue claim |
-| Further Confusion 2027 | 14–18 January 2027 | Official page excerpt supports dates; no venue asserted from 2026 map assets |
-| Anthrocon 2027 | 1–4 July 2027 | Official homepage metadata supports dates; no exclusive venue asserted |
+| Further Confusion 2027 | 14–18 January 2027; San Jose Convention Center | Official homepage search capture supports date and venue; pending review |
+| Anthrocon 2027 | 1–4 July 2027 | Official homepage and registration page support date; no venue asserted |
 
-See [source pilot 3](docs/source-pilot-3.md), [source pilot 4](docs/source-pilot-4.md), [source pilot 5](docs/source-pilot-5.md) and [source pilot 6](docs/source-pilot-6.md) for evidence boundaries.
+See [source pilot 3](docs/source-pilot-3.md), [source pilot 4](docs/source-pilot-4.md), [source pilot 5](docs/source-pilot-5.md), [source pilot 6](docs/source-pilot-6.md) and [source pilot 7](docs/source-pilot-7.md) for evidence boundaries.
 
 ## Required source-record fields
 
 For each source considered for ingestion, maintain:
-
 - Canonical URL and original URL.
 - Publisher or organization name.
 - Source type (official organizer, official organization, public community, public portfolio, aggregator or public resource).
@@ -92,3 +92,12 @@ Policy pages should be rechecked at the time of ingestion because organizers may
 - [FurryCons calendar](https://furrycons.com/calendar/) was used only for candidate discovery and is not the authority for event facts.
 
 Both candidates remain pending source-terms/access review and human moderation. Neither has been imported or published. See [source pilot 6](docs/source-pilot-6.md).
+
+## Round 97–100 — Official source pilot 7
+
+- [Further Confusion 2027](https://furtherconfusion.org/) — official homepage search capture states 14–18 January 2027 and San Jose Convention Center. The official [registration page](https://furtherconfusion.org/register/) confirms registration for the 2027 event is open; no attendee or registration-account data was collected.
+- [Anthrocon 2027](https://www.anthrocon.org/) — official homepage metadata states 1–4 July 2027; official [registration page](https://www.anthrocon.org/registration/) independently states on-site registration runs 1–4 July 2027. Venue not asserted.
+- [Las Vegas Fur Con 2027](https://lasvegasfurcon.org/) — official homepage states 25–28 March 2027. The separate hotel page describes partner hotels; no exclusive venue is asserted.
+- [FurryCons calendar](https://furrycons.com/calendar/) remains discovery-only.
+
+All three candidates remain pending terms/access review and human moderation. None has been imported or published. No media or attendee data was copied. See [source pilot 7](docs/source-pilot-7.md).
