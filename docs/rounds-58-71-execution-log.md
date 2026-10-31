@@ -23,7 +23,7 @@
 | 68 | Firecrawl source pilot | Verified MYFurCon 2027 on its official organizer site (24–25 Apr, Hotel Armada Petaling Jaya) and Fur-Eh! 2027 on its official site (15–18 Jul, Edmonton; venue unconfirmed). |
 | 69 | Source governance | Added source pilot 3 and updated the source register. Aggregator results remain discovery-only; no database import or media reuse. |
 | 70 | Supabase / VibeRaven boundary | Rechecked live Supabase advisors. No production schema changes. The previous VibeRaven SQL review remains static-only; no new SQL migration was introduced. |
-| 71 | CI and release gate | CI run [41163761885](https://github.com/Hanzet22/FurFinder/actions/runs/41163761885) passed all 38 tests and `npm run build` after the test import correction. Latest full-UI preview and Atlassian destination remain unresolved. |
+| 71 | CI and release gate | CI run [41163761885](https://github.com/Hanzet22/FurFinder/actions/runs/41163761885) passed 38 tests and `npm run build` at commit `0904a9e`. Seven endpoint-level tests were added at `59931b3`; their CI result is not yet confirmed. |
 
 ## Code changes
 
@@ -47,11 +47,11 @@ No convention listing was imported or published. No attendee lists, member roste
 
 | System | Current result |
 |---|---|
-| GitHub CI | Run 41163761885 completed successfully: 38/38 tests and `npm run build` passed. |
+| GitHub CI | Run 41163761885 completed successfully: 38/38 tests and `npm run build` passed at `0904a9e`. Seven additional endpoint tests are present at current head `59931b3`; no passing run for that head is confirmed yet. |
 | Supabase Security Advisor | 0 lints (live read-only check). |
 | Supabase Performance Advisor | 2 INFO unused-index notices on existing moderation-event indexes; retained. |
 | VibeRaven | Earlier static review: 0 critical / 0 high / 0 warning / 2 INFO. It is not a live DB test. No SQL changed in this round. |
-| Vercel | A prior preview for commit 3edf786 is READY. It predates the full detail-dialog UI; verify a deployment matching the latest commit before claiming preview validation. An older ERROR deployment at a23b9 was caused by a historical TypeScript export issue, not current-head CI. |
+| Vercel | A prior preview for commit 3edf786 is READY. It predates the detail-dialog UI. Current head has a Vercel status failure pointing to a build-rate-limit page; no deployment matching current head is confirmed. An older ERROR deployment at a23b9 was caused by a historical TypeScript export issue. |
 | Atlassian Jira | The connected site is visible, but the Jira project listing returned zero projects. No project or issue created. |
 | Atlassian Confluence | The site advertises Confluence access, but the Confluence space API returned 404. No page created. |
 
