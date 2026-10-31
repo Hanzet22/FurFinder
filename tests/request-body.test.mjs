@@ -70,3 +70,17 @@ test('treats a missing body as an empty string', async () => {
   const result = await readBoundedBody(request, 4)
   assert.deepEqual(result, { ok: true, text: '' })
 })
+
+
+test('accepts application/json with optional parameters', async () => {
+  const { isJsonContentType } = await import(moduleUrl)
+  assert.equal(isJsonContentType('application/json; charset=utf-8'), true)
+})
+
+test('matches the JSON media type exactly', async () => {
+  const { isJsonContentType } = await import(moduleUrl)
+  assert.equal(isJsonContentType('application/json'), true)
+  assert.equal(isJsonContentType('application/jsonp'), false)
+  assert.equal(isJsonContentType('text/json'), false)
+  assert.equal(isJsonContentType(null), false)
+})
