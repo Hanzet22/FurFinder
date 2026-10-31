@@ -9,8 +9,8 @@ This matrix separates completed evidence from required release evidence. A succe
 
 | Gate | Evidence | Result | Release effect |
 |---|---|---|---|
-| Repository / PR #19 CI | Run #228 [41166482802](https://github.com/Hanzet22/FurFinder/actions/runs/41166482802) passed install, tests and build for exact PR #19 head `d630ec828cced62a2c407fa3c71145d391d982f8`. | PASS for PR #19 only | New rounds 97–120 branch still needs its own exact-head run. |
-| Vercel preview | Visible READY deployment is commit `82cc11bcac2205fde1e0c5d06bc94b8abb007813`, not the current candidate head. | BLOCKED / STALE | Must obtain READY preview for exact candidate SHA. |
+| Repository / PR #20 CI | Run #230 [41167339037](https://github.com/Hanzet22/FurFinder/actions/runs/41167339037) passed install, tests and build for exact branch commit 5c5c29cc87096590845ca274357416fb0318c941. | PASS for that exact SHA | Any later commit needs a new CI run. |
+| Vercel preview | READY deployment exists for branch but points to earlier commit 49c716e48283c18bf21476a86b69d4e1e71b9493. Current status check reports build-rate-limit. | BLOCKED / STALE | Exact-head preview remains mandatory; do not repeatedly retry. |
 | Supabase Security Advisor | 0 lints. | PASS | Read-only advisor result; no DDL performed. |
 | Supabase Performance Advisor | 2 INFO unused-index notices on existing moderation-event indexes. | REVIEW / NON-BLOCKING INFO | Retain indexes pending workload evidence; do not drop based only on advisory notice. |
 | VibeRaven static SQL scan | 0 critical, 0 high, 0 warning, 2 INFO for server-only provenance tables. | PASS WITH INFO | Static source scan only; not a live DB/auth test. |
@@ -35,8 +35,7 @@ Green may be considered only when all applicable items are true:
 
 ## Current blockers
 
-- No Vercel READY preview for the current candidate head has been verified.
-- The rounds 97–120 branch's own CI has not yet been verified.
+- No Vercel READY preview for the current candidate head has been verified; the visible deployment is for an earlier SHA and the status check reports build-rate-limit.
 - Manual accessibility/assistive-technology tests have not been executed.
 - Source terms/access and human moderation decisions remain pending.
 
