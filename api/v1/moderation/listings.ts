@@ -18,7 +18,7 @@ export default {
       'id,name,slug,category,summary,region,country_code,website_url,source_url,created_at',
     )
     endpoint.searchParams.set('status', 'eq.pending')
-    endpoint.searchParams.set('order', 'created_at.asc')
+    endpoint.searchParams.set('order', 'created_at.asc,id.asc')
     endpoint.searchParams.set('limit', '100')
 
     try {
