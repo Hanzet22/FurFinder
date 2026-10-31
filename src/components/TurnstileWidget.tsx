@@ -71,5 +71,5 @@ export function TurnstileWidget({ siteKey, onToken, onError }: Props) {
     }
   }, [onError, onToken, siteKey])
 
-  return <div ref={containerRef} className="turnstile-widget" aria-label="Human verification" />
+  return <div ref={containerRef} className="turnstile-widget" role="group" aria-label="Human verification" />
 }
