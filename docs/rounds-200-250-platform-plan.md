@@ -44,5 +44,8 @@ A round is implemented only when the relevant code/config exists. It is tested o
 
 ## Current implementation status
 
-- Implemented in this slice: OpenAPI contract file and contract regression tests.
-- Pending: client generation, browser E2E, manual accessibility/offline verification, Flutter runtime app, telemetry SDK and search benchmark execution.
+- Implemented: OpenAPI 3.1.1 contract and regression tests (rounds 200–205).
+- Implemented: existing typed directory client and filter-aware cursor pagination reviewed; added explicit offline awareness and retry actions for list and detail failures (rounds 206–217).
+- Added: source-level UX contract tests for pagination, abort-signal wiring, offline events, accessible dialog states and retry controls. These are not browser E2E tests.
+- Pending: generated API client, browser E2E execution, axe automation, manual keyboard/screen-reader checks, cache lifecycle/offline runtime tests, Flutter runtime app, telemetry SDK and search benchmark execution.
+- Deployment policy: Vercel deployment activity is paused by explicit project instruction until the full implementation and verification gate is complete.
