@@ -102,3 +102,12 @@ Search and filters use entity type, broad region and country. Event detail pages
 
 ### Release gate
 The expanded mobile client remains a future release. Do not ship profile features until age eligibility, consent, visibility preview, withdrawal/deletion, abuse reporting and jurisdiction-specific privacy review are complete. The read-only directory can ship earlier only after the versioned API, cursor pagination, official-source provenance and moderation/reporting contract are stable.
+
+
+## Rounds 72–91 alignment
+
+- The current web branch includes the published listing detail endpoint and accessible detail dialog; this does not represent a completed Flutter client.
+- The report/correction workflow is now specified in [moderation-report-workflow.md](moderation-report-workflow.md), but it is not implemented. Flutter submission/report support must wait for an approved API contract, privacy retention policy and abuse controls.
+- The [accessibility acceptance checklist](accessibility-acceptance-checklist.md) is the manual verification plan. Full WCAG 2.2 AA conformance and assistive-technology testing remain outstanding.
+- Public event candidates must pass organizer-source review before publication. Do not use aggregator data as the sole basis for event dates or venue claims.
+- The mobile client must not include private member discovery, attendee lists, direct messaging, public profiles for minors or precise personal-location features.
