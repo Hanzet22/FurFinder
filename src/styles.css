@@ -33,7 +33,7 @@
 /* Keyboard and touch-target refinements */
 :where(a,button,input,select):focus-visible{outline:3px solid #b7d4ff;outline-offset:3px}
 .category-tab{min-height:44px}
-.mobile-menu{min-width:44px;min-height:44px;display:grid;place-items:center}
+.mobile-menu{min-width:44px;min-height:44px;place-items:center}
 @media(max-width:600px){.category-tab{min-height:44px;padding:11px 12px}}
 
 .directory-count{margin:0 0 14px;color:#9eabba;font-size:11px}
