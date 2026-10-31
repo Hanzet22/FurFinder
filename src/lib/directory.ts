@@ -131,3 +131,32 @@ export async function fetchListings(
 
   return payload
 }
+
+
+export async function fetchListingBySlug(
+  slug: string,
+  signal?: AbortSignal,
+): Promise<DirectoryListing> {
+  const endpoint = new URL(
+    `/api/v1/listings/${encodeURIComponent(slug)}`,
+    window.location.origin,
+  )
+  const response = await fetch(endpoint, {
+    signal,
+    headers: { Accept: 'application/json' },
+  })
+
+  if (response.status === 404) {
+    throw new Error('This listing is no longer available.')
+  }
+  if (!response.ok) {
+    throw new Error(`Listing request failed (${response.status}).`)
+  }
+
+  const payload: unknown = await response.json()
+  if (!isRecord(payload) || !isDirectoryListing(payload.data)) {
+    throw new Error('Listing service returned data in an unexpected format.')
+  }
+
+  return payload.data
+}
