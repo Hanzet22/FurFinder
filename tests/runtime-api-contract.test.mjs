@@ -44,7 +44,8 @@ const routeCompiled = ts.transpileModule(
   routeSource.replace("from '../lib/validate-listings-response'", `from '${validatorUrl}'`),
   { compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022 } },
 ).outputText
-const { GET } = await import(`data:text/javascript;base64,${Buffer.from(routeCompiled).toString('base64')}`)
+const { default: route } = await import(`data:text/javascript;base64,${Buffer.from(routeCompiled).toString('base64')}`)
+const GET = route.fetch
 
 test('Vercel route rejects unsupported methods and missing configuration', async () => {
   const methodResponse = await GET(new Request('https://example.test/api/v1/listings', { method: 'POST' }))
