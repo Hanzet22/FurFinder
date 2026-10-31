@@ -82,8 +82,10 @@ test('uses a signed opaque cursor and rejects tampering or another signing key',
   assert.equal(typeof token, 'string')
   assert.deepEqual(await decodeDirectoryCursor(token, secret), cursor)
   assert.equal(await decodeDirectoryCursor(token, 'different-secret'), null)
-  const replacement = token.endsWith('A') ? 'B' : 'A'
-  assert.equal(await decodeDirectoryCursor(token.slice(0, -1) + replacement, secret), null)
+  const [payloadPart, signaturePart] = token.split('.')
+  const changedFirstByte = payloadPart[0] === 'A' ? 'B' : 'A'
+  const tamperedPayload = `${changedFirstByte}${payloadPart.slice(1)}`
+  assert.equal(await decodeDirectoryCursor(`${tamperedPayload}.${signaturePart}`, secret), null)
 })
 
 test('rejects malformed cursor payloads even when the signature is valid', async () => {
