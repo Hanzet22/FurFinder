@@ -160,3 +160,12 @@ test('public listing validation rejects malformed records and the projection omi
     'website_url', 'source_url', 'is_featured', 'verified_at', 'created_at',
   ])
 })
+
+
+test('accepts canonical public listing slugs and rejects malformed paths', () => {
+  assert.equal(parseDirectorySlug('anthrocon-2027'), 'anthrocon-2027')
+  assert.equal(parseDirectorySlug('furry-community'), 'furry-community')
+  for (const slug of ['', 'UpperCase', '-leading', 'trailing-', 'two--hyphens', 'space slug', '../admin', 'a'.repeat(121)]) {
+    assert.equal(parseDirectorySlug(slug), null, slug)
+  }
+})
