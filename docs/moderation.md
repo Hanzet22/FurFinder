@@ -28,24 +28,16 @@ The browser never receives the Supabase secret key and has no direct SELECT/INSE
 
 The bootstrap endpoint also checks that the moderator table is empty. It cannot add a second administrator once the first record exists. Do not leave the bootstrap email configured as a permanent access mechanism.
 
-## Adding another reviewer
+## Managing reviewer access
 
-A project owner can add a reviewer from the Supabase SQL Editor after the person has an existing Auth account. Use the exact Auth user UUID:
+An active administrator can manage reviewers from the **Moderator access** panel in the moderation desk:
 
-```sql
-insert into public.moderators (user_id, role, active)
-values ('<AUTH_USER_UUID>', 'reviewer', true)
-on conflict (user_id)
-do update set role = excluded.role, active = true;
-```
+1. Open Supabase Dashboard → Authentication → Users and copy the user's UUID. The person must already have an Auth account.
+2. In `/moderation`, sign in with an active administrator account.
+3. Paste the UUID into **Supabase Auth user ID** and choose **Add reviewer**.
+4. Use **Deactivate** or **Reactivate** to pause or restore an existing reviewer's access.
 
-To deactivate access:
-
-```sql
-update public.moderators
-set active = false
-where user_id = '<AUTH_USER_UUID>';
-```
+The in-app API only creates the `reviewer` role. It cannot create, deactivate, or demote an administrator; the admin row is shown as protected. Only active administrators can list and manage moderator records.
 
 Do not use client-side user metadata or email claims as moderator authorization. The database allowlist is the authorization source.
 
@@ -65,10 +57,13 @@ Each decision updates a row only when it is still `pending`. The database functi
 - `GET /api/v1/moderation/listings` — authenticated active moderators only; returns up to 100 pending records.
 - `POST /api/v1/moderation/review` — authenticated active moderators only; accepts `listing_id`, `decision` (`publish` or `reject`), and an optional note up to 500 characters.
 - `POST /api/v1/moderation/bootstrap` — one-time first-admin setup; requires a signed-in account whose email matches `MODERATOR_BOOTSTRAP_EMAIL` and an empty moderator table.
+- `GET /api/v1/moderation/moderators` — active administrators only; lists moderator UUIDs, roles, active state, and creation time.
+- `POST /api/v1/moderation/moderators` — active administrators only; adds an existing Auth user as a reviewer.
+- `PATCH /api/v1/moderation/moderators` — active administrators only; activates or deactivates reviewer access. Administrator records are excluded from the update filter.
 
 ## Current limitations
 
-- Moderator membership is managed through the Supabase Dashboard/SQL Editor; there is no in-app role-management screen.
+- The in-app role-management screen uses Supabase Auth user UUIDs; it does not search Auth users by email.
 - Supabase Auth MFA policy is not enforced by this release. Enable and require MFA for staff accounts in Supabase Auth before granting production moderator access.
 - Distributed edge rate limiting and alerting for repeated failed sign-in or review requests remain launch-hardening tasks.
 - This console reviews directory records only. It is not a chat, private contact, or user-to-user messaging system.
