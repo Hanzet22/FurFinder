@@ -43,6 +43,9 @@ These candidates are documented in [docs/global-source-pilot-2.md](docs/global-s
 | Anthrocon 2027 | 1–4 July 2027 | Confirm event-specific venue details before adding venue data |
 | ConFuzzled 2027 | 28 May–1 June 2027; Hilton Birmingham Metropole | Recheck organizer page and terms before import |
 
+| [MYFurCon 2027: FurGear](https://myfur.org/) | Official organizer | Announced event dates and host-hotel details | Official homepage checked 2026-10-31; candidate only, not imported |
+| [Fur-Eh! 2027: FURBALLS](https://fureh.ca/) | Official organizer | Announced dates and city | Official homepage checked 2026-10-31; venue not confirmed; candidate only |
+
 ## Required source-record fields
 
 For each source considered for ingestion, maintain:
