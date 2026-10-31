@@ -85,9 +85,9 @@ alter table public.directory_events enable row level security;
 alter table public.public_profiles enable row level security;
 
 -- Browser roles cannot create or modify source/provenance records.
-revoke all on public.directory_sources, public.listing_sources from anon, authenticated;
-revoke all on public.directory_events from anon, authenticated;
-revoke all on public.public_profiles from anon, authenticated;
+revoke all on public.directory_sources, public.listing_sources from public, anon, authenticated;
+revoke all on public.directory_events from public, anon, authenticated;
+revoke all on public.public_profiles from public, anon, authenticated;
 
 -- Public event metadata is readable only when its parent listing is published.
 grant select on public.directory_events to anon, authenticated;
@@ -97,7 +97,9 @@ create policy "Read event metadata for published listings"
   using (exists (select 1 from public.listings l where l.id = listing_id and l.status = 'published'));
 
 -- Public profile reads require both explicit publication and a server-verified adult eligibility marker.
-grant select on public.public_profiles to anon, authenticated;
+-- Column-level grants prevent account_id and internal consent/eligibility fields from leaking.
+grant select (id, public_handle, bio, country_code, public_links, published_at)
+  on public.public_profiles to anon, authenticated;
 drop policy if exists "Read published adult opt-in profiles" on public.public_profiles;
 create policy "Read published adult opt-in profiles"
   on public.public_profiles for select to anon, authenticated
