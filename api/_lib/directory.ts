@@ -181,6 +181,11 @@ export function applyDirectoryFilters(
   }
 }
 
+export function parseDirectorySlug(value: string): string | null {
+  if (value.length < 1 || value.length > 120) return null
+  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value) ? value : null
+}
+
 export function toPublicListing(value: Record<string, unknown>) {
   return {
     id: value.id,
