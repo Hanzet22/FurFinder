@@ -78,6 +78,8 @@ npm run dev
 
 - [Technology expansion catalogue — 144 entries](docs/technology-expansion-catalogue-143-199.md)
 - [Rounds 143–199 technology delivery plan](docs/rounds-143-199-technology-delivery-plan.md)
+- [PWA and web security implementation](docs/pwa-security-implementation-143-160.md)
+- [Execution log, rounds 143–199](docs/rounds-143-199-execution-log.md)
 - [Global directory API implementation](docs/global-directory-api-implementation.md)
 - [Mobile companion PRD](docs/mobile-app-prd.md)
 - [Moderation report workflow v1](docs/moderation-report-workflow.md) — design only; no report endpoint.
