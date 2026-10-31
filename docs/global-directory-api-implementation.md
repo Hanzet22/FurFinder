@@ -32,14 +32,26 @@ The endpoint:
 - Projects an explicit public-field allowlist; it does not return moderation notes, account identifiers, consent evidence or private fields.
 - Uses the Supabase publishable key for the read request. The server-only Supabase secret is used only as the HMAC-SHA-256 signing key for cursors; it is never returned to the client.
 
+### `GET /api/v1/listings/{slug}`
+
+A second read-only route returns one public listing by its canonical slug.
+
+- Uses the same explicit public column allowlist as the list endpoint.
+- Requires `status=published` and an exact slug match.
+- Rejects malformed slugs before contacting Supabase.
+- Returns HTTP 404 for missing or unpublished entries without revealing whether a private/pending row exists.
+- Uses the publishable key for the read and the shared seven-second upstream timeout.
+- Uses the same public response projection; no moderation, account or private fields are returned.
+
 ### Signed cursor behavior
 
 A cursor contains the last row's `created_at` and `id`, wrapped in a versioned payload and authenticated with HMAC-SHA-256. Invalid, altered, malformed or older-than-24-hours tokens are rejected with HTTP 400. Rotating the server signing key also invalidates existing cursors. Rotating the server signing key invalidates existing cursors, which clients can recover from by restarting pagination.
 
 ### Web client
 
-- `src/lib/directory.ts` validates the API envelope and listing records.
-- `src/App.tsx` uses TanStack Query's infinite-query cursor flow.
+- `src/lib/directory.ts` validates the list envelope and individual listing records; it now exposes `fetchListingBySlug` for detail reads.
+- `src/App.tsx` uses TanStack Query's infinite-query cursor flow and opens an accessible native dialog for listing details.
+- `src/components/ListingDetailDialog.tsx` handles loading, unavailable and loaded states, with official-site and source links.
 - Search, category and region changes form part of the query key and restart the result set.
 - The client does not require a Supabase key for public directory reads.
 
@@ -48,7 +60,7 @@ A cursor contains the last row's `created_at` and `id`, wrapped in a versioned p
 These remain separate follow-up work and are not implied by the current GET route:
 
 - `POST /api/v1/reports` — requires an approved report table, retention policy, moderation workflow and abuse controls.
-- `GET /api/v1/listings/{slug}` — individual listing detail route.
+- Event metadata joins and event-status filtering — proposed schema has not been applied.
 - Event metadata joins and event-status filtering — proposed schema has not been applied.
 - Adult opt-in public profile routes — no production schema or eligibility workflow exists; no minor public profiles.
 - Distributed rate limiting and abuse telemetry — bounded request validation is present, but no distributed rate limiter is claimed.
@@ -65,8 +77,8 @@ Never place the secret key in a `VITE_*` browser variable. The API uses a seven-
 
 ## Verification status
 
-- Unit tests were added in `tests/directory-api.test.mjs` for filter validation, signed cursor integrity, tampering, 24-hour expiry, malformed cursors and public response projection.
-- GitHub Actions run [41159346825](https://github.com/Hanzet22/FurFinder/actions/runs/41159346825) passed all 37 tests (37/37) and `npm run build` at code commit `05ed5f1`.
+- Unit tests in `tests/directory-api.test.mjs` cover filter validation, signed cursor integrity, tampering, 24-hour expiry, malformed cursors, public response projection and canonical listing-slug validation.
+- GitHub Actions run [41163761885](https://github.com/Hanzet22/FurFinder/actions/runs/41163761885) passed tests and `npm run build` after the listing-detail changes (38 tests total).
 - Supabase production schema and data were not changed.
 - The proposed global-directory SQL remains under `supabase/proposed/`, not `supabase/migrations/`.
 - VibeRaven static review is separate from live database testing; see the execution log.
