@@ -116,7 +116,7 @@ export async function encodeDirectoryCursor(
   cursor: DirectoryCursor,
   secret: string,
 ): Promise<string> {
-  const payload = new TextEncoder().encode(JSON.stringify({ v: 1, ...cursor }))
+  const payload = new TextEncoder().encode(JSON.stringify({ v: 1, iat: Date.now(), ...cursor }))
   const key = await cursorKey(secret)
   const signature = new Uint8Array(await crypto.subtle.sign('HMAC', key, toArrayBuffer(payload)))
   return `${base64UrlEncode(payload)}.${base64UrlEncode(signature)}`
@@ -140,6 +140,10 @@ export async function decodeDirectoryCursor(
     const record = value as Record<string, unknown>
     if (
       record.v !== 1 ||
+      typeof record.iat !== 'number' ||
+      !Number.isSafeInteger(record.iat) ||
+      record.iat > Date.now() + 5 * 60 * 1000 ||
+      Date.now() - record.iat > 24 * 60 * 60 * 1000 ||
       typeof record.created_at !== 'string' ||
       typeof record.id !== 'string' ||
       !uuidPattern.test(record.id) ||
