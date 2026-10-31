@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import {
   ArrowRight, Search, MapPin, CalendarDays, Palette, Users,
@@ -39,6 +39,17 @@ export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showSubmission, setShowSubmission] = useState(false)
   const [selectedListingSlug, setSelectedListingSlug] = useState<string | null>(null)
+  const [isOnline, setIsOnline] = useState(() => typeof navigator === 'undefined' ? true : navigator.onLine)
+
+  useEffect(() => {
+    const updateNetworkStatus = () => setIsOnline(navigator.onLine)
+    window.addEventListener('online', updateNetworkStatus)
+    window.addEventListener('offline', updateNetworkStatus)
+    return () => {
+      window.removeEventListener('online', updateNetworkStatus)
+      window.removeEventListener('offline', updateNetworkStatus)
+    }
+  }, [])
   const {
     data: listingPages,
     isPending: loadingListings,
@@ -46,6 +57,8 @@ export default function App() {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
+    refetch,
+    isRefetching,
   } = useInfiniteQuery({
     queryKey: ['directory', 'published', query, category, region],
     queryFn: ({ signal, pageParam }) => {
@@ -167,8 +180,16 @@ export default function App() {
           <div><div className="eyebrow">COMMUNITY-VERIFIED DISCOVERY</div><h2 id="directory-title">The global directory.</h2></div>
           <p>Public listings with source links. Entries appear here only after review and publication.</p>
         </div>
+        {!isOnline ? <p className="directory-status" role="status">You are offline. Previously loaded public listings may remain visible; new searches and pages need a connection.</p> : null}
         {loadingListings ? <p className="directory-status" role="status">Loading published listings…</p> : null}
-        {directoryError ? <p className="directory-status directory-error" role="alert">{directoryError instanceof Error ? directoryError.message : 'Unable to load directory listings.'}</p> : null}
+        {directoryError ? (
+          <div className="directory-status directory-error" role="alert">
+            <p>{directoryError instanceof Error ? directoryError.message : 'Unable to load directory listings.'}</p>
+            <button className="button button-small" type="button" onClick={() => void refetch()} disabled={!isOnline || isRefetching}>
+              {isRefetching ? 'Retrying…' : 'Try again'}
+            </button>
+          </div>
+        ) : null}
         {!loadingListings && !directoryError && listings.length > 0 && visibleListings.length === 0 ? (
           <div className="directory-empty" role="status">
             <Search size={25} />
