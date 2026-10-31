@@ -2,7 +2,7 @@
 
 **Status:** partial feature-branch implementation  
 **Reviewed:** 2026-10-31  
-**Branch:** `feat/global-directory-rounds-16-29`  
+**Implementation branch:** `feat/global-directory-rounds-16-29`; follow-up documentation branch: `feat/global-directory-rounds-72-91`  
 **Related contract:** [global-directory-api-contracts.md](global-directory-api-contracts.md)
 
 ## Implemented in this branch
@@ -61,7 +61,6 @@ These remain separate follow-up work and are not implied by the current GET rout
 
 - `POST /api/v1/reports` — requires an approved report table, retention policy, moderation workflow and abuse controls.
 - Event metadata joins and event-status filtering — proposed schema has not been applied.
-- Event metadata joins and event-status filtering — proposed schema has not been applied.
 - Adult opt-in public profile routes — no production schema or eligibility workflow exists; no minor public profiles.
 - Distributed rate limiting and abuse telemetry — bounded request validation is present, but no distributed rate limiter is claimed.
 - Flutter/mobile client implementation — the existing mobile PRD remains a specification, not a built app.
@@ -78,7 +77,7 @@ Never place the secret key in a `VITE_*` browser variable. The API uses a seven-
 ## Verification status
 
 - Unit tests in `tests/directory-api.test.mjs` cover filter validation, signed cursor integrity, tampering, 24-hour expiry, malformed cursors, public response projection and canonical listing-slug validation.
-- GitHub Actions run [41164098929](https://github.com/Hanzet22/FurFinder/actions/runs/41164098929) passed all 45 tests and `npm run build` at PR head `faceeb3`, including seven endpoint-level tests for the detail route.
+- GitHub Actions run [41164180538](https://github.com/Hanzet22/FurFinder/actions/runs/41164180538) passed all 45 tests and `npm run build` at PR #16 head `0307eeb`, including seven endpoint-level tests for the detail route.
 - Supabase production schema and data were not changed.
 - The proposed global-directory SQL remains under `supabase/proposed/`, not `supabase/migrations/`.
 - VibeRaven static review is separate from live database testing; see the execution log.
