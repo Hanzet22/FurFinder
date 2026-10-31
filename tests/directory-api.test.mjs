@@ -20,6 +20,7 @@ const {
   encodeDirectoryCursor,
   isPublicListingRecord,
   parseDirectoryQuery,
+  parseDirectorySlug,
   toPublicListing,
 } = await import(moduleUrl)
 
