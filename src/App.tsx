@@ -8,7 +8,7 @@ import {
 import { DIRECTORY_PAGE_SIZE, fetchListings } from './lib/directory'
 import { ListingSubmissionForm } from './components/ListingSubmissionForm'
 
-type Category = 'All' | 'Communities' | 'Conventions' | 'Artists' | 'Organizations' | 'Industry'
+type Category = 'All' | 'Communities' | 'Conventions' | 'Artists' | 'Organizations' | 'Industry' | 'Resources'
 
 const categories: { name: Category; icon: typeof Users; count: string }[] = [
   { name: 'All', icon: Compass, count: 'Explore all' },
@@ -17,6 +17,7 @@ const categories: { name: Category; icon: typeof Users; count: string }[] = [
   { name: 'Artists', icon: Palette, count: 'Creators & makers' },
   { name: 'Organizations', icon: Building2, count: 'Clubs & associations' },
   { name: 'Industry', icon: Factory, count: 'Studios & services' },
+  { name: 'Resources', icon: BookOpen, count: 'Guides & knowledge' },
 ]
 
 const features = [
@@ -64,6 +65,7 @@ export default function App() {
       Artists: 'artist',
       Organizations: 'organization',
       Industry: 'industry',
+      Resources: 'resource',
     }
     return listings.filter((listing) => {
       const categoryMatch = category === 'All' || listing.category === categoryMap[category]
@@ -75,8 +77,16 @@ export default function App() {
 
   const visibleFeatures = useMemo(() => {
     const normalized = query.trim().toLowerCase()
+    const featureCategoryMap: Partial<Record<Category, string>> = {
+      Communities: 'communities',
+      Conventions: 'conventions',
+      Artists: 'artists',
+      Organizations: 'organizations',
+      Industry: 'industry',
+      Resources: 'knowledge',
+    }
     return features.filter((feature) => {
-      const categoryMatch = category === 'All' || feature.title.toLowerCase().includes(category === 'Artists' ? 'artists' : category.toLowerCase())
+      const categoryMatch = category === 'All' || feature.title.toLowerCase().includes(featureCategoryMap[category] ?? '')
       const queryMatch = !normalized || `${feature.title} ${feature.text}`.toLowerCase().includes(normalized)
       return categoryMatch && queryMatch
     })
