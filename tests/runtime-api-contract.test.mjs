@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import ts from 'typescript'
 
-const source = await readFile(new URL('../api/lib/validate-listings-response.ts', import.meta.url), 'utf8')
+const source = await readFile(new URL('../lib/validate-listings-response.ts', import.meta.url), 'utf8')
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022 } }).outputText
 const { isPublicListingsResponse } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`)
 const fixture = JSON.parse(await readFile(new URL('../contracts/fixtures/listings-response.example.json', import.meta.url), 'utf8'))
@@ -41,10 +41,11 @@ test('rejects values that violate database field constraints', () => {
 const routeSource = await readFile(new URL('../api/v1/listings.ts', import.meta.url), 'utf8')
 const validatorUrl = `data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`
 const routeCompiled = ts.transpileModule(
-  routeSource.replace("from '../lib/validate-listings-response'", `from '${validatorUrl}'`),
+  routeSource.replace("from '../../lib/validate-listings-response'", `from '${validatorUrl}'`),
   { compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022 } },
 ).outputText
-const { GET } = await import(`data:text/javascript;base64,${Buffer.from(routeCompiled).toString('base64')}`)
+const { default: route } = await import(`data:text/javascript;base64,${Buffer.from(routeCompiled).toString('base64')}`)
+const GET = route.fetch
 
 test('Vercel route rejects unsupported methods and missing configuration', async () => {
   const methodResponse = await GET(new Request('https://example.test/api/v1/listings', { method: 'POST' }))
