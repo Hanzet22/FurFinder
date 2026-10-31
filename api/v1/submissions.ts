@@ -1,4 +1,4 @@
-import { readBoundedBody } from '../_lib/request'
+import { isJsonContentType, readBoundedBody } from '../_lib/request'
 import {
   createPendingListing,
   validateListingSubmission,
@@ -72,8 +72,7 @@ export default {
       return json({ ok: false, message: 'Invalid request origin.' }, 403)
     }
 
-    const contentType = (request.headers.get('content-type') ?? '').split(';', 1)[0].trim().toLowerCase()
-    if (contentType !== 'application/json') {
+    if (!isJsonContentType(request.headers.get('content-type'))) {
       return json({ ok: false, message: 'Content-Type must be application/json.' }, 415)
     }
 
