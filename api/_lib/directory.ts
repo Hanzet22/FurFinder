@@ -157,7 +157,7 @@ export async function decodeDirectoryCursor(
   }
 }
 
-export export function applyDirectoryFilters(
+export function applyDirectoryFilters(
   endpoint: URL,
   query: DirectoryQuery,
   cursor: DirectoryCursor | null,
