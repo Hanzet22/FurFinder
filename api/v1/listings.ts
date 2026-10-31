@@ -20,7 +20,7 @@ export default {
       return json({ ok: false, message: 'Directory service is not configured.' }, 503)
     }
 
-    const { q, category, region, country, limit, cursor: cursorToken } = parsed.value
+    const { limit, cursor: cursorToken } = parsed.value
     let cursor: { created_at: string; id: string } | null = null
     if (cursorToken) {
       cursor = await decodeDirectoryCursor(cursorToken, config.secretKey)
