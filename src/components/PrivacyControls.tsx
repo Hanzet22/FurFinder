@@ -70,13 +70,13 @@ export function PrivacyControls() {
   }, [motion, accent, consent?.preferences])
 
   useEffect(() => {
-    const dialog = termsOpen ? termsDialogRef.current : cookieOpen ? cookieDialogRef.current : null
-    if (!dialog) return
+    const activeDialog = termsOpen ? termsDialogRef.current : cookieOpen ? cookieDialogRef.current : null
+    if (!activeDialog) return
 
     const previouslyFocused = document.activeElement instanceof HTMLElement
       ? document.activeElement
       : null
-    const getFocusable = () => Array.from(dialog.querySelectorAll<HTMLElement>(
+    const getFocusable = () => Array.from(activeDialog.querySelectorAll<HTMLElement>(
       'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
     )).filter((element) => element.getAttribute('aria-hidden') !== 'true')
 
@@ -97,7 +97,7 @@ export function PrivacyControls() {
       }
       const first = focusable[0]
       const last = focusable[focusable.length - 1]
-      if (!dialog.contains(document.activeElement)) {
+      if (!activeDialog.contains(document.activeElement)) {
         event.preventDefault()
         ;(event.shiftKey ? last : first).focus()
       } else if (event.shiftKey && document.activeElement === first) {
