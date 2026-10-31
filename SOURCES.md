@@ -22,6 +22,7 @@
 | [JMoF](https://www.jmof.jp/) | Official organizer | Organizer-published event dates and venue | 2027 candidate; reconfirm before import |
 | [Anthrocon](https://www.anthrocon.org/) | Official organizer | Event identity and announced dates | Dates identified; event-specific venue confirmation required |
 | [ConFuzzled](https://confuzzled.org.uk/) | Official organizer | Organizer-published dates, venue and policy links | 2027 candidate; review terms before recurring retrieval |
+| [Further Confusion](https://furtherconfusion.org/) | Official organizer | Event identity, San Jose context and organizer-published 2027 dates | Pilot 5; dates supported by official map-page search excerpt; venue not asserted |
 | [Oregon State University Furry Club](https://clubs.oregonstate.edu/furries) | Institution-hosted page | Public club identity and institution link | Discovery candidate; not imported |
 | [North Carolina Anthro Society groups](https://ncanthrosociety.org/groups) | Public organization index | Discover public group pages | Discovery candidate; verify each group independently |
 | [Furscience](https://furscience.com/) | Public research resource | Research and educational resource listing | Discovery candidate; not imported |
@@ -72,7 +73,6 @@ A candidate may move from discovery to a pending submission only after source an
 
 No source listed here should be interpreted as an endorsement, partnership, affiliation or blanket permission to crawl or reuse its content.
 
-
 ## Organizer policy pages reviewed
 
 These policy pages are relevant context for source governance. They are not blanket permissions to scrape, republish images, or reuse event branding.
@@ -83,7 +83,6 @@ These policy pages are relevant context for source governance. They are not blan
 
 Policy pages should be rechecked at the time of ingestion because organizers may update them. Store policy URLs and review timestamps, not copied policy text, unless reuse is expressly permitted.
 
-
 ## New official-source candidate (pilot 4)
 
 | Source | Type | Appropriate use | Pilot status |
@@ -91,3 +90,12 @@ Policy pages should be rechecked at the time of ingestion because organizers may
 | [Las Vegas Fur Con 2027](https://lasvegasfurcon.org/) | Official organizer | Event identity and announced dates; official hotel-information page | Homepage and hotel page checked 2026-10-31; 25–28 March 2027 confirmed; candidate only, not imported |
 
 The official organizer homepage confirms the event dates. Its hotel page describes multiple partner properties; do not treat a third-party calendar's single venue suggestion as organizer-confirmed venue data. See [source pilot 4](docs/source-pilot-4.md).
+
+## New official-source candidates (pilot 5)
+
+| Source | Type | Supported fields | Pilot status |
+|---|---|---|---|
+| [Further Confusion 2027](https://furtherconfusion.org/) | Official organizer | Event identity; San Jose context; 14–18 January 2027 date range from official map-page search excerpt | Candidate only; no venue inferred from 2026 map assets |
+| [Anthrocon 2027](https://www.anthrocon.org/) | Official organizer | Event identity; 1–4 July 2027 dates from official homepage title metadata | Candidate only; no exclusive venue asserted |
+
+See [source pilot 5](docs/source-pilot-5.md) for evidence boundaries. Neither event has been imported or published.
