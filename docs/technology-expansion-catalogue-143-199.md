@@ -47,13 +47,13 @@ Do not add dependencies simply to increase a count. Prefer browser/platform prim
 
 | # | Technology | Purpose | Status |
 |---:|---|---|---|
-| 1 | Web App Manifest | Install metadata and app identity | Candidate |
-| 2 | Service Worker | Offline shell and controlled caching | Candidate |
+| 1 | Web App Manifest | Install metadata and app identity | Implemented in this branch; verification pending |
+| 2 | Service Worker | Offline shell and controlled caching | Implemented in this branch; verification pending |
 | 3 | Workbox | Service-worker lifecycle and cache strategies | Evaluate |
 | 4 | IndexedDB | Structured local public-data cache | Candidate |
 | 5 | Dexie.js | Typed IndexedDB wrapper | Evaluate |
 | 6 | BroadcastChannel API | Cross-tab cache coordination | Evaluate |
-| 7 | Cache Storage API | Static asset caching | Candidate |
+| 7 | Cache Storage API | Static asset caching | Implemented in this branch; verification pending |
 | 8 | Background Sync API | Deferred safe retry where supported | Later |
 | 9 | Web Share API | Native share sheet enhancement | Candidate |
 | 10 | Web Push | Opt-in public event reminders | Later |
@@ -118,9 +118,9 @@ Do not add dependencies simply to increase a count. Prefer browser/platform prim
 | # | Technology | Purpose | Status |
 |---:|---|---|---|
 | 1 | Content Security Policy | Restrict executable and resource origins | Candidate |
-| 2 | Strict-Transport-Security | HTTPS transport policy | Candidate |
-| 3 | Referrer-Policy | Limit cross-site referrer leakage | Candidate |
-| 4 | Permissions-Policy | Disable unneeded browser capabilities | Candidate |
+| 2 | Strict-Transport-Security | HTTPS transport policy | Configured in this branch; preview verification pending |
+| 3 | Referrer-Policy | Limit cross-site referrer leakage | Configured in this branch; preview verification pending |
+| 4 | Permissions-Policy | Disable unneeded browser capabilities | Configured in this branch; preview verification pending |
 | 5 | CSRF tokens | Protect cookie-authenticated mutations | Evaluate |
 | 6 | CORS allowlist | Restrict cross-origin API use | Existing policy review |
 | 7 | SSRF URL validation | Constrain source URL handling | Candidate |
@@ -260,3 +260,11 @@ Do not add dependencies simply to increase a count. Prefer browser/platform prim
 - Performance and bundle impact are measured.
 - Rollback/removal path is documented.
 - Status is recorded as implemented, tested, preview-verified or production-approved; these are not interchangeable.
+
+
+## Official technical references
+
+- [MDN: PWA caching strategies](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Caching) — cache freshness depends on resource type; avoid caching requests that should remain live or mutations.
+- [MDN: Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) — service workers intercept controlled requests and can serve cached responses.
+- [Vercel: Response headers](https://vercel.com/docs/headers/response-headers) — response headers can be inspected with browser developer tools or an HTTP client.
+- [Flutter: Offline-first support](https://docs.flutter.dev/app-architecture/design-patterns/offline-first) — repositories should be the single source of truth across local and remote data.
