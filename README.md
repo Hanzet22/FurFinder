@@ -58,7 +58,6 @@ npm run dev
 - [x] TanStack Query cache for published directory data
 - [x] Tailwind CSS v4 utility layer integrated with existing CSS
 - [x] Node.js API functions for health and moderated listing suggestions
-- [ ] Trusted XML importer
 - [x] XML v1 import contract and example
 - [x] Supabase Auth sign-in and server-side moderator allowlist
 - [x] Pending submission queue and manual moderator review in Supabase Dashboard
@@ -70,8 +69,9 @@ npm run dev
 - [x] Automated request-body unit tests, typecheck, and production build in CI
 - [x] Streaming byte limits for listing submissions and moderation review requests
 - [x] Directory pagination with a load-more control
+- [ ] Trusted XML importer
 - [ ] Distributed edge rate limiting, automated end-to-end tests, and full launch review
-- [x] Versioned public directory list and detail read APIs with signed keyset cursors (feature branch; 45 tests and build passed; latest Vercel preview validation pending)
+- [x] Versioned public directory list and detail read APIs with signed keyset cursors (feature branch; CI passed for PR #18; latest Vercel preview validation pending)
 
 See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/global-directory-data-governance.md](docs/global-directory-data-governance.md) for global source, privacy and ingestion rules, [docs/global-directory-information-architecture.md](docs/global-directory-information-architecture.md), [docs/source-registry-pilot.md](docs/source-registry-pilot.md) for the expanded navigation and user flows, [docs/technology-roadmap.md](docs/technology-roadmap.md) for the complete polyglot technology matrix, [docs/mobile-app-prd.md](docs/mobile-app-prd.md) for the Flutter companion plan, [docs/database.md](docs/database.md) for the database security boundary, [docs/submissions.md](docs/submissions.md) for listing intake, [docs/moderation.md](docs/moderation.md) for staff setup, and [contracts/README.md](contracts/README.md) for the XML import contract.
 
@@ -85,9 +85,12 @@ Copy `.env.example` to `.env.local` for browser settings. Run Vercel Functions l
 - [Mobile companion PRD](docs/mobile-app-prd.md)
 - [Moderation report workflow](docs/moderation-report-workflow.md) — design only; no report endpoint yet.
 - [Accessibility acceptance checklist](docs/accessibility-acceptance-checklist.md) — manual test plan, not a conformance claim.
+- [Mobile UX acceptance review](docs/mobile-ux-acceptance-review.md) — acceptance criteria only; manual testing remains outstanding.
 - [Source pilot 4](docs/source-pilot-4.md)
 - [Source pilot 5](docs/source-pilot-5.md)
+- [Source pilot 6](docs/source-pilot-6.md)
 - [Yellow Flag release gate](docs/yellow-flag-release-gate.md)
 - [Atlassian workspace bootstrap](docs/atlassian-workspace-bootstrap.md)
 - [Execution log, rounds 72–91](docs/rounds-72-91-execution-log.md)
 - [Execution log, rounds 92–93](docs/rounds-92-93-execution-log.md)
+- [Execution log, rounds 94–96](docs/rounds-94-96-execution-log.md)
