@@ -83,6 +83,12 @@ export function parseDirectoryQuery(url: URL): DirectoryQueryResult {
   }
 }
 
+function toArrayBuffer(bytes: Uint8Array): ArrayBuffer {
+  const copy = new Uint8Array(bytes.byteLength)
+  copy.set(bytes)
+  return copy.buffer
+}
+
 function base64UrlEncode(bytes: Uint8Array): string {
   let binary = ''
   for (const byte of bytes) binary += String.fromCharCode(byte)
@@ -112,7 +118,7 @@ export async function encodeDirectoryCursor(
 ): Promise<string> {
   const payload = new TextEncoder().encode(JSON.stringify({ v: 1, ...cursor }))
   const key = await cursorKey(secret)
-  const signature = new Uint8Array(await crypto.subtle.sign('HMAC', key, payload))
+  const signature = new Uint8Array(await crypto.subtle.sign('HMAC', key, toArrayBuffer(payload)))
   return `${base64UrlEncode(payload)}.${base64UrlEncode(signature)}`
 }
 
@@ -126,7 +132,7 @@ export async function decodeDirectoryCursor(
     const payload = base64UrlDecode(encodedPayload)
     const signature = base64UrlDecode(encodedSignature)
     const key = await cursorKey(secret)
-    const valid = await crypto.subtle.verify('HMAC', key, signature, payload)
+    const valid = await crypto.subtle.verify('HMAC', key, toArrayBuffer(signature), toArrayBuffer(payload))
     if (!valid) return null
 
     const value: unknown = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(payload))
