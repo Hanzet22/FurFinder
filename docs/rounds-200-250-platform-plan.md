@@ -50,5 +50,7 @@ A round is implemented only when the relevant code/config exists. It is tested o
 - Added: service-worker lifecycle contract tests for cache version cleanup, activation, network-first navigation fallback and API/moderator exclusions. These are source-level checks, not browser offline runtime verification.
 - Added: Playwright Chromium E2E suite with synthetic fixtures for public listing/detail, offline feedback, retry recovery and an axe scan artifact. The axe scan records findings; it does not claim zero violations or WCAG conformance.
 - CI installs Chromium on Ubuntu 24.04 and runs the browser suite after unit tests and build. First attempt failed because Playwright 1.58.2 does not support the runner's Ubuntu 26.04 image; runner is now pinned to Ubuntu 24.04. Current-head CI confirmation is pending.
-- Pending: generated API client, manual keyboard/screen-reader checks, browser cache lifecycle/offline runtime tests, Flutter runtime app, telemetry SDK and search benchmark execution.
+- Added: deterministic synthetic public-listing fixture generator (1–100,000 records, seeded) using reserved example.org URLs and no personal fields; regression tests cover determinism, schema shape and bounds.
+- Added: reproducible search workload matrix and measurement protocol. Actual EXPLAIN/ANALYZE execution against isolated local/staging data remains pending under HB-23; no Supabase or production writes were made.
+- Pending: generated API client, manual keyboard/screen-reader checks, browser cache lifecycle/offline runtime tests, Flutter runtime app and telemetry SDK.
 - Deployment policy: Vercel deployment activity is paused by explicit project instruction until the full implementation and verification gate is complete.
