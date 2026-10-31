@@ -21,6 +21,15 @@ export type DirectoryListing = {
   created_at: string
 }
 
+export type DirectoryPage = {
+  data: DirectoryListing[]
+  page: {
+    next_cursor: string | null
+    has_more: boolean
+    limit: number
+  }
+}
+
 const categories = new Set<DirectoryCategory>([
   'community',
   'convention',
@@ -37,9 +46,6 @@ const regions = new Set([
   'Latin America',
   'Middle East & Africa',
 ])
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const publishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -80,32 +86,28 @@ function isDirectoryListing(value: unknown): value is DirectoryListing {
   )
 }
 
-export const DIRECTORY_PAGE_SIZE = 60
+function isDirectoryPage(value: unknown): value is DirectoryPage {
+  return (
+    isRecord(value) &&
+    Array.isArray(value.data) &&
+    value.data.every(isDirectoryListing) &&
+    isRecord(value.page) &&
+    (value.page.next_cursor === null || typeof value.page.next_cursor === 'string') &&
+    typeof value.page.has_more === 'boolean' &&
+    typeof value.page.limit === 'number'
+  )
+}
 
 export async function fetchListings(
   signal?: AbortSignal,
-  offset = 0,
-): Promise<DirectoryListing[]> {
-  if (!supabaseUrl || !publishableKey) {
-    throw new Error('Directory service is not configured yet.')
-  }
-
-  const endpoint = new URL('/rest/v1/listings', supabaseUrl)
-  endpoint.searchParams.set(
-    'select',
-    'id,name,slug,category,summary,region,country_code,website_url,source_url,is_featured,verified_at,created_at',
-  )
-  endpoint.searchParams.set('status', 'eq.published')
-  endpoint.searchParams.set('order', 'is_featured.desc,created_at.desc,id.asc')
-  endpoint.searchParams.set('limit', String(DIRECTORY_PAGE_SIZE))
-  endpoint.searchParams.set('offset', String(Math.max(0, Math.floor(offset))))
+  cursor: string | null = null,
+): Promise<DirectoryPage> {
+  const endpoint = new URL('/api/v1/listings', window.location.origin)
+  if (cursor) endpoint.searchParams.set('cursor', cursor)
 
   const response = await fetch(endpoint, {
     signal,
-    headers: {
-      apikey: publishableKey,
-      Authorization: `Bearer ${publishableKey}`,
-    },
+    headers: { Accept: 'application/json' },
   })
 
   if (!response.ok) {
@@ -113,7 +115,7 @@ export async function fetchListings(
   }
 
   const payload: unknown = await response.json()
-  if (!Array.isArray(payload) || !payload.every(isDirectoryListing)) {
+  if (!isDirectoryPage(payload)) {
     throw new Error('Directory service returned data in an unexpected format.')
   }
 
