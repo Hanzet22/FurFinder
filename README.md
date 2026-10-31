@@ -49,7 +49,7 @@ npm run dev
 - [x] XML v1 import contract and example
 - [x] Supabase Auth sign-in and server-side moderator allowlist
 - [x] Pending submission queue and manual moderator review in Supabase Dashboard
-- [x] In-app pending review console and atomic moderation audit log\n- [ ] In-app moderator role-management UI
+- [x] In-app pending review console and atomic moderation audit log\n- [x] In-app moderator role-management UI for reviewer access (admin protected)
 - [x] Polyglot technology matrix and staged implementation roadmap
 - [x] Mobile companion product brief
 - [x] Vercel deployment
