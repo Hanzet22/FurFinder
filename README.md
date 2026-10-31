@@ -77,3 +77,14 @@ See [docs/architecture.md](docs/architecture.md) for system architecture, [docs/
 ## Local environment
 
 Copy `.env.example` to `.env.local` for browser settings. Run Vercel Functions locally with `vercel dev`. Configure `VITE_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, and `SUPABASE_SECRET_KEY` in Vercel before enabling submissions. For moderator access, create a Supabase Auth user and follow [docs/moderation.md](docs/moderation.md) for the one-time admin bootstrap. Never put a Supabase secret/service-role key in a Vite variable or browser bundle. See [docs/submissions.md](docs/submissions.md).
+
+
+## Engineering and governance documentation
+
+- [Global directory API implementation](docs/global-directory-api-implementation.md)
+- [Mobile companion PRD](docs/mobile-app-prd.md)
+- [Moderation report workflow](docs/moderation-report-workflow.md) — design only; no report endpoint yet.
+- [Accessibility acceptance checklist](docs/accessibility-acceptance-checklist.md) — manual test plan, not a conformance claim.
+- [Source pilot 4](docs/source-pilot-4.md)
+- [Atlassian workspace bootstrap](docs/atlassian-workspace-bootstrap.md) — Jira/Confluence provisioning status and intended structure.
+- [Execution log, rounds 72–91](docs/rounds-72-91-execution-log.md)
