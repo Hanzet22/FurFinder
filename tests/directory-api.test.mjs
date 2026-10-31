@@ -15,6 +15,7 @@ const compiled = ts.transpileModule(source, {
 }).outputText
 const moduleUrl = `data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`
 const {
+  applyDirectoryFilters,
   decodeDirectoryCursor,
   encodeDirectoryCursor,
   isPublicListingRecord,
@@ -53,6 +54,26 @@ test('rejects unsupported filters, malformed country codes and unsafe search syn
   for (const query of cases) {
     assert.equal(parseDirectoryQuery(new URL(`https://example.test/api/v1/listings${query}`)).ok, false, query)
   }
+})
+
+test('combines search and keyset cursor filters without overwriting either', () => {
+  const parsed = parseDirectoryQuery(new URL(
+    'https://example.test/api/v1/listings?q=Furry%20Meet&category=convention&region=Asia-Pacific&country=JP',
+  ))
+  assert.equal(parsed.ok, true)
+  if (!parsed.ok) return
+  const endpoint = new URL('https://database.example/rest/v1/listings')
+  applyDirectoryFilters(endpoint, parsed.value, {
+    created_at: validTimestamp,
+    id: validId,
+  })
+  assert.equal(endpoint.searchParams.get('category'), 'eq.convention')
+  assert.equal(endpoint.searchParams.get('region'), 'eq.Asia-Pacific')
+  assert.equal(endpoint.searchParams.get('country_code'), 'eq.JP')
+  assert.equal(
+    endpoint.searchParams.get('and'),
+    `(or(name.ilike.*Furry Meet*,summary.ilike.*Furry Meet*),or(created_at.lt.${validTimestamp},and(created_at.eq.${validTimestamp},id.gt.${validId})))`,
+  )
 })
 
 test('uses a signed opaque cursor and rejects tampering or another signing key', async () => {
