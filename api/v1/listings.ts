@@ -1,4 +1,5 @@
 import {
+  applyDirectoryFilters,
   decodeDirectoryCursor,
   encodeDirectoryCursor,
   isPublicListingRecord,
@@ -35,21 +36,7 @@ export default {
     endpoint.searchParams.set('order', 'created_at.desc,id.asc')
     endpoint.searchParams.set('limit', String(limit + 1))
 
-    if (category) endpoint.searchParams.set('category', `eq.${category}`)
-    if (region) endpoint.searchParams.set('region', `eq.${region}`)
-    if (country) endpoint.searchParams.set('country_code', `eq.${country}`)
-    const filters: string[] = []
-    if (q) filters.push(`or(name.ilike.*${q}*,summary.ilike.*${q}*)`)
-    if (cursor) {
-      filters.push(
-        `or(created_at.lt.${cursor.created_at},and(created_at.eq.${cursor.created_at},id.gt.${cursor.id}))`,
-      )
-    }
-    if (filters.length === 1) {
-      endpoint.searchParams.set('or', filters[0].slice(3, -1))
-    } else if (filters.length > 1) {
-      endpoint.searchParams.set('and', `(${filters.join(',')})`)
-    }
+    applyDirectoryFilters(endpoint, parsed.value, cursor)
 
     try {
       const response = await fetch(endpoint, {
