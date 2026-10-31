@@ -105,7 +105,7 @@ test('rejects a correctly signed cursor after its 24-hour lifetime', async () =>
   const encode = (bytes) => {
     let binary = ''
     for (const byte of bytes) binary += String.fromCharCode(byte)
-    return btoa(binary).replace(/=/g, '').replace(/\\+/g, '-').replace(/\\//g, '_')
+    return btoa(binary).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
   }
   assert.equal(await decodeDirectoryCursor(`${encode(payload)}.${encode(signature)}`, secret), null)
 })
