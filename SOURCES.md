@@ -64,3 +64,14 @@ Do not store unnecessary personal information in source notes. Keep internal rev
 A candidate may move from discovery to a pending submission only after source and access conditions have been reviewed. A moderator must verify relevant fields against the primary source before publication. A successful scrape alone is not verification.
 
 No source listed here should be interpreted as an endorsement, partnership, affiliation or blanket permission to crawl or reuse its content.
+
+
+## Organizer policy pages reviewed
+
+These policy pages are relevant context for source governance. They are not blanket permissions to scrape, republish images, or reuse event branding.
+
+- [JMoF Terms of Participation](https://www.jmof.jp/en/participation-policy) — includes rules for photography, video recording and public disclosure of event information. Treat attendee imagery and event-content publication cautiously; do not infer that public event pages authorize reuse of participant photos or recordings.
+- [Anthrocon Standards of Conduct](https://www.anthrocon.org/standards-of-conduct/) — organizer conduct guidance; review current organizer policies before listing event-specific participation details.
+- [ConFuzzled Code of Conduct](https://confuzzled.org.uk/code-of-conduct) — page links to Terms and Conditions, Conditions of Sale, Privacy Policy and Media Access. Its media rules include restrictions on publication/commercial use of convention photography and video without written permission. Do not ingest or republish attendee images or event artwork based only on public accessibility.
+
+Policy pages should be rechecked at the time of ingestion because organizers may update them. Store policy URLs and review timestamps, not copied policy text, unless reuse is expressly permitted.
