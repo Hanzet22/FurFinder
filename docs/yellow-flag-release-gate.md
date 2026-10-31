@@ -1,6 +1,6 @@
 # FurFinder — Yellow Flag Release Gate
 
-**Status:** active caution state for rounds 92–93.  
+**Status:** active caution state for rounds 94–96.  
 **Purpose:** prevent passing checks, stale previews or design-only documents from being mistaken for release approval.
 
 ## Current state
@@ -8,12 +8,14 @@
 **Yellow Flag — proceed with bounded review and documentation; do not release.**
 
 Evidence checked on 2026-10-31:
-- GitHub Actions run [41165108652](https://github.com/Hanzet22/FurFinder/actions/runs/41165108652): build job completed successfully; dependency installation, tests and production build all passed for the rounds 72–91 branch head.
-- GitHub combined status for commit `52a17fab1342204ac42e659d125cce55b4d1af64`: Vercel context reported failure with a build-rate-limit/plan-upgrade target.
-- Vercel inventory: latest READY preview inspected belongs to the initial rounds 72–91 commit `a87cf69f621f82d3d6dfad0691a0a9c48323e9e0`, not the latest branch head. No current-head preview validation is claimed.
+- GitHub Actions run [41165828287](https://github.com/Hanzet22/FurFinder/actions/runs/41165828287), run #226, completed successfully for PR #18 head `b5a98f78fd90be211354bdc1931db4af9d1a5d4c`. Dependency installation, tests and production build all passed. This is not validation of the newer rounds 94–96 branch.
+- Vercel inventory still shows the latest visible READY preview on old commit `a87cf69f621f82d3d6dfad0691a0a9c48323e9e0`, not the rounds 94–96 branch. No current-head preview validation is claimed. Earlier deployment attempts were blocked by the free daily deployment cap; do not repeatedly retry.
 - Supabase Security Advisor: 0 lints.
 - Supabase Performance Advisor: 2 INFO unused-index notices for existing moderation-event indexes. Retain pending workload evidence; do not drop indexes solely from this notice.
-- VibeRaven 1.7.1 static review of `supabase/proposed/global-directory-expansion.sql`: 0 critical, 0 high, 0 warning, 2 INFO `rls_no_policies` notices for the server-only provenance tables. Static analysis only; it did not execute SQL or inspect live authorization.
+- VibeRaven 1.7.1 static review of the complete `supabase/proposed/global-directory-expansion.sql`: 0 critical, 0 high, 0 warning, 2 INFO `rls_no_policies` notices for the server-only provenance tables. Static analysis only; it did not execute SQL or inspect live authorization.
+- Round 94 verified Anthro Northwest 9 dates and venue from official organizer pages, and NordicFuzzCon dates/locality from its official homepage. NordicFuzzCon venue remains unconfirmed. Both candidates remain pending and unpublished.
+- Round 95 added a written UX/accessibility acceptance review. No manual device, screen-reader or WCAG conformance audit is claimed.
+- Flutter remains PRD-only; no mobile implementation is claimed.
 - No production migration, DDL, data write, deployment promotion, rollback or merge occurred.
 
 ## State definitions
@@ -53,6 +55,7 @@ Evidence checked on 2026-10-31:
 
 ### 5. Accessibility and UX
 - Complete the manual checklist in [accessibility-acceptance-checklist.md](accessibility-acceptance-checklist.md).
+- Execute [mobile UX acceptance review](mobile-ux-acceptance-review.md) against the exact candidate build.
 - Test keyboard operation, focus behavior, labels, validation announcements, contrast, 200% zoom, narrow reflow, reduced motion and touch targets.
 - Run assistive-technology checks on supported platforms and record versions, date, defects and retest evidence.
 - Do not claim WCAG 2.2 AA conformance from source inspection or a checklist alone.
