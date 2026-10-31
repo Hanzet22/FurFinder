@@ -63,6 +63,18 @@ test('requires HTTPS URLs without embedded credentials', () => {
   }
 })
 
+test('normalizes HTTPS URLs before persisting them', () => {
+  const result = validateListingSubmission({
+    ...validSubmission,
+    website_url: '  HTTPS://Example.ORG/path  ',
+    source_url: 'https://Example.ORG/verify',
+  })
+  assert.equal(result.ok, true)
+  if (!result.ok) return
+  assert.equal(result.value.website_url, 'https://example.org/path')
+  assert.equal(result.value.source_url, 'https://example.org/verify')
+})
+
 test('rejects URLs exceeding the maximum accepted length', () => {
   const longUrl = `https://example.org/${'a'.repeat(2048)}`
   assert.equal(validateListingSubmission({ ...validSubmission, website_url: longUrl }).ok, false)
