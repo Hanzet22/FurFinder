@@ -157,7 +157,31 @@ export async function decodeDirectoryCursor(
   }
 }
 
-export function toPublicListing(value: Record<string, unknown>) {
+export export function applyDirectoryFilters(
+  endpoint: URL,
+  query: DirectoryQuery,
+  cursor: DirectoryCursor | null,
+): void {
+  if (query.category) endpoint.searchParams.set('category', `eq.${query.category}`)
+  if (query.region) endpoint.searchParams.set('region', `eq.${query.region}`)
+  if (query.country) endpoint.searchParams.set('country_code', `eq.${query.country}`)
+
+  const filters: string[] = []
+  if (query.q) filters.push(`or(name.ilike.*${query.q}*,summary.ilike.*${query.q}*)`)
+  if (cursor) {
+    filters.push(
+      `or(created_at.lt.${cursor.created_at},and(created_at.eq.${cursor.created_at},id.gt.${cursor.id}))`,
+    )
+  }
+
+  if (filters.length === 1) {
+    endpoint.searchParams.set('or', filters[0].slice(3, -1))
+  } else if (filters.length > 1) {
+    endpoint.searchParams.set('and', `(${filters.join(',')})`)
+  }
+}
+
+function toPublicListing(value: Record<string, unknown>) {
   return {
     id: value.id,
     name: value.name,
