@@ -45,7 +45,7 @@ The current repository is a responsive Vite web client, not a shipped Flutter ap
 
 Before a Flutter client can reuse the same product workflows, close these gaps:
 
-1. **Versioned public API:** the first read endpoint, `GET /api/v1/listings`, is implemented on the feature branch and documented. Listing detail lookup, event joins and a formal API stability/release gate remain open.
+1. **Versioned public API:** the first read endpoint, `GET /api/v1/listings`, is implemented on the feature branch and documented. Listing detail lookup is now implemented on the web feature branch through `GET /api/v1/listings/{slug}`; event joins and a formal API stability/release gate remain open.
 2. **Mobile-safe submission:** design a separate mobile-compatible submission flow. Do not simply remove origin validation or bypass anti-abuse checks; choose an appropriate platform-compatible verification and rate-limiting design first.
 3. **Report/correction workflow:** the current web flow supports suggestions, but a dedicated report/correction API and moderation outcome are still required.
 4. **Pagination contract:** signed keyset pagination is implemented for the list endpoint. It still needs CI execution and controlled integration tests with duplicate timestamps and concurrent updates.
@@ -64,6 +64,12 @@ The moderation endpoints remain privileged server workflows. A mobile public cli
 ## Global directory expansion (A + B)
 
 The mobile companion follows the expanded FurFinder scope while preserving strict separation between public entity discovery and voluntary adult profiles.
+
+### Current public API detail contract
+- `GET /api/v1/listings` returns bounded, published-only pages with signed keyset cursors.
+- `GET /api/v1/listings/{slug}` returns one published listing by canonical slug, or 404 when unavailable.
+- Both routes use explicit public-field projections and never return moderation notes, account identifiers, consent evidence or private fields.
+- The web UI now has a detail dialog backed by the slug endpoint. This does not mean a Flutter client exists; the mobile client remains planned.
 
 ### Public directory entities
 - Organizations and associations
